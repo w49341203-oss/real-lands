@@ -1,0 +1,2202 @@
+{
+  "tw-select.mp3": {
+    "voice": "zh-TW-YunJheNeural",
+    "text": "請吩咐。",
+    "bytes": 11232
+  },
+  "tw-move.mp3": {
+    "voice": "zh-TW-YunJheNeural",
+    "text": "馬上過去。",
+    "bytes": 11952
+  },
+  "tw-gather.mp3": {
+    "voice": "zh-TW-YunJheNeural",
+    "text": "這就開始採集。",
+    "bytes": 14400
+  },
+  "tw-build.mp3": {
+    "voice": "zh-TW-YunJheNeural",
+    "text": "準備開工。",
+    "bytes": 10944
+  },
+  "tw-attack.mp3": {
+    "voice": "zh-TW-YunJheNeural",
+    "text": "準備戰鬥！",
+    "bytes": 11376
+  },
+  "tw-ready.mp3": {
+    "voice": "zh-TW-YunJheNeural",
+    "text": "準備好了。",
+    "bytes": 10656
+  },
+  "tw-stop.mp3": {
+    "voice": "zh-TW-YunJheNeural",
+    "text": "原地待命。",
+    "bytes": 11232
+  },
+  "tw-victory.mp3": {
+    "voice": "zh-TW-YunJheNeural",
+    "text": "我們勝利了！",
+    "bytes": 11232
+  },
+  "cn-select.mp3": {
+    "voice": "zh-CN-YunjianNeural",
+    "text": "听候差遣。",
+    "bytes": 11088
+  },
+  "cn-move.mp3": {
+    "voice": "zh-CN-YunjianNeural",
+    "text": "即刻出发。",
+    "bytes": 10800
+  },
+  "cn-gather.mp3": {
+    "voice": "zh-CN-YunjianNeural",
+    "text": "开始采集。",
+    "bytes": 10944
+  },
+  "cn-build.mp3": {
+    "voice": "zh-CN-YunjianNeural",
+    "text": "马上开工。",
+    "bytes": 10656
+  },
+  "cn-attack.mp3": {
+    "voice": "zh-CN-YunjianNeural",
+    "text": "全军出击！",
+    "bytes": 11376
+  },
+  "cn-ready.mp3": {
+    "voice": "zh-CN-YunjianNeural",
+    "text": "准备就绪。",
+    "bytes": 10512
+  },
+  "cn-stop.mp3": {
+    "voice": "zh-CN-YunjianNeural",
+    "text": "原地待命。",
+    "bytes": 10368
+  },
+  "cn-victory.mp3": {
+    "voice": "zh-CN-YunjianNeural",
+    "text": "我们胜利了！",
+    "bytes": 11520
+  },
+  "jp-select.mp3": {
+    "voice": "ja-JP-KeitaNeural",
+    "text": "ご命令を。",
+    "bytes": 10080
+  },
+  "jp-move.mp3": {
+    "voice": "ja-JP-KeitaNeural",
+    "text": "すぐ向かいます。",
+    "bytes": 11088
+  },
+  "jp-gather.mp3": {
+    "voice": "ja-JP-KeitaNeural",
+    "text": "採集を始めます。",
+    "bytes": 12816
+  },
+  "jp-build.mp3": {
+    "voice": "ja-JP-KeitaNeural",
+    "text": "建設を始めます。",
+    "bytes": 12960
+  },
+  "jp-attack.mp3": {
+    "voice": "ja-JP-KeitaNeural",
+    "text": "攻撃開始！",
+    "bytes": 10512
+  },
+  "jp-ready.mp3": {
+    "voice": "ja-JP-KeitaNeural",
+    "text": "準備できました。",
+    "bytes": 10944
+  },
+  "jp-stop.mp3": {
+    "voice": "ja-JP-KeitaNeural",
+    "text": "ここで待機します。",
+    "bytes": 12096
+  },
+  "jp-victory.mp3": {
+    "voice": "ja-JP-KeitaNeural",
+    "text": "我々の勝利です！",
+    "bytes": 12672
+  },
+  "kr-select.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "명령을 기다립니다.",
+    "bytes": 13248
+  },
+  "kr-move.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "바로 이동하겠습니다.",
+    "bytes": 14256
+  },
+  "kr-gather.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "자원을 채집하겠습니다.",
+    "bytes": 15264
+  },
+  "kr-build.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "건설을 시작하겠습니다.",
+    "bytes": 15120
+  },
+  "kr-attack.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "공격 개시!",
+    "bytes": 9360
+  },
+  "kr-ready.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "준비 완료입니다.",
+    "bytes": 12528
+  },
+  "kr-stop.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "여기서 대기하겠습니다.",
+    "bytes": 15696
+  },
+  "kr-victory.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "우리의 승리입니다!",
+    "bytes": 11664
+  },
+  "mn-select.mp3": {
+    "voice": "mn-MN-BataaNeural",
+    "text": "Тушаал хүлээж байна.",
+    "bytes": 11520
+  },
+  "mn-move.mp3": {
+    "voice": "mn-MN-BataaNeural",
+    "text": "Одоо хөдөллөө.",
+    "bytes": 11232
+  },
+  "mn-gather.mp3": {
+    "voice": "mn-MN-BataaNeural",
+    "text": "Нөөц цуглуулъя.",
+    "bytes": 11088
+  },
+  "mn-build.mp3": {
+    "voice": "mn-MN-BataaNeural",
+    "text": "Барилгын ажлыг эхэлье.",
+    "bytes": 12384
+  },
+  "mn-attack.mp3": {
+    "voice": "mn-MN-BataaNeural",
+    "text": "Дайралт эхэл!",
+    "bytes": 9792
+  },
+  "mn-ready.mp3": {
+    "voice": "mn-MN-BataaNeural",
+    "text": "Бэлэн боллоо.",
+    "bytes": 10224
+  },
+  "mn-stop.mp3": {
+    "voice": "mn-MN-BataaNeural",
+    "text": "Энд хүлээе.",
+    "bytes": 9504
+  },
+  "mn-victory.mp3": {
+    "voice": "mn-MN-BataaNeural",
+    "text": "Бид яллаа!",
+    "bytes": 9792
+  },
+  "in-select.mp3": {
+    "voice": "hi-IN-MadhurNeural",
+    "text": "आदेश दीजिए।",
+    "bytes": 12240
+  },
+  "in-move.mp3": {
+    "voice": "hi-IN-MadhurNeural",
+    "text": "अभी चलता हूँ।",
+    "bytes": 11664
+  },
+  "in-gather.mp3": {
+    "voice": "hi-IN-MadhurNeural",
+    "text": "संसाधन इकट्ठा करता हूँ।",
+    "bytes": 17424
+  },
+  "in-build.mp3": {
+    "voice": "hi-IN-MadhurNeural",
+    "text": "निर्माण शुरू करता हूँ।",
+    "bytes": 14832
+  },
+  "in-attack.mp3": {
+    "voice": "hi-IN-MadhurNeural",
+    "text": "हमला करो!",
+    "bytes": 10368
+  },
+  "in-ready.mp3": {
+    "voice": "hi-IN-MadhurNeural",
+    "text": "मैं तैयार हूँ।",
+    "bytes": 11952
+  },
+  "in-stop.mp3": {
+    "voice": "hi-IN-MadhurNeural",
+    "text": "यहीं रुकता हूँ।",
+    "bytes": 11664
+  },
+  "in-victory.mp3": {
+    "voice": "hi-IN-MadhurNeural",
+    "text": "हम जीत गए!",
+    "bytes": 11520
+  },
+  "ru-select.mp3": {
+    "voice": "ru-RU-DmitryNeural",
+    "text": "Жду приказа.",
+    "bytes": 11952
+  },
+  "ru-move.mp3": {
+    "voice": "ru-RU-DmitryNeural",
+    "text": "Уже иду.",
+    "bytes": 11232
+  },
+  "ru-gather.mp3": {
+    "voice": "ru-RU-DmitryNeural",
+    "text": "Начинаю сбор ресурсов.",
+    "bytes": 15408
+  },
+  "ru-build.mp3": {
+    "voice": "ru-RU-DmitryNeural",
+    "text": "Начинаю строительство.",
+    "bytes": 14400
+  },
+  "ru-attack.mp3": {
+    "voice": "ru-RU-DmitryNeural",
+    "text": "В атаку!",
+    "bytes": 10224
+  },
+  "ru-ready.mp3": {
+    "voice": "ru-RU-DmitryNeural",
+    "text": "Готов к действию.",
+    "bytes": 13680
+  },
+  "ru-stop.mp3": {
+    "voice": "ru-RU-DmitryNeural",
+    "text": "Остаюсь на месте.",
+    "bytes": 13248
+  },
+  "ru-victory.mp3": {
+    "voice": "ru-RU-DmitryNeural",
+    "text": "Мы победили!",
+    "bytes": 11664
+  },
+  "gb-select.mp3": {
+    "voice": "en-GB-RyanNeural",
+    "text": "Your orders?",
+    "bytes": 10080
+  },
+  "gb-move.mp3": {
+    "voice": "en-GB-RyanNeural",
+    "text": "On my way.",
+    "bytes": 10656
+  },
+  "gb-gather.mp3": {
+    "voice": "en-GB-RyanNeural",
+    "text": "Gathering supplies.",
+    "bytes": 12672
+  },
+  "gb-build.mp3": {
+    "voice": "en-GB-RyanNeural",
+    "text": "Starting construction.",
+    "bytes": 12816
+  },
+  "gb-attack.mp3": {
+    "voice": "en-GB-RyanNeural",
+    "text": "Forward, attack!",
+    "bytes": 13536
+  },
+  "gb-ready.mp3": {
+    "voice": "en-GB-RyanNeural",
+    "text": "Ready for duty.",
+    "bytes": 10944
+  },
+  "gb-stop.mp3": {
+    "voice": "en-GB-RyanNeural",
+    "text": "Holding position.",
+    "bytes": 11664
+  },
+  "gb-victory.mp3": {
+    "voice": "en-GB-RyanNeural",
+    "text": "Victory is ours!",
+    "bytes": 12528
+  },
+  "fr-select.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "À vos ordres.",
+    "bytes": 7632
+  },
+  "fr-move.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Je suis en route.",
+    "bytes": 8640
+  },
+  "fr-gather.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Je rassemble les ressources.",
+    "bytes": 11664
+  },
+  "fr-build.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Je commence la construction.",
+    "bytes": 11376
+  },
+  "fr-attack.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "À l'attaque !",
+    "bytes": 7488
+  },
+  "fr-ready.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Prêt à servir.",
+    "bytes": 8784
+  },
+  "fr-stop.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Je garde ma position.",
+    "bytes": 10368
+  },
+  "fr-victory.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "La victoire est à nous !",
+    "bytes": 9504
+  },
+  "de-select.mp3": {
+    "voice": "de-DE-FlorianMultilingualNeural",
+    "text": "Zu Befehl.",
+    "bytes": 6912
+  },
+  "de-move.mp3": {
+    "voice": "de-DE-FlorianMultilingualNeural",
+    "text": "Bin unterwegs.",
+    "bytes": 8640
+  },
+  "de-gather.mp3": {
+    "voice": "de-DE-FlorianMultilingualNeural",
+    "text": "Ich sammle Rohstoffe.",
+    "bytes": 10080
+  },
+  "de-build.mp3": {
+    "voice": "de-DE-FlorianMultilingualNeural",
+    "text": "Ich beginne mit dem Bau.",
+    "bytes": 10224
+  },
+  "de-attack.mp3": {
+    "voice": "de-DE-FlorianMultilingualNeural",
+    "text": "Zum Angriff!",
+    "bytes": 7488
+  },
+  "de-ready.mp3": {
+    "voice": "de-DE-FlorianMultilingualNeural",
+    "text": "Bereit zum Einsatz.",
+    "bytes": 9936
+  },
+  "de-stop.mp3": {
+    "voice": "de-DE-FlorianMultilingualNeural",
+    "text": "Ich halte die Stellung.",
+    "bytes": 9648
+  },
+  "de-victory.mp3": {
+    "voice": "de-DE-FlorianMultilingualNeural",
+    "text": "Der Sieg gehört uns!",
+    "bytes": 9504
+  },
+  "us-select.mp3": {
+    "voice": "en-US-AndrewNeural",
+    "text": "Awaiting orders.",
+    "bytes": 7488
+  },
+  "us-move.mp3": {
+    "voice": "en-US-AndrewNeural",
+    "text": "Moving out.",
+    "bytes": 5760
+  },
+  "us-gather.mp3": {
+    "voice": "en-US-AndrewNeural",
+    "text": "Gathering resources.",
+    "bytes": 8928
+  },
+  "us-build.mp3": {
+    "voice": "en-US-AndrewNeural",
+    "text": "Construction underway.",
+    "bytes": 8784
+  },
+  "us-attack.mp3": {
+    "voice": "en-US-AndrewNeural",
+    "text": "Move in and attack!",
+    "bytes": 9648
+  },
+  "us-ready.mp3": {
+    "voice": "en-US-AndrewNeural",
+    "text": "Ready to go.",
+    "bytes": 5616
+  },
+  "us-stop.mp3": {
+    "voice": "en-US-AndrewNeural",
+    "text": "Holding here.",
+    "bytes": 5904
+  },
+  "us-victory.mp3": {
+    "voice": "en-US-AndrewNeural",
+    "text": "We have won!",
+    "bytes": 6048
+  },
+  "au-select.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Ready when you are.",
+    "bytes": 9072
+  },
+  "au-move.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "On my way, mate.",
+    "bytes": 10224
+  },
+  "au-gather.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Collecting supplies.",
+    "bytes": 9936
+  },
+  "au-build.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Let's get building.",
+    "bytes": 8784
+  },
+  "au-attack.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Go, go, go!",
+    "bytes": 11232
+  },
+  "au-ready.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "All set.",
+    "bytes": 6336
+  },
+  "au-stop.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Staying right here.",
+    "bytes": 9360
+  },
+  "au-victory.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "We've done it!",
+    "bytes": 7488
+  },
+  "kp-gather.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "자원을 채집하겠습니다.",
+    "bytes": 15264
+  },
+  "kp-select.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "명령을 기다립니다.",
+    "bytes": 13248
+  },
+  "kp-move.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "바로 이동하겠습니다.",
+    "bytes": 14256
+  },
+  "kp-attack.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "공격 개시!",
+    "bytes": 9360
+  },
+  "kp-ready.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "준비 완료입니다.",
+    "bytes": 12528
+  },
+  "kp-build.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "건설을 시작하겠습니다.",
+    "bytes": 15120
+  },
+  "kp-stop.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "여기서 대기하겠습니다.",
+    "bytes": 15696
+  },
+  "kp-victory.mp3": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "text": "우리의 승리입니다!",
+    "bytes": 11664
+  },
+  "vn-select.mp3": {
+    "voice": "vi-VN-NamMinhNeural",
+    "text": "Xin chờ lệnh.",
+    "bytes": 11376
+  },
+  "vn-move.mp3": {
+    "voice": "vi-VN-NamMinhNeural",
+    "text": "Đi ngay.",
+    "bytes": 8784
+  },
+  "vn-gather.mp3": {
+    "voice": "vi-VN-NamMinhNeural",
+    "text": "Bắt đầu thu hoạch.",
+    "bytes": 11232
+  },
+  "vn-attack.mp3": {
+    "voice": "vi-VN-NamMinhNeural",
+    "text": "Tấn công!",
+    "bytes": 8784
+  },
+  "vn-build.mp3": {
+    "voice": "vi-VN-NamMinhNeural",
+    "text": "Bắt đầu xây dựng.",
+    "bytes": 11952
+  },
+  "vn-ready.mp3": {
+    "voice": "vi-VN-NamMinhNeural",
+    "text": "Đã sẵn sàng.",
+    "bytes": 10800
+  },
+  "th-select.mp3": {
+    "voice": "th-TH-NiwatNeural",
+    "text": "รอคำสั่งครับ",
+    "bytes": 10224
+  },
+  "vn-stop.mp3": {
+    "voice": "vi-VN-NamMinhNeural",
+    "text": "Đứng yên tại chỗ.",
+    "bytes": 12240
+  },
+  "vn-victory.mp3": {
+    "voice": "vi-VN-NamMinhNeural",
+    "text": "Chúng ta đã chiến thắng!",
+    "bytes": 12240
+  },
+  "th-move.mp3": {
+    "voice": "th-TH-NiwatNeural",
+    "text": "ไปเดี๋ยวนี้",
+    "bytes": 9504
+  },
+  "th-gather.mp3": {
+    "voice": "th-TH-NiwatNeural",
+    "text": "เริ่มเก็บทรัพยากร",
+    "bytes": 12960
+  },
+  "th-attack.mp3": {
+    "voice": "th-TH-NiwatNeural",
+    "text": "โจมตี!",
+    "bytes": 8928
+  },
+  "th-build.mp3": {
+    "voice": "th-TH-NiwatNeural",
+    "text": "เริ่มก่อสร้าง",
+    "bytes": 9936
+  },
+  "th-ready.mp3": {
+    "voice": "th-TH-NiwatNeural",
+    "text": "พร้อมแล้ว",
+    "bytes": 9216
+  },
+  "th-stop.mp3": {
+    "voice": "th-TH-NiwatNeural",
+    "text": "หยุดอยู่ตรงนี้",
+    "bytes": 10656
+  },
+  "th-victory.mp3": {
+    "voice": "th-TH-NiwatNeural",
+    "text": "เราชนะแล้ว!",
+    "bytes": 10800
+  },
+  "id-select.mp3": {
+    "voice": "id-ID-ArdiNeural",
+    "text": "Menunggu perintah.",
+    "bytes": 11808
+  },
+  "id-gather.mp3": {
+    "voice": "id-ID-ArdiNeural",
+    "text": "Mulai mengumpulkan.",
+    "bytes": 12672
+  },
+  "id-move.mp3": {
+    "voice": "id-ID-ArdiNeural",
+    "text": "Segera berangkat.",
+    "bytes": 11952
+  },
+  "id-build.mp3": {
+    "voice": "id-ID-ArdiNeural",
+    "text": "Mulai membangun.",
+    "bytes": 11808
+  },
+  "id-attack.mp3": {
+    "voice": "id-ID-ArdiNeural",
+    "text": "Serang!",
+    "bytes": 9360
+  },
+  "id-ready.mp3": {
+    "voice": "id-ID-ArdiNeural",
+    "text": "Siap.",
+    "bytes": 9504
+  },
+  "id-stop.mp3": {
+    "voice": "id-ID-ArdiNeural",
+    "text": "Tetap di sini.",
+    "bytes": 11232
+  },
+  "ph-select.mp3": {
+    "voice": "fil-PH-AngeloNeural",
+    "text": "Naghihintay ng utos.",
+    "bytes": 12960
+  },
+  "id-victory.mp3": {
+    "voice": "id-ID-ArdiNeural",
+    "text": "Kita menang!",
+    "bytes": 10080
+  },
+  "ph-move.mp3": {
+    "voice": "fil-PH-AngeloNeural",
+    "text": "Pupunta na.",
+    "bytes": 9648
+  },
+  "ph-attack.mp3": {
+    "voice": "fil-PH-AngeloNeural",
+    "text": "Sugod!",
+    "bytes": 8640
+  },
+  "ph-build.mp3": {
+    "voice": "fil-PH-AngeloNeural",
+    "text": "Magsisimulang magtayo.",
+    "bytes": 12816
+  },
+  "ph-gather.mp3": {
+    "voice": "fil-PH-AngeloNeural",
+    "text": "Magsisimulang mangolekta.",
+    "bytes": 13392
+  },
+  "ph-ready.mp3": {
+    "voice": "fil-PH-AngeloNeural",
+    "text": "Handa na.",
+    "bytes": 9072
+  },
+  "ph-stop.mp3": {
+    "voice": "fil-PH-AngeloNeural",
+    "text": "Dito lang.",
+    "bytes": 9360
+  },
+  "ph-victory.mp3": {
+    "voice": "fil-PH-AngeloNeural",
+    "text": "Nanalo tayo!",
+    "bytes": 10512
+  },
+  "my-select.mp3": {
+    "voice": "ms-MY-OsmanNeural",
+    "text": "Menunggu arahan.",
+    "bytes": 12240
+  },
+  "my-move.mp3": {
+    "voice": "ms-MY-OsmanNeural",
+    "text": "Bergerak sekarang.",
+    "bytes": 11808
+  },
+  "my-gather.mp3": {
+    "voice": "ms-MY-OsmanNeural",
+    "text": "Mula mengumpul.",
+    "bytes": 11520
+  },
+  "my-build.mp3": {
+    "voice": "ms-MY-OsmanNeural",
+    "text": "Mula membina.",
+    "bytes": 10800
+  },
+  "my-attack.mp3": {
+    "voice": "ms-MY-OsmanNeural",
+    "text": "Serang!",
+    "bytes": 8208
+  },
+  "my-ready.mp3": {
+    "voice": "ms-MY-OsmanNeural",
+    "text": "Sedia.",
+    "bytes": 8784
+  },
+  "my-stop.mp3": {
+    "voice": "ms-MY-OsmanNeural",
+    "text": "Kekal di sini.",
+    "bytes": 11232
+  },
+  "my-victory.mp3": {
+    "voice": "ms-MY-OsmanNeural",
+    "text": "Kita menang!",
+    "bytes": 9792
+  },
+  "kh-select.mp3": {
+    "voice": "km-KH-PisethNeural",
+    "text": "រង់ចាំបញ្ជា។",
+    "bytes": 11520
+  },
+  "kh-move.mp3": {
+    "voice": "km-KH-PisethNeural",
+    "text": "ទៅឥឡូវនេះ។",
+    "bytes": 9792
+  },
+  "kh-gather.mp3": {
+    "voice": "km-KH-PisethNeural",
+    "text": "ចាប់ផ្តើមប្រមូល។",
+    "bytes": 11664
+  },
+  "kh-attack.mp3": {
+    "voice": "km-KH-PisethNeural",
+    "text": "វាយប្រហារ!",
+    "bytes": 9936
+  },
+  "kh-build.mp3": {
+    "voice": "km-KH-PisethNeural",
+    "text": "ចាប់ផ្តើមសាងសង់។",
+    "bytes": 11952
+  },
+  "kh-ready.mp3": {
+    "voice": "km-KH-PisethNeural",
+    "text": "ត្រៀមរួចរាល់។",
+    "bytes": 10512
+  },
+  "kh-stop.mp3": {
+    "voice": "km-KH-PisethNeural",
+    "text": "នៅទីនេះ។",
+    "bytes": 9216
+  },
+  "kh-victory.mp3": {
+    "voice": "km-KH-PisethNeural",
+    "text": "យើងឈ្នះហើយ!",
+    "bytes": 10656
+  },
+  "pk-select.mp3": {
+    "voice": "ur-PK-AsadNeural",
+    "text": "حکم کا انتظار ہے۔",
+    "bytes": 13536
+  },
+  "pk-move.mp3": {
+    "voice": "ur-PK-AsadNeural",
+    "text": "ابھی جا رہا ہوں۔",
+    "bytes": 11520
+  },
+  "pk-gather.mp3": {
+    "voice": "ur-PK-AsadNeural",
+    "text": "جمع کرنا شروع کرتا ہوں۔",
+    "bytes": 14688
+  },
+  "pk-build.mp3": {
+    "voice": "ur-PK-AsadNeural",
+    "text": "تعمیر شروع کرتا ہوں۔",
+    "bytes": 12960
+  },
+  "pk-attack.mp3": {
+    "voice": "ur-PK-AsadNeural",
+    "text": "حملہ!",
+    "bytes": 8640
+  },
+  "pk-ready.mp3": {
+    "voice": "ur-PK-AsadNeural",
+    "text": "تیار ہوں۔",
+    "bytes": 9504
+  },
+  "pk-stop.mp3": {
+    "voice": "ur-PK-AsadNeural",
+    "text": "یہیں رکتا ہوں۔",
+    "bytes": 11232
+  },
+  "pk-victory.mp3": {
+    "voice": "ur-PK-AsadNeural",
+    "text": "ہم جیت گئے!",
+    "bytes": 10368
+  },
+  "lk-select.mp3": {
+    "voice": "si-LK-SameeraNeural",
+    "text": "අණ බලාපොරොත්තුවෙන්.",
+    "bytes": 11952
+  },
+  "lk-move.mp3": {
+    "voice": "si-LK-SameeraNeural",
+    "text": "දැන් යනවා.",
+    "bytes": 9360
+  },
+  "lk-gather.mp3": {
+    "voice": "si-LK-SameeraNeural",
+    "text": "රැස් කිරීම අරඹනවා.",
+    "bytes": 12384
+  },
+  "lk-attack.mp3": {
+    "voice": "si-LK-SameeraNeural",
+    "text": "පහර දෙන්න!",
+    "bytes": 9504
+  },
+  "lk-ready.mp3": {
+    "voice": "si-LK-SameeraNeural",
+    "text": "සූදානම්.",
+    "bytes": 9936
+  },
+  "lk-build.mp3": {
+    "voice": "si-LK-SameeraNeural",
+    "text": "ඉදිකිරීම අරඹනවා.",
+    "bytes": 12096
+  },
+  "lk-stop.mp3": {
+    "voice": "si-LK-SameeraNeural",
+    "text": "මෙතන ඉන්නවා.",
+    "bytes": 10512
+  },
+  "lk-victory.mp3": {
+    "voice": "si-LK-SameeraNeural",
+    "text": "අපි ජයග්‍රහණය කළා!",
+    "bytes": 12528
+  },
+  "np-select.mp3": {
+    "voice": "ne-NP-SagarNeural",
+    "text": "आदेशको प्रतीक्षामा।",
+    "bytes": 13104
+  },
+  "np-move.mp3": {
+    "voice": "ne-NP-SagarNeural",
+    "text": "अहिले जान्छु।",
+    "bytes": 10368
+  },
+  "np-gather.mp3": {
+    "voice": "ne-NP-SagarNeural",
+    "text": "सङ्कलन सुरु गर्छु।",
+    "bytes": 12816
+  },
+  "np-build.mp3": {
+    "voice": "ne-NP-SagarNeural",
+    "text": "निर्माण सुरु गर्छु।",
+    "bytes": 12384
+  },
+  "np-attack.mp3": {
+    "voice": "ne-NP-SagarNeural",
+    "text": "आक्रमण!",
+    "bytes": 9216
+  },
+  "np-ready.mp3": {
+    "voice": "ne-NP-SagarNeural",
+    "text": "तयार छु।",
+    "bytes": 9504
+  },
+  "np-stop.mp3": {
+    "voice": "ne-NP-SagarNeural",
+    "text": "यहीँ बस्छु।",
+    "bytes": 10224
+  },
+  "np-victory.mp3": {
+    "voice": "ne-NP-SagarNeural",
+    "text": "हामी जित्यौं!",
+    "bytes": 10080
+  },
+  "bt-select.mp3": {
+    "voice": "en-IN-PrabhatNeural",
+    "text": "Awaiting orders.",
+    "bytes": 12096
+  },
+  "bt-gather.mp3": {
+    "voice": "en-IN-PrabhatNeural",
+    "text": "Gathering now.",
+    "bytes": 10080
+  },
+  "bt-move.mp3": {
+    "voice": "en-IN-PrabhatNeural",
+    "text": "On my way.",
+    "bytes": 9936
+  },
+  "bt-attack.mp3": {
+    "voice": "en-IN-PrabhatNeural",
+    "text": "Attack!",
+    "bytes": 8064
+  },
+  "bt-build.mp3": {
+    "voice": "en-IN-PrabhatNeural",
+    "text": "Building now.",
+    "bytes": 9792
+  },
+  "bt-ready.mp3": {
+    "voice": "en-IN-PrabhatNeural",
+    "text": "Ready.",
+    "bytes": 8064
+  },
+  "bt-stop.mp3": {
+    "voice": "en-IN-PrabhatNeural",
+    "text": "Holding here.",
+    "bytes": 10656
+  },
+  "bt-victory.mp3": {
+    "voice": "en-IN-PrabhatNeural",
+    "text": "We are victorious!",
+    "bytes": 12672
+  },
+  "tr-select.mp3": {
+    "voice": "tr-TR-AhmetNeural",
+    "text": "Emrinizi bekliyorum.",
+    "bytes": 15120
+  },
+  "tr-gather.mp3": {
+    "voice": "tr-TR-AhmetNeural",
+    "text": "Toplamaya başlıyorum.",
+    "bytes": 14832
+  },
+  "tr-move.mp3": {
+    "voice": "tr-TR-AhmetNeural",
+    "text": "Hemen gidiyorum.",
+    "bytes": 13104
+  },
+  "tr-attack.mp3": {
+    "voice": "tr-TR-AhmetNeural",
+    "text": "Saldırın!",
+    "bytes": 10944
+  },
+  "tr-build.mp3": {
+    "voice": "tr-TR-AhmetNeural",
+    "text": "İnşaata başlıyorum.",
+    "bytes": 14832
+  },
+  "tr-ready.mp3": {
+    "voice": "tr-TR-AhmetNeural",
+    "text": "Hazırım.",
+    "bytes": 10512
+  },
+  "ir-select.mp3": {
+    "voice": "fa-IR-FaridNeural",
+    "text": "منتظر فرمانم.",
+    "bytes": 12240
+  },
+  "tr-victory.mp3": {
+    "voice": "tr-TR-AhmetNeural",
+    "text": "Zafer bizim!",
+    "bytes": 12816
+  },
+  "tr-stop.mp3": {
+    "voice": "tr-TR-AhmetNeural",
+    "text": "Burada kalıyorum.",
+    "bytes": 13392
+  },
+  "ir-gather.mp3": {
+    "voice": "fa-IR-FaridNeural",
+    "text": "جمع‌آوری را شروع می‌کنم.",
+    "bytes": 13824
+  },
+  "ir-build.mp3": {
+    "voice": "fa-IR-FaridNeural",
+    "text": "ساختن را شروع می‌کنم.",
+    "bytes": 13392
+  },
+  "ir-attack.mp3": {
+    "voice": "fa-IR-FaridNeural",
+    "text": "حمله!",
+    "bytes": 8064
+  },
+  "ir-ready.mp3": {
+    "voice": "fa-IR-FaridNeural",
+    "text": "آماده‌ام.",
+    "bytes": 9936
+  },
+  "ir-stop.mp3": {
+    "voice": "fa-IR-FaridNeural",
+    "text": "همین‌جا می‌مانم.",
+    "bytes": 11088
+  },
+  "ir-move.mp3": {
+    "voice": "fa-IR-FaridNeural",
+    "text": "همین حالا می‌روم.",
+    "bytes": 11088
+  },
+  "ir-victory.mp3": {
+    "voice": "fa-IR-FaridNeural",
+    "text": "ما پیروز شدیم!",
+    "bytes": 10656
+  },
+  "iq-gather.mp3": {
+    "voice": "ar-IQ-BasselNeural",
+    "text": "سأبدأ الجمع.",
+    "bytes": 11952
+  },
+  "iq-select.mp3": {
+    "voice": "ar-IQ-BasselNeural",
+    "text": "في انتظار الأوامر.",
+    "bytes": 13104
+  },
+  "iq-move.mp3": {
+    "voice": "ar-IQ-BasselNeural",
+    "text": "سأذهب حالاً.",
+    "bytes": 12096
+  },
+  "iq-attack.mp3": {
+    "voice": "ar-IQ-BasselNeural",
+    "text": "هجوم!",
+    "bytes": 9504
+  },
+  "iq-build.mp3": {
+    "voice": "ar-IQ-BasselNeural",
+    "text": "سأبدأ البناء.",
+    "bytes": 12096
+  },
+  "iq-ready.mp3": {
+    "voice": "ar-IQ-BasselNeural",
+    "text": "جاهز.",
+    "bytes": 9504
+  },
+  "iq-stop.mp3": {
+    "voice": "ar-IQ-BasselNeural",
+    "text": "سأبقى هنا.",
+    "bytes": 10800
+  },
+  "iq-victory.mp3": {
+    "voice": "ar-IQ-BasselNeural",
+    "text": "لقد انتصرنا!",
+    "bytes": 12096
+  },
+  "sa-select.mp3": {
+    "voice": "ar-SA-HamedNeural",
+    "text": "في انتظار الأوامر.",
+    "bytes": 13248
+  },
+  "sa-move.mp3": {
+    "voice": "ar-SA-HamedNeural",
+    "text": "سأذهب حالاً.",
+    "bytes": 13392
+  },
+  "sa-build.mp3": {
+    "voice": "ar-SA-HamedNeural",
+    "text": "سأبدأ البناء.",
+    "bytes": 13104
+  },
+  "sa-gather.mp3": {
+    "voice": "ar-SA-HamedNeural",
+    "text": "سأبدأ الجمع.",
+    "bytes": 12384
+  },
+  "sa-attack.mp3": {
+    "voice": "ar-SA-HamedNeural",
+    "text": "هجوم!",
+    "bytes": 9504
+  },
+  "sa-ready.mp3": {
+    "voice": "ar-SA-HamedNeural",
+    "text": "جاهز.",
+    "bytes": 10656
+  },
+  "sa-stop.mp3": {
+    "voice": "ar-SA-HamedNeural",
+    "text": "سأبقى هنا.",
+    "bytes": 11664
+  },
+  "sa-victory.mp3": {
+    "voice": "ar-SA-HamedNeural",
+    "text": "لقد انتصرنا!",
+    "bytes": 11952
+  },
+  "eg-select.mp3": {
+    "voice": "ar-EG-ShakirNeural",
+    "text": "في انتظار الأوامر.",
+    "bytes": 13392
+  },
+  "eg-gather.mp3": {
+    "voice": "ar-EG-ShakirNeural",
+    "text": "سأبدأ الجمع.",
+    "bytes": 12096
+  },
+  "eg-move.mp3": {
+    "voice": "ar-EG-ShakirNeural",
+    "text": "سأذهب حالاً.",
+    "bytes": 12960
+  },
+  "eg-attack.mp3": {
+    "voice": "ar-EG-ShakirNeural",
+    "text": "هجوم!",
+    "bytes": 9792
+  },
+  "eg-ready.mp3": {
+    "voice": "ar-EG-ShakirNeural",
+    "text": "جاهز.",
+    "bytes": 11088
+  },
+  "eg-stop.mp3": {
+    "voice": "ar-EG-ShakirNeural",
+    "text": "سأبقى هنا.",
+    "bytes": 11232
+  },
+  "eg-build.mp3": {
+    "voice": "ar-EG-ShakirNeural",
+    "text": "سأبدأ البناء.",
+    "bytes": 11664
+  },
+  "eg-victory.mp3": {
+    "voice": "ar-EG-ShakirNeural",
+    "text": "لقد انتصرنا!",
+    "bytes": 12240
+  },
+  "il-move.mp3": {
+    "voice": "he-IL-AvriNeural",
+    "text": "יוצא מיד.",
+    "bytes": 11664
+  },
+  "il-select.mp3": {
+    "voice": "he-IL-AvriNeural",
+    "text": "ממתין לפקודה.",
+    "bytes": 12384
+  },
+  "il-attack.mp3": {
+    "voice": "he-IL-AvriNeural",
+    "text": "להתקפה!",
+    "bytes": 10944
+  },
+  "il-gather.mp3": {
+    "voice": "he-IL-AvriNeural",
+    "text": "מתחיל לאסוף.",
+    "bytes": 12384
+  },
+  "il-build.mp3": {
+    "voice": "he-IL-AvriNeural",
+    "text": "מתחיל לבנות.",
+    "bytes": 12384
+  },
+  "il-ready.mp3": {
+    "voice": "he-IL-AvriNeural",
+    "text": "מוכן.",
+    "bytes": 10224
+  },
+  "il-stop.mp3": {
+    "voice": "he-IL-AvriNeural",
+    "text": "נשאר כאן.",
+    "bytes": 11376
+  },
+  "il-victory.mp3": {
+    "voice": "he-IL-AvriNeural",
+    "text": "ניצחנו!",
+    "bytes": 10512
+  },
+  "it-select.mp3": {
+    "voice": "it-IT-GiuseppeMultilingualNeural",
+    "text": "Ai tuoi ordini.",
+    "bytes": 9216
+  },
+  "it-move.mp3": {
+    "voice": "it-IT-GiuseppeMultilingualNeural",
+    "text": "Vado subito.",
+    "bytes": 8640
+  },
+  "it-gather.mp3": {
+    "voice": "it-IT-GiuseppeMultilingualNeural",
+    "text": "Comincio a raccogliere.",
+    "bytes": 12816
+  },
+  "it-attack.mp3": {
+    "voice": "it-IT-GiuseppeMultilingualNeural",
+    "text": "All'attacco!",
+    "bytes": 7632
+  },
+  "it-build.mp3": {
+    "voice": "it-IT-GiuseppeMultilingualNeural",
+    "text": "Comincio a costruire.",
+    "bytes": 10944
+  },
+  "it-ready.mp3": {
+    "voice": "it-IT-GiuseppeMultilingualNeural",
+    "text": "Pronto.",
+    "bytes": 5040
+  },
+  "it-stop.mp3": {
+    "voice": "it-IT-GiuseppeMultilingualNeural",
+    "text": "Resto qui.",
+    "bytes": 7344
+  },
+  "it-victory.mp3": {
+    "voice": "it-IT-GiuseppeMultilingualNeural",
+    "text": "Abbiamo vinto!",
+    "bytes": 8784
+  },
+  "es-select.mp3": {
+    "voice": "es-ES-AlvaroNeural",
+    "text": "A sus órdenes.",
+    "bytes": 11520
+  },
+  "es-move.mp3": {
+    "voice": "es-ES-AlvaroNeural",
+    "text": "Voy enseguida.",
+    "bytes": 11520
+  },
+  "es-gather.mp3": {
+    "voice": "es-ES-AlvaroNeural",
+    "text": "Empiezo a recolectar.",
+    "bytes": 13392
+  },
+  "es-attack.mp3": {
+    "voice": "es-ES-AlvaroNeural",
+    "text": "¡Al ataque!",
+    "bytes": 9360
+  },
+  "es-build.mp3": {
+    "voice": "es-ES-AlvaroNeural",
+    "text": "Empiezo a construir.",
+    "bytes": 12672
+  },
+  "es-ready.mp3": {
+    "voice": "es-ES-AlvaroNeural",
+    "text": "Listo.",
+    "bytes": 8784
+  },
+  "es-stop.mp3": {
+    "voice": "es-ES-AlvaroNeural",
+    "text": "Me quedo aquí.",
+    "bytes": 10512
+  },
+  "es-victory.mp3": {
+    "voice": "es-ES-AlvaroNeural",
+    "text": "¡Hemos vencido!",
+    "bytes": 11088
+  },
+  "nl-select.mp3": {
+    "voice": "nl-NL-MaartenNeural",
+    "text": "Tot uw dienst.",
+    "bytes": 11664
+  },
+  "nl-move.mp3": {
+    "voice": "nl-NL-MaartenNeural",
+    "text": "Ik ga meteen.",
+    "bytes": 11232
+  },
+  "nl-attack.mp3": {
+    "voice": "nl-NL-MaartenNeural",
+    "text": "Aanvallen!",
+    "bytes": 9792
+  },
+  "nl-gather.mp3": {
+    "voice": "nl-NL-MaartenNeural",
+    "text": "Ik begin met verzamelen.",
+    "bytes": 13824
+  },
+  "nl-build.mp3": {
+    "voice": "nl-NL-MaartenNeural",
+    "text": "Ik begin met bouwen.",
+    "bytes": 13104
+  },
+  "nl-stop.mp3": {
+    "voice": "nl-NL-MaartenNeural",
+    "text": "Ik blijf hier.",
+    "bytes": 10368
+  },
+  "nl-ready.mp3": {
+    "voice": "nl-NL-MaartenNeural",
+    "text": "Klaar.",
+    "bytes": 8496
+  },
+  "nl-victory.mp3": {
+    "voice": "nl-NL-MaartenNeural",
+    "text": "We hebben gewonnen!",
+    "bytes": 11952
+  },
+  "ch-select.mp3": {
+    "voice": "de-CH-JanNeural",
+    "text": "Zu Befehl.",
+    "bytes": 9072
+  },
+  "ch-move.mp3": {
+    "voice": "de-CH-JanNeural",
+    "text": "Ich gehe sofort.",
+    "bytes": 11232
+  },
+  "ch-gather.mp3": {
+    "voice": "de-CH-JanNeural",
+    "text": "Ich beginne zu sammeln.",
+    "bytes": 12096
+  },
+  "ch-attack.mp3": {
+    "voice": "de-CH-JanNeural",
+    "text": "Angriff!",
+    "bytes": 8784
+  },
+  "ch-build.mp3": {
+    "voice": "de-CH-JanNeural",
+    "text": "Ich beginne zu bauen.",
+    "bytes": 11664
+  },
+  "ch-ready.mp3": {
+    "voice": "de-CH-JanNeural",
+    "text": "Bereit.",
+    "bytes": 8208
+  },
+  "ch-stop.mp3": {
+    "voice": "de-CH-JanNeural",
+    "text": "Ich bleibe hier.",
+    "bytes": 10224
+  },
+  "ch-victory.mp3": {
+    "voice": "de-CH-JanNeural",
+    "text": "Wir haben gesiegt!",
+    "bytes": 10512
+  },
+  "se-move.mp3": {
+    "voice": "sv-SE-MattiasNeural",
+    "text": "Jag går genast.",
+    "bytes": 14400
+  },
+  "se-gather.mp3": {
+    "voice": "sv-SE-MattiasNeural",
+    "text": "Jag börjar samla.",
+    "bytes": 14688
+  },
+  "se-select.mp3": {
+    "voice": "sv-SE-MattiasNeural",
+    "text": "Till er tjänst.",
+    "bytes": 13392
+  },
+  "se-attack.mp3": {
+    "voice": "sv-SE-MattiasNeural",
+    "text": "Anfall!",
+    "bytes": 10512
+  },
+  "se-build.mp3": {
+    "voice": "sv-SE-MattiasNeural",
+    "text": "Jag börjar bygga.",
+    "bytes": 13968
+  },
+  "se-ready.mp3": {
+    "voice": "sv-SE-MattiasNeural",
+    "text": "Redo.",
+    "bytes": 10368
+  },
+  "se-stop.mp3": {
+    "voice": "sv-SE-MattiasNeural",
+    "text": "Jag stannar här.",
+    "bytes": 14112
+  },
+  "se-victory.mp3": {
+    "voice": "sv-SE-MattiasNeural",
+    "text": "Vi har segrat!",
+    "bytes": 14976
+  },
+  "no-select.mp3": {
+    "voice": "nb-NO-FinnNeural",
+    "text": "Til tjeneste.",
+    "bytes": 11808
+  },
+  "no-move.mp3": {
+    "voice": "nb-NO-FinnNeural",
+    "text": "Jeg går straks.",
+    "bytes": 12960
+  },
+  "no-gather.mp3": {
+    "voice": "nb-NO-FinnNeural",
+    "text": "Jeg begynner å samle.",
+    "bytes": 13248
+  },
+  "no-build.mp3": {
+    "voice": "nb-NO-FinnNeural",
+    "text": "Jeg begynner å bygge.",
+    "bytes": 13104
+  },
+  "no-attack.mp3": {
+    "voice": "nb-NO-FinnNeural",
+    "text": "Angrip!",
+    "bytes": 10368
+  },
+  "no-ready.mp3": {
+    "voice": "nb-NO-FinnNeural",
+    "text": "Klar.",
+    "bytes": 9936
+  },
+  "no-victory.mp3": {
+    "voice": "nb-NO-FinnNeural",
+    "text": "Vi har seiret!",
+    "bytes": 12384
+  },
+  "no-stop.mp3": {
+    "voice": "nb-NO-FinnNeural",
+    "text": "Jeg blir her.",
+    "bytes": 12384
+  },
+  "fi-move.mp3": {
+    "voice": "fi-FI-HarriNeural",
+    "text": "Menen heti.",
+    "bytes": 11088
+  },
+  "fi-select.mp3": {
+    "voice": "fi-FI-HarriNeural",
+    "text": "Odotan käskyjä.",
+    "bytes": 12528
+  },
+  "fi-attack.mp3": {
+    "voice": "fi-FI-HarriNeural",
+    "text": "Hyökkäykseen!",
+    "bytes": 12096
+  },
+  "fi-build.mp3": {
+    "voice": "fi-FI-HarriNeural",
+    "text": "Aloitan rakentamisen.",
+    "bytes": 14544
+  },
+  "fi-gather.mp3": {
+    "voice": "fi-FI-HarriNeural",
+    "text": "Aloitan keräämisen.",
+    "bytes": 13824
+  },
+  "fi-ready.mp3": {
+    "voice": "fi-FI-HarriNeural",
+    "text": "Valmis.",
+    "bytes": 9792
+  },
+  "fi-stop.mp3": {
+    "voice": "fi-FI-HarriNeural",
+    "text": "Pysyn tässä.",
+    "bytes": 11376
+  },
+  "is-select.mp3": {
+    "voice": "is-IS-GunnarNeural",
+    "text": "Bíð eftir skipun.",
+    "bytes": 11232
+  },
+  "fi-victory.mp3": {
+    "voice": "fi-FI-HarriNeural",
+    "text": "Me voitimme!",
+    "bytes": 11376
+  },
+  "is-gather.mp3": {
+    "voice": "is-IS-GunnarNeural",
+    "text": "Byrja að safna.",
+    "bytes": 10080
+  },
+  "is-move.mp3": {
+    "voice": "is-IS-GunnarNeural",
+    "text": "Fer strax.",
+    "bytes": 9648
+  },
+  "is-ready.mp3": {
+    "voice": "is-IS-GunnarNeural",
+    "text": "Tilbúinn.",
+    "bytes": 8784
+  },
+  "is-attack.mp3": {
+    "voice": "is-IS-GunnarNeural",
+    "text": "Áfram!",
+    "bytes": 8352
+  },
+  "is-build.mp3": {
+    "voice": "is-IS-GunnarNeural",
+    "text": "Byrja að byggja.",
+    "bytes": 9792
+  },
+  "is-victory.mp3": {
+    "voice": "is-IS-GunnarNeural",
+    "text": "Við sigruðum!",
+    "bytes": 9792
+  },
+  "is-stop.mp3": {
+    "voice": "is-IS-GunnarNeural",
+    "text": "Verð hér.",
+    "bytes": 9360
+  },
+  "pl-select.mp3": {
+    "voice": "pl-PL-MarekNeural",
+    "text": "Czekam na rozkazy.",
+    "bytes": 12672
+  },
+  "pl-move.mp3": {
+    "voice": "pl-PL-MarekNeural",
+    "text": "Już idę.",
+    "bytes": 10512
+  },
+  "pl-gather.mp3": {
+    "voice": "pl-PL-MarekNeural",
+    "text": "Zaczynam zbierać.",
+    "bytes": 12960
+  },
+  "pl-build.mp3": {
+    "voice": "pl-PL-MarekNeural",
+    "text": "Zaczynam budować.",
+    "bytes": 12960
+  },
+  "pl-attack.mp3": {
+    "voice": "pl-PL-MarekNeural",
+    "text": "Do ataku!",
+    "bytes": 11088
+  },
+  "pl-ready.mp3": {
+    "voice": "pl-PL-MarekNeural",
+    "text": "Gotowy.",
+    "bytes": 10512
+  },
+  "pl-stop.mp3": {
+    "voice": "pl-PL-MarekNeural",
+    "text": "Zostaję tutaj.",
+    "bytes": 12240
+  },
+  "ua-select.mp3": {
+    "voice": "uk-UA-OstapNeural",
+    "text": "Чекаю наказу.",
+    "bytes": 12096
+  },
+  "pl-victory.mp3": {
+    "voice": "pl-PL-MarekNeural",
+    "text": "Zwyciężyliśmy!",
+    "bytes": 12384
+  },
+  "ua-gather.mp3": {
+    "voice": "uk-UA-OstapNeural",
+    "text": "Починаю збирати.",
+    "bytes": 12384
+  },
+  "ua-move.mp3": {
+    "voice": "uk-UA-OstapNeural",
+    "text": "Вже йду.",
+    "bytes": 9792
+  },
+  "ua-build.mp3": {
+    "voice": "uk-UA-OstapNeural",
+    "text": "Починаю будувати.",
+    "bytes": 12672
+  },
+  "ua-attack.mp3": {
+    "voice": "uk-UA-OstapNeural",
+    "text": "В атаку!",
+    "bytes": 10224
+  },
+  "ua-ready.mp3": {
+    "voice": "uk-UA-OstapNeural",
+    "text": "Готовий.",
+    "bytes": 9792
+  },
+  "ua-stop.mp3": {
+    "voice": "uk-UA-OstapNeural",
+    "text": "Залишаюся тут.",
+    "bytes": 12240
+  },
+  "ua-victory.mp3": {
+    "voice": "uk-UA-OstapNeural",
+    "text": "Ми перемогли!",
+    "bytes": 11088
+  },
+  "gr-select.mp3": {
+    "voice": "el-GR-NestorasNeural",
+    "text": "Στις διαταγές σας.",
+    "bytes": 12240
+  },
+  "gr-move.mp3": {
+    "voice": "el-GR-NestorasNeural",
+    "text": "Πηγαίνω αμέσως.",
+    "bytes": 11664
+  },
+  "gr-gather.mp3": {
+    "voice": "el-GR-NestorasNeural",
+    "text": "Αρχίζω τη συλλογή.",
+    "bytes": 13104
+  },
+  "gr-build.mp3": {
+    "voice": "el-GR-NestorasNeural",
+    "text": "Αρχίζω το χτίσιμο.",
+    "bytes": 12816
+  },
+  "gr-attack.mp3": {
+    "voice": "el-GR-NestorasNeural",
+    "text": "Επίθεση!",
+    "bytes": 10656
+  },
+  "gr-ready.mp3": {
+    "voice": "el-GR-NestorasNeural",
+    "text": "Έτοιμος.",
+    "bytes": 9504
+  },
+  "ca-select.mp3": {
+    "voice": "en-CA-LiamNeural",
+    "text": "Awaiting orders.",
+    "bytes": 10656
+  },
+  "gr-stop.mp3": {
+    "voice": "el-GR-NestorasNeural",
+    "text": "Μένω εδώ.",
+    "bytes": 10656
+  },
+  "gr-victory.mp3": {
+    "voice": "el-GR-NestorasNeural",
+    "text": "Νικήσαμε!",
+    "bytes": 10656
+  },
+  "ca-move.mp3": {
+    "voice": "en-CA-LiamNeural",
+    "text": "On my way.",
+    "bytes": 10080
+  },
+  "ca-gather.mp3": {
+    "voice": "en-CA-LiamNeural",
+    "text": "Gathering now.",
+    "bytes": 9936
+  },
+  "ca-build.mp3": {
+    "voice": "en-CA-LiamNeural",
+    "text": "Building now.",
+    "bytes": 9504
+  },
+  "ca-ready.mp3": {
+    "voice": "en-CA-LiamNeural",
+    "text": "Ready.",
+    "bytes": 7920
+  },
+  "ca-attack.mp3": {
+    "voice": "en-CA-LiamNeural",
+    "text": "Attack!",
+    "bytes": 8640
+  },
+  "ca-stop.mp3": {
+    "voice": "en-CA-LiamNeural",
+    "text": "Holding here.",
+    "bytes": 9792
+  },
+  "ca-victory.mp3": {
+    "voice": "en-CA-LiamNeural",
+    "text": "We are victorious!",
+    "bytes": 11232
+  },
+  "mx-select.mp3": {
+    "voice": "es-MX-JorgeNeural",
+    "text": "A sus órdenes.",
+    "bytes": 11376
+  },
+  "mx-gather.mp3": {
+    "voice": "es-MX-JorgeNeural",
+    "text": "Empiezo a recolectar.",
+    "bytes": 12960
+  },
+  "mx-build.mp3": {
+    "voice": "es-MX-JorgeNeural",
+    "text": "Empiezo a construir.",
+    "bytes": 12672
+  },
+  "mx-move.mp3": {
+    "voice": "es-MX-JorgeNeural",
+    "text": "Voy enseguida.",
+    "bytes": 10368
+  },
+  "mx-attack.mp3": {
+    "voice": "es-MX-JorgeNeural",
+    "text": "¡Al ataque!",
+    "bytes": 9504
+  },
+  "mx-ready.mp3": {
+    "voice": "es-MX-JorgeNeural",
+    "text": "Listo.",
+    "bytes": 8784
+  },
+  "mx-stop.mp3": {
+    "voice": "es-MX-JorgeNeural",
+    "text": "Me quedo aquí.",
+    "bytes": 9936
+  },
+  "mx-victory.mp3": {
+    "voice": "es-MX-JorgeNeural",
+    "text": "¡Hemos vencido!",
+    "bytes": 10656
+  },
+  "cu-select.mp3": {
+    "voice": "es-CU-ManuelNeural",
+    "text": "A sus órdenes.",
+    "bytes": 12240
+  },
+  "cu-move.mp3": {
+    "voice": "es-CU-ManuelNeural",
+    "text": "Voy enseguida.",
+    "bytes": 12528
+  },
+  "cu-gather.mp3": {
+    "voice": "es-CU-ManuelNeural",
+    "text": "Empiezo a recolectar.",
+    "bytes": 14544
+  },
+  "cu-build.mp3": {
+    "voice": "es-CU-ManuelNeural",
+    "text": "Empiezo a construir.",
+    "bytes": 13680
+  },
+  "cu-attack.mp3": {
+    "voice": "es-CU-ManuelNeural",
+    "text": "¡Al ataque!",
+    "bytes": 10512
+  },
+  "cu-ready.mp3": {
+    "voice": "es-CU-ManuelNeural",
+    "text": "Listo.",
+    "bytes": 9504
+  },
+  "cu-stop.mp3": {
+    "voice": "es-CU-ManuelNeural",
+    "text": "Me quedo aquí.",
+    "bytes": 11520
+  },
+  "cu-victory.mp3": {
+    "voice": "es-CU-ManuelNeural",
+    "text": "¡Hemos vencido!",
+    "bytes": 12096
+  },
+  "pe-select.mp3": {
+    "voice": "es-PE-AlexNeural",
+    "text": "A sus órdenes.",
+    "bytes": 12384
+  },
+  "pe-move.mp3": {
+    "voice": "es-PE-AlexNeural",
+    "text": "Voy enseguida.",
+    "bytes": 11376
+  },
+  "pe-gather.mp3": {
+    "voice": "es-PE-AlexNeural",
+    "text": "Empiezo a recolectar.",
+    "bytes": 14112
+  },
+  "pe-build.mp3": {
+    "voice": "es-PE-AlexNeural",
+    "text": "Empiezo a construir.",
+    "bytes": 13680
+  },
+  "pe-attack.mp3": {
+    "voice": "es-PE-AlexNeural",
+    "text": "¡Al ataque!",
+    "bytes": 10368
+  },
+  "pe-ready.mp3": {
+    "voice": "es-PE-AlexNeural",
+    "text": "Listo.",
+    "bytes": 9504
+  },
+  "pe-stop.mp3": {
+    "voice": "es-PE-AlexNeural",
+    "text": "Me quedo aquí.",
+    "bytes": 10800
+  },
+  "pe-victory.mp3": {
+    "voice": "es-PE-AlexNeural",
+    "text": "¡Hemos vencido!",
+    "bytes": 11520
+  },
+  "bo-select.mp3": {
+    "voice": "es-BO-MarceloNeural",
+    "text": "A sus órdenes.",
+    "bytes": 10800
+  },
+  "bo-move.mp3": {
+    "voice": "es-BO-MarceloNeural",
+    "text": "Voy enseguida.",
+    "bytes": 9936
+  },
+  "bo-gather.mp3": {
+    "voice": "es-BO-MarceloNeural",
+    "text": "Empiezo a recolectar.",
+    "bytes": 12384
+  },
+  "bo-build.mp3": {
+    "voice": "es-BO-MarceloNeural",
+    "text": "Empiezo a construir.",
+    "bytes": 12096
+  },
+  "bo-attack.mp3": {
+    "voice": "es-BO-MarceloNeural",
+    "text": "¡Al ataque!",
+    "bytes": 9072
+  },
+  "bo-ready.mp3": {
+    "voice": "es-BO-MarceloNeural",
+    "text": "Listo.",
+    "bytes": 8352
+  },
+  "bo-stop.mp3": {
+    "voice": "es-BO-MarceloNeural",
+    "text": "Me quedo aquí.",
+    "bytes": 9504
+  },
+  "bo-victory.mp3": {
+    "voice": "es-BO-MarceloNeural",
+    "text": "¡Hemos vencido!",
+    "bytes": 10080
+  },
+  "ar-select.mp3": {
+    "voice": "es-AR-TomasNeural",
+    "text": "A sus órdenes.",
+    "bytes": 10800
+  },
+  "ar-move.mp3": {
+    "voice": "es-AR-TomasNeural",
+    "text": "Voy enseguida.",
+    "bytes": 10656
+  },
+  "ar-gather.mp3": {
+    "voice": "es-AR-TomasNeural",
+    "text": "Empiezo a recolectar.",
+    "bytes": 12528
+  },
+  "ar-build.mp3": {
+    "voice": "es-AR-TomasNeural",
+    "text": "Empiezo a construir.",
+    "bytes": 11952
+  },
+  "ar-attack.mp3": {
+    "voice": "es-AR-TomasNeural",
+    "text": "¡Al ataque!",
+    "bytes": 9216
+  },
+  "ar-ready.mp3": {
+    "voice": "es-AR-TomasNeural",
+    "text": "Listo.",
+    "bytes": 8352
+  },
+  "ar-stop.mp3": {
+    "voice": "es-AR-TomasNeural",
+    "text": "Me quedo aquí.",
+    "bytes": 10080
+  },
+  "ar-victory.mp3": {
+    "voice": "es-AR-TomasNeural",
+    "text": "¡Hemos vencido!",
+    "bytes": 10656
+  },
+  "br-select.mp3": {
+    "voice": "pt-BR-AntonioNeural",
+    "text": "Às suas ordens.",
+    "bytes": 12096
+  },
+  "br-gather.mp3": {
+    "voice": "pt-BR-AntonioNeural",
+    "text": "Começando a coletar.",
+    "bytes": 12384
+  },
+  "br-move.mp3": {
+    "voice": "pt-BR-AntonioNeural",
+    "text": "Vou agora mesmo.",
+    "bytes": 11664
+  },
+  "br-build.mp3": {
+    "voice": "pt-BR-AntonioNeural",
+    "text": "Começando a construir.",
+    "bytes": 12816
+  },
+  "br-ready.mp3": {
+    "voice": "pt-BR-AntonioNeural",
+    "text": "Pronto.",
+    "bytes": 8352
+  },
+  "br-attack.mp3": {
+    "voice": "pt-BR-AntonioNeural",
+    "text": "Ao ataque!",
+    "bytes": 10224
+  },
+  "br-stop.mp3": {
+    "voice": "pt-BR-AntonioNeural",
+    "text": "Fico aqui.",
+    "bytes": 9648
+  },
+  "br-victory.mp3": {
+    "voice": "pt-BR-AntonioNeural",
+    "text": "Nós vencemos!",
+    "bytes": 11952
+  },
+  "ma-select.mp3": {
+    "voice": "ar-MA-JamalNeural",
+    "text": "في انتظار الأوامر.",
+    "bytes": 12672
+  },
+  "ma-move.mp3": {
+    "voice": "ar-MA-JamalNeural",
+    "text": "سأذهب حالاً.",
+    "bytes": 12816
+  },
+  "ma-gather.mp3": {
+    "voice": "ar-MA-JamalNeural",
+    "text": "سأبدأ الجمع.",
+    "bytes": 11808
+  },
+  "ma-build.mp3": {
+    "voice": "ar-MA-JamalNeural",
+    "text": "سأبدأ البناء.",
+    "bytes": 12528
+  },
+  "ma-attack.mp3": {
+    "voice": "ar-MA-JamalNeural",
+    "text": "هجوم!",
+    "bytes": 9072
+  },
+  "ma-ready.mp3": {
+    "voice": "ar-MA-JamalNeural",
+    "text": "جاهز.",
+    "bytes": 10080
+  },
+  "ma-stop.mp3": {
+    "voice": "ar-MA-JamalNeural",
+    "text": "سأبقى هنا.",
+    "bytes": 11088
+  },
+  "ma-victory.mp3": {
+    "voice": "ar-MA-JamalNeural",
+    "text": "لقد انتصرنا!",
+    "bytes": 11376
+  },
+  "tn-select.mp3": {
+    "voice": "ar-TN-HediNeural",
+    "text": "في انتظار الأوامر.",
+    "bytes": 13392
+  },
+  "tn-move.mp3": {
+    "voice": "ar-TN-HediNeural",
+    "text": "سأذهب حالاً.",
+    "bytes": 11664
+  },
+  "tn-gather.mp3": {
+    "voice": "ar-TN-HediNeural",
+    "text": "سأبدأ الجمع.",
+    "bytes": 11808
+  },
+  "tn-build.mp3": {
+    "voice": "ar-TN-HediNeural",
+    "text": "سأبدأ البناء.",
+    "bytes": 11376
+  },
+  "tn-ready.mp3": {
+    "voice": "ar-TN-HediNeural",
+    "text": "جاهز.",
+    "bytes": 9072
+  },
+  "tn-attack.mp3": {
+    "voice": "ar-TN-HediNeural",
+    "text": "هجوم!",
+    "bytes": 8928
+  },
+  "tn-stop.mp3": {
+    "voice": "ar-TN-HediNeural",
+    "text": "سأبقى هنا.",
+    "bytes": 10800
+  },
+  "et-select.mp3": {
+    "voice": "am-ET-AmehaNeural",
+    "text": "ትእዛዝ እየጠበቅሁ ነው።",
+    "bytes": 12960
+  },
+  "tn-victory.mp3": {
+    "voice": "ar-TN-HediNeural",
+    "text": "لقد انتصرنا!",
+    "bytes": 11664
+  },
+  "et-move.mp3": {
+    "voice": "am-ET-AmehaNeural",
+    "text": "አሁን እሄዳለሁ።",
+    "bytes": 10800
+  },
+  "et-attack.mp3": {
+    "voice": "am-ET-AmehaNeural",
+    "text": "አጥቁ!",
+    "bytes": 8352
+  },
+  "et-build.mp3": {
+    "voice": "am-ET-AmehaNeural",
+    "text": "መገንባት እጀምራለሁ።",
+    "bytes": 12960
+  },
+  "et-gather.mp3": {
+    "voice": "am-ET-AmehaNeural",
+    "text": "መሰብሰብ እጀምራለሁ።",
+    "bytes": 13104
+  },
+  "et-ready.mp3": {
+    "voice": "am-ET-AmehaNeural",
+    "text": "ዝግጁ ነኝ።",
+    "bytes": 10080
+  },
+  "et-victory.mp3": {
+    "voice": "am-ET-AmehaNeural",
+    "text": "አሸንፈናል!",
+    "bytes": 10224
+  },
+  "et-stop.mp3": {
+    "voice": "am-ET-AmehaNeural",
+    "text": "እዚህ እቆያለሁ።",
+    "bytes": 11088
+  },
+  "ng-move.mp3": {
+    "voice": "en-NG-AbeoNeural",
+    "text": "On my way.",
+    "bytes": 9360
+  },
+  "ng-select.mp3": {
+    "voice": "en-NG-AbeoNeural",
+    "text": "Awaiting orders.",
+    "bytes": 11952
+  },
+  "ng-gather.mp3": {
+    "voice": "en-NG-AbeoNeural",
+    "text": "Gathering now.",
+    "bytes": 9936
+  },
+  "ng-build.mp3": {
+    "voice": "en-NG-AbeoNeural",
+    "text": "Building now.",
+    "bytes": 9648
+  },
+  "ng-attack.mp3": {
+    "voice": "en-NG-AbeoNeural",
+    "text": "Attack!",
+    "bytes": 8784
+  },
+  "ng-ready.mp3": {
+    "voice": "en-NG-AbeoNeural",
+    "text": "Ready.",
+    "bytes": 8064
+  },
+  "ng-stop.mp3": {
+    "voice": "en-NG-AbeoNeural",
+    "text": "Holding here.",
+    "bytes": 9936
+  },
+  "ng-victory.mp3": {
+    "voice": "en-NG-AbeoNeural",
+    "text": "We are victorious!",
+    "bytes": 12384
+  },
+  "za-move.mp3": {
+    "voice": "en-ZA-LukeNeural",
+    "text": "On my way.",
+    "bytes": 9072
+  },
+  "za-select.mp3": {
+    "voice": "en-ZA-LukeNeural",
+    "text": "Awaiting orders.",
+    "bytes": 11232
+  },
+  "za-gather.mp3": {
+    "voice": "en-ZA-LukeNeural",
+    "text": "Gathering now.",
+    "bytes": 9504
+  },
+  "za-build.mp3": {
+    "voice": "en-ZA-LukeNeural",
+    "text": "Building now.",
+    "bytes": 9216
+  },
+  "za-attack.mp3": {
+    "voice": "en-ZA-LukeNeural",
+    "text": "Attack!",
+    "bytes": 7920
+  },
+  "za-ready.mp3": {
+    "voice": "en-ZA-LukeNeural",
+    "text": "Ready.",
+    "bytes": 7776
+  },
+  "za-stop.mp3": {
+    "voice": "en-ZA-LukeNeural",
+    "text": "Holding here.",
+    "bytes": 9360
+  },
+  "mg-select.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "À vos ordres.",
+    "bytes": 7632
+  },
+  "za-victory.mp3": {
+    "voice": "en-ZA-LukeNeural",
+    "text": "We are victorious!",
+    "bytes": 11664
+  },
+  "mg-build.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Je commence la construction.",
+    "bytes": 11376
+  },
+  "mg-move.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "J'y vais tout de suite.",
+    "bytes": 8928
+  },
+  "mg-attack.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "À l'attaque !",
+    "bytes": 7488
+  },
+  "mg-gather.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Je commence la récolte.",
+    "bytes": 11232
+  },
+  "mg-ready.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Prêt.",
+    "bytes": 4896
+  },
+  "mg-victory.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Nous avons gagné !",
+    "bytes": 8496
+  },
+  "mg-stop.mp3": {
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "text": "Je reste ici.",
+    "bytes": 8496
+  },
+  "nz-select.mp3": {
+    "voice": "en-NZ-MitchellNeural",
+    "text": "Awaiting orders.",
+    "bytes": 12096
+  },
+  "nz-gather.mp3": {
+    "voice": "en-NZ-MitchellNeural",
+    "text": "Gathering now.",
+    "bytes": 10512
+  },
+  "nz-move.mp3": {
+    "voice": "en-NZ-MitchellNeural",
+    "text": "On my way.",
+    "bytes": 10224
+  },
+  "nz-build.mp3": {
+    "voice": "en-NZ-MitchellNeural",
+    "text": "Building now.",
+    "bytes": 10368
+  },
+  "nz-attack.mp3": {
+    "voice": "en-NZ-MitchellNeural",
+    "text": "Attack!",
+    "bytes": 9360
+  },
+  "nz-ready.mp3": {
+    "voice": "en-NZ-MitchellNeural",
+    "text": "Ready.",
+    "bytes": 9072
+  },
+  "nz-stop.mp3": {
+    "voice": "en-NZ-MitchellNeural",
+    "text": "Holding here.",
+    "bytes": 10368
+  },
+  "nz-victory.mp3": {
+    "voice": "en-NZ-MitchellNeural",
+    "text": "We are victorious!",
+    "bytes": 12816
+  },
+  "pg-move.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "On my way.",
+    "bytes": 7200
+  },
+  "pg-select.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Awaiting orders.",
+    "bytes": 8496
+  },
+  "pg-gather.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Gathering now.",
+    "bytes": 7632
+  },
+  "pg-build.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Building now.",
+    "bytes": 7344
+  },
+  "pg-attack.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Attack!",
+    "bytes": 6048
+  },
+  "pg-ready.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Ready.",
+    "bytes": 5760
+  },
+  "pg-stop.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "Holding here.",
+    "bytes": 7920
+  },
+  "pg-victory.mp3": {
+    "voice": "en-AU-WilliamMultilingualNeural",
+    "text": "We are victorious!",
+    "bytes": 9792
+  }
+}
