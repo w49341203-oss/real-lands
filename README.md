@@ -8,3 +8,7 @@
 真實地形（NOAA ETOPO1）、55 國＋台灣原住民族、五種背景、劇情戰役 38 局與閱讀卡 15 張（108 課綱台灣史／東亞史／世界史），史實文字經網路來源逐句查核並附來源（未經歷史老師審稿，歡迎指正）。
 
 這個 repo 只放上線用的遊戲檔（由開發資料夾的 `dist/` 鏡射，不含備份與原始素材）。劇情資料在 `campaigns.js`，地名在 `places.js`，國家表在 `nations.js`。
+
+## 授權
+
+© 2026 Helen · CC BY-NC-SA 4.0（音樂、語音除外）。遊戲程式、文字與自製圖像採 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-Hant)：教學使用免費、須註明出處、修改版同樣授權、**禁止商業使用**；背景音樂與語音不在此授權內。詳見 [LICENSE.md](LICENSE.md)。
