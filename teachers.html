@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>列國紀元 · 給歷史老師的說明</title>
+<style>
+:root{color-scheme:dark}
+body{margin:0;background:#161d18;color:#e6e1cf;font:16px/1.7 "Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+main{max-width:960px;margin:0 auto;padding:28px 20px 60px}
+h1{font-family:Georgia,"PMingLiU",serif;letter-spacing:4px;color:#efddac;margin:0 0 4px}
+h2{color:#efddac;border-bottom:1px solid #ad945860;padding-bottom:4px;margin-top:36px}
+h3{color:#d0d7be;margin:22px 0 6px}
+a{color:#9fd8dc}
+.lead{color:#d0d7be;margin-top:0}
+.box{background:#1e2820;border:1px solid #ad945850;border-left:3px solid #ad9458;padding:12px 16px;border-radius:4px;margin:14px 0}
+.btn{display:inline-block;background:linear-gradient(#4b503b,#2e372a);color:#efddac;border:1px solid #ad945880;padding:8px 16px;border-radius:4px;text-decoration:none;margin:6px 8px 6px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0 16px}
+th,td{border:1px solid #3a4636;padding:6px 8px;vertical-align:top;text-align:left}
+th{background:#243027;color:#efddac;white-space:nowrap}
+tr:nth-child(even) td{background:#1b241d}
+td.y{white-space:nowrap;color:#efddac}
+details{margin:4px 0}
+summary{cursor:pointer;color:#9fd8dc}
+small,.note{color:#b8b39f;font-size:13px}
+ol li,ul li{margin:4px 0}
+.wrap{overflow-x:auto}
+@media(max-width:600px){body{font-size:15px}table{font-size:13px}th,td{padding:5px 6px}}
+</style>
+</head>
+<body>
+<main>
+<h1>列國紀元 · 給歷史老師的說明</h1>
+<p class="lead">一款在真實地形上玩的即時戰略遊戲（像世紀帝國），劇情戰役與閱讀卡對應 108 課綱國中臺灣史、中國與東亞史、世界史。免費、不用安裝、不用登入，手機、平板、電腦都能開。</p>
+<p><a class="btn" href="./">▶ 開始遊戲</a> <a class="btn" href="https://github.com/w49341203-oss/real-lands" target="_blank" rel="noopener">原始碼與劇情資料（GitHub）</a></p>
+
+<h2>五分鐘上手</h2>
+<ol>
+<li>開啟遊戲網址，在開局畫面按 <b>「劇情戰役」</b>。</li>
+<li>依單元挑一局（下表），先按 <b>「看簡報」</b>：三段白話史實＋課綱對照＋史實後續。</li>
+<li>按 <b>「進入戰場」</b>。左側「勢力」面板會顯示這一局的目標（例如「守住部落 15 分鐘」），達成即勝。</li>
+<li>標題為「閱讀卡」的項目沒有戰鬥，只有簡報，可以直接投影朗讀或讓學生自己看。</li>
+<li>左上角有時代名與 <b>推進中的西元年份</b>；點地圖上的地名會跳出「地名卡」，說明古今名稱（例如 大員→承天府→台灣府→台南）。</li>
+</ol>
+<div class="box">建議 45 分鐘課堂：簡報投影 5 分 → 分組試玩一局（12～15 分鐘的守城局）→ 讀「史實後續」對照遊戲結果 10 分 → 討論「遊戲跟史實哪裡不一樣、為什麼」10 分。守城局的對手是電腦，難度「普通」大約在第 10 分鐘來攻，「簡單」第 15 分鐘。</div>
+
+<h2>劇情戰役與閱讀卡對照表</h2>
+<p class="note">表格由遊戲資料即時產生，和線上版永遠一致。「候選」欄記錄各說法的歧異與查核來源。</p>
+<div id="tables" class="wrap">載入中…</div>
+
+<h2>請老師知道的事（誠實說明）</h2>
+<ul>
+<li><b>史實文字</b>：每一篇都用兩個以上網路來源逐句核對過（教育部課綱、國家文化記憶庫、中研院、國教院原住民族重大歷史事件補充教材、維基百科等），來源網址在各局「候選」欄；但<b>沒有經過歷史老師審稿</b>，有歧異的地方採保守寫法並註明。歡迎指正。</li>
+<li><b>地圖與位置</b>：地形用 NOAA ETOPO1 真實高程、國界用現代國界；出生點依史實地點的經緯度放，但引擎要求兩基地至少隔一段距離且要有平地，所以有些局（例如 1874 牡丹社、1930 霧社）是「象徵位置」，候選欄有寫。</li>
+<li><b>遊戲化的簡化</b>：四個時代、幾種兵種與建築是遊戲設計，不代表精確年代考證；「台灣原住民族」勢力用中性名稱，族名只在劇情裡出現；沒有任何人種加成。</li>
+<li><b>美術與語音</b>：圖片由 AI 生成、經人工挑選，是地域風格的原創設計，不是文物照片；原住民族的建築目前暫借一般台灣圖，專屬外觀製作中。</li>
+<li><b>敏感史事</b>（二二八、白色恐怖、霧社事件等）做成閱讀卡或「守住部落」的守方視角，不做成攻打部落的攻防局。</li>
+<li>遊戲存檔只存在瀏覽器裡，不會上傳任何資料；沒有帳號、沒有廣告、沒有付費。</li>
+</ul>
+
+<h2>常見問題</h2>
+<p><b>學生說畫面卡？</b> 開局設定把地圖尺寸選「小」或「標準」，關掉音樂；第一次載入圖片要幾秒到十幾秒。<br>
+<b>看到的版本和說明不一樣？</b> 左上角有版本號（例如 v2.7），舊的請重新整理。<br>
+<b>可以改內容嗎？</b> 原始碼公開在 <a href="https://github.com/w49341203-oss/real-lands">GitHub</a>，劇情資料在 <code>campaigns.js</code>，歡迎提供修正。</p>
+<p class="note">列國紀元 REAL LANDS · 台灣國中理化老師 Helen 與 AI 協作製作的教學遊戲。</p>
+</main>
+<script src="campaigns.js"></script>
+<script>
+(function(){
+ const C=window.CAMPAIGNS;const root=document.getElementById('tables');if(!C){root.textContent='劇情資料載入失敗';return}
+ const esc=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);
+ const link=s=>esc(s).replace(/(https?:\/\/[^\s、；;，,）)]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+ let html='';
+ for(const g of C.GROUPS){
+  html+='<h3>'+esc(g.name)+'（'+g.items.length+' 篇）</h3><table><thead><tr><th>年份</th><th>題目</th><th>類型／目標</th><th>課綱對照</th><th>候選・來源</th></tr></thead><tbody>';
+  for(const it of g.items){
+   const kind=it.kind==='reading'?'閱讀卡':'戰役：'+(it.objectives||[]).map(o=>o.text).filter(Boolean).join('；');
+   const unc=(it.uncertain||[]);
+   html+='<tr><td class="y">'+esc(String(it.year).split(/[（(]/)[0])+'</td><td><b>'+esc(it.title)+'</b><br><small>'+esc(it.place)+'</small></td><td>'+esc(kind)+'</td><td>'+(it.curriculum||[]).map(esc).join('<br>')+'</td><td>'+(unc.length?'<details><summary>'+unc.length+' 條</summary>'+unc.map(u=>'<div>・'+link(u)+'</div>').join('')+'</details>':'—')+'</td></tr>';
+  }
+  html+='</tbody></table>';
+ }
+ root.innerHTML=html;
+})();
+</script>
+</body>
+</html>
