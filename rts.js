@@ -64,7 +64,7 @@ function nationalSprite(kind,type,owner=0){
  const fallback=kind==='building'?(defense?type:BUILDINGS[type].sprite):MODES[g.mode].sprites[type];
  const code=g.artCode(owner),family=g.mode==='scifi'?'modern':['modern','fantasy'].includes(g.mode)?g.mode:'historical',key=defense?'defense-'+code:code+'-'+family,def=(defense?globalThis.DEFENSE_ART:globalThis.NATIONAL_ART)?.atlases[code+'-'+family];
  if(!def)return fallback;
-const FLAG_BUST={'tw-modern.png':'20260917','cn-modern.png':'20260917','tw-defense.png':'20260917'};// 旗幟修正過的圖集：改圖就換日期讓舊快取失效
+const FLAG_BUST={'tw-modern.png':'20260917','cn-modern.png':'20260917','tw-defense.png':'20260917','kr-modern.png':'20260917'};// 旗幟修正過的圖集：改圖就換日期讓舊快取失效
  let pack=nationalAtlases.get(key);if(!pack){pack={image:new Image(),ready:false,alpha:null,def};nationalAtlases.set(key,pack);pack.image.onload=()=>{pack.ready=true;try{const c=document.createElement('canvas');c.width=pack.image.width;c.height=pack.image.height;const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(pack.image,0,0);pack.alpha=cx.getImageData(0,0,c.width,c.height).data}catch{}paintUI(true)};pack.image.onerror=()=>toast('國籍圖像載入失敗，請重新整理。');pack.image.src=(defense?'defense/':'art/')+def.file+(FLAG_BUST[def.file]?'?flag='+FLAG_BUST[def.file]:'');}
  if(!pack.ready)return fallback;
  const column=defense?['wall','gate','tower'].indexOf(type):kind==='building'?['tc','house','barracks','range','stable','store','farm'].indexOf(BUILDINGS[type]?.art||type):7+type;
