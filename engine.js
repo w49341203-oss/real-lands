@@ -10,8 +10,17 @@ const MAPS=[['Taiwan','台灣'],['China','中國大陸'],['Japan','日本'],['So
 // 地圖選單：十二國＋世界（世界只在現代／架空）。MAPS 維持十二國供舊檢查與國籍清單使用。
 // 區域地圖（Helen：世界地圖上台灣太小）：東亞區域用 512 格畫 99–147°E、5–47°N，台灣約 15×40 格，可用任何背景（有船就能跨海）。
 const MERC=lat=>Math.log(Math.tan(Math.PI/4+Math.max(-85,Math.min(85,lat))*Math.PI/360))*180/Math.PI,UNMERC=m=>(2*Math.atan(Math.exp(m*Math.PI/180))-Math.PI/2)*180/Math.PI;
-const THEATRES={World:{minX:-180,maxX:180,minY:-60,maxY:75,exclude:['Antarctica']},EastAsia:{minX:99,maxX:147,minY:5,maxY:47}};
-const MAP_CHOICES=[['World','世界（現代／架空）'],['EastAsia','東亞區域（台灣・中國・日韓・東南亞）'],...MAPS];
+const THEATRES={World:{minX:-180,maxX:180,minY:-60,maxY:75,exclude:['Antarctica']},EastAsia:{minX:99,maxX:147,minY:5,maxY:47},
+ // 中國區域圖（Helen 2026-09-18：整張中國一棟房子＝一個都會區不合理，改成約 1,000 公里見方的區域，一格 4～7 公里）：regional 走國家地圖的規則（尺寸依範圍算、均衡出生、不放大小國），預設國籍 China。
+ 'China Northeast':{minX:118,maxX:132,minY:38.5,maxY:48,regional:true,nation:'China',name:'東北（瀋陽・長春・哈爾濱・山海關）'},
+ 'China North':{minX:106.5,maxX:123,minY:33.5,maxY:42,regional:true,nation:'China',name:'華北（北京・天津・濟南・太原・長安）'},
+ 'China Central Plains':{minX:105,maxX:118.5,minY:31,maxY:38.5,regional:true,nation:'China',name:'中原（西安・洛陽・開封・徐州）'},
+ 'China East':{minX:115,maxX:123,minY:25.5,maxY:35,regional:true,nation:'China',name:'華東（南京・上海・杭州・福州）'},
+ 'China Central':{minX:109,maxX:118,minY:25,maxY:33,regional:true,nation:'China',name:'華中（武漢・長沙・南昌・赤壁・襄陽）'},
+ 'China South':{minX:106,maxX:122.5,minY:18,maxY:26.5,regional:true,nation:'China',name:'華南（廣州・深圳・香港・南寧・廈門・台灣）'},
+ 'China Southwest':{minX:97,maxX:110,minY:22,maxY:33,regional:true,nation:'China',name:'西南（成都・重慶・昆明・貴陽）'}};
+const REGION_CHOICES=Object.entries(THEATRES).filter(([,t])=>t.regional).map(([id,t])=>[id,t.name]);
+const MAP_CHOICES=[['World','世界（現代／架空）'],['EastAsia','東亞區域（台灣・中國・日韓・東南亞）'],...MAPS.slice(0,2),...REGION_CHOICES,...MAPS.slice(2)];/* 中國區域圖排在中國大陸後面 */
 const MODES={
 europe:{name:'西方史實',sprites:[12,13,14,15,16,11,11,23,23,23],resources:['糧食','木材','黃金','石材'],factor:[1,1,1,1,1,1,1,1,1,1],
  ages:[{name:'古典時代',unit:['村民','軍團兵','投槍兵','羅馬騎兵','攻城槌','渡船','戰船','—','—','—']},{name:'中世紀',unit:['村民','騎士劍士','長弓兵','重裝騎士','投石機','運輸船','柯克戰船','—','—','—']},{name:'火藥時代',unit:['村民','長矛兵','火繩槍兵','龍騎兵','臼炮','運輸帆船','蓋倫戰艦','—','—','—']},{name:'帝國時代',unit:['村民','線列步兵','狙擊兵','驃騎兵','攻城炮','運兵船','風帆戰列艦','—','—','—']}],
@@ -177,15 +186,17 @@ class Game{
  ageName(owner=0){return MODES[this.mode].ages[this.ages[owner]].name}
  unitName(type,owner=0){return MODES[this.mode].ages[this.ages[owner]].unit[type]}
  // 戰場範圍：只取主要陸塊所在的地理區；海外領地不在戰術地圖內。
- static isRegion(map){return !!THEATRES[map]}
- static theatre(world,map){const T=THEATRES[map];if(T){const rings=[];for(const f of world){if(T.exclude?.includes(f.name))continue;const polys=f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates;for(const p of polys){if(map!=='World'&&!p[0].some(q=>q[0]>=T.minX&&q[0]<=T.maxX&&q[1]>=T.minY&&q[1]<=T.maxY))continue;rings.push(p)}}return {rings,minX:T.minX,maxX:T.maxX,minY:T.minY,maxY:T.maxY,world:true,region:map}}const f=world.find(f=>f.name===map);if(!f)throw new Error('缺少地圖資料：'+map);const polys=f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates;let rings=polys;if(['France','United States of America','Russia'].includes(map)){rings=polys.filter(p=>map==='France'?p[0].some(q=>q[0]>-6&&q[0]<10&&q[1]>40&&q[1]<53):map==='United States of America'?p[0].some(q=>q[0]>-126&&q[0]<-65&&q[1]>25&&q[1]<50):p[0].some(q=>q[0]>30&&q[0]<170));}
+ static isRegion(map){return !!THEATRES[map]&&!THEATRES[map].regional}
+ static isRegional(map){return !!THEATRES[map]?.regional}
+ static defaultNation(map){return THEATRES[map]?.nation||map}
+ static theatre(world,map){const T=THEATRES[map];if(T){const rings=[];for(const f of world){if(T.exclude?.includes(f.name))continue;const polys=f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates;for(const p of polys){if(map!=='World'){/* 有頂點落在框內，或多邊形的外框與範圍框相交（內陸區域圖：框整個在中國境內，邊界頂點都在框外）*/let ix0=Infinity,ix1=-Infinity,iy0=Infinity,iy1=-Infinity,hit=false;for(const q of p[0]){if(q[0]>=T.minX&&q[0]<=T.maxX&&q[1]>=T.minY&&q[1]<=T.maxY){hit=true;break}if(q[0]<ix0)ix0=q[0];if(q[0]>ix1)ix1=q[0];if(q[1]<iy0)iy0=q[1];if(q[1]>iy1)iy1=q[1]}if(!hit&&!(ix0<=T.maxX&&ix1>=T.minX&&iy0<=T.maxY&&iy1>=T.minY))continue}rings.push(p)}}return {rings,minX:T.minX,maxX:T.maxX,minY:T.minY,maxY:T.maxY,world:!T.regional,regional:!!T.regional,region:map}}const f=world.find(f=>f.name===map);if(!f)throw new Error('缺少地圖資料：'+map);const polys=f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates;let rings=polys;if(['France','United States of America','Russia'].includes(map)){rings=polys.filter(p=>map==='France'?p[0].some(q=>q[0]>-6&&q[0]<10&&q[1]>40&&q[1]<53):map==='United States of America'?p[0].some(q=>q[0]>-126&&q[0]<-65&&q[1]>25&&q[1]<50):p[0].some(q=>q[0]>30&&q[0]<170));}
   let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;for(const p of rings.flat(2)){if(map==='Russia'&&p[0]<0)continue;minX=Math.min(minX,p[0]);maxX=Math.max(maxX,p[0]);minY=Math.min(minY,p[1]);maxY=Math.max(maxY,p[1])}return {rings,minX,maxX,minY,maxY}}
  // 網格：legacy 為 112×112 正方形（舊設定與既有檢查沿用）；其他尺寸依地理長寬比產生長方形，最長邊為所選格數。
  // 依國土大小決定格數（Helen 2026-09-17：「直接把地圖拉大，一間房子佔據幾個地點很不合理」）：
  // 小／標準／大三種具名尺寸在國家地圖上不再固定 160／256／384，而是「標準＝一格約 10 公里」（最少 256、最多 1024、取 128 的倍數），
  // 小＝標準÷1.6（最少 160）、大＝標準×1.5（最多 1024）。台灣仍是 256（一格 1.5 公里），中國 640、俄羅斯 768、美國 512。世界／東亞地圖與數字尺寸照舊。
- static gridFromBounds(t,size){const M=matchApi();if(typeof size==='number'||!t||t.world||!['small','standard','large'].includes(size))return M.gridSize(size);
-  const cos=Math.cos((t.minY+t.maxY)/2*Math.PI/180),km=Math.max((t.maxX-t.minX)*cos,t.maxY-t.minY)*111.2;let S=Math.max(256,Math.min(1024,Math.ceil(km/10/128)*128));
+ static gridFromBounds(t,size){const M=matchApi();if(typeof size==='number'||!t||(t.world&&!t.regional)||!['small','standard','large'].includes(size))return M.gridSize(size);
+  const cos=Math.cos((t.minY+t.maxY)/2*Math.PI/180),km=Math.max((t.maxX-t.minX)*cos,t.maxY-t.minY)*111.2;const target=t.regional?5:10;/* 區域圖標準一格約 5 公里（廣州→深圳約 5 棟房子） */let S=Math.max(256,Math.min(1024,Math.ceil(km/target/128)*128));
   if(size==='small')S=Math.max(160,Math.round(S/1.6/32)*32);else if(size==='large')S=Math.min(1024,Math.round(S*1.5/128)*128);return S}
  static gridFor(world,map,size){return Game.gridFromBounds(Game.theatre(world,map),size)}
  static kmPerCellFor(world,map,size){const t=Game.theatre(world,map);const S=Game.gridFromBounds(t,size);if(t.world)return null;const cos=Math.cos((t.minY+t.maxY)/2*Math.PI/180),w=(t.maxX-t.minX)*cos,h=t.maxY-t.minY;return 111.2*Math.max(w,h)/(S-12)}
@@ -234,8 +245,8 @@ class Game{
   if(this.victory==='landmark')this.placeLandmarks();
   this.refreshFog();this.log(this.victory==='landmark'?'佔領並守住過半據點 '+Math.round(this.holdSeconds/60)+' 分鐘即獲勝。':this.victory==='wonder'?'第三時代後建造'+this.buildingName('wonder')+'並守住 '+Math.round(BUILDINGS.wonder.countdown/60)+' 分鐘倒數。':this.victory==='timed'?Math.round(this.timeLimit/60)+' 分鐘後依資源、軍力與建築計分決勝。':'先選取村民，右鍵點選樹木、莓果或礦脈。');}
  // 高程：v2 為經緯度規則網格（可對任何地圖尺寸重新取樣）；v1 為舊 112×112 取樣，只能沿用或雙線性放大並標記。
- loadElevation(){const region=Game.isRegion(this.map);const E=region?root.ELEVATION_WORLD:root.ELEVATION,m=E?.maps?.[region?'World':this.map];this.elevationSource=null;this.elevationDetail='none';if(!m)return;const cells=this.W*this.H;const sample=(g,lon,lat)=>{const dlat=(g.lat1-g.lat0)/(g.rows-1),dlon=(g.lon1-g.lon0)/(g.cols-1);const at=(r,c)=>g.heights[Math.max(0,Math.min(g.rows-1,r))*g.cols+Math.max(0,Math.min(g.cols-1,c))];const fr=(lat-g.lat0)/dlat,fc=(lon-g.lon0)/dlon,r0=Math.floor(fr),c0=Math.floor(fc),u=fr-r0,v=fc-c0;return Math.max(0,(at(r0,c0)*(1-v)+at(r0,c0+1)*v)*(1-u)+(at(r0+1,c0)*(1-v)+at(r0+1,c0+1)*v)*u)};
-  if(m.lat0!=null&&m.rows&&m.cols&&m.heights?.length===m.rows*m.cols){const natives=region&&this.map!=='World'?Object.values(root.ELEVATION?.maps||{}).filter(g=>g.lat0!=null&&g.rows&&g.cols&&g.heights?.length===g.rows*g.cols):[];/* 區域地圖：有一弧分原生高程的國家（台灣、日本…）用自己的細網格，其餘用世界網格 */for(let y=0;y<this.H;y++)for(let x=0;x<this.W;x++){const i=y*this.W+x;if(!this.land[i])continue;const {lon,lat}=this.lonLat(x,y);const nat=natives.find(g=>lon>=g.lon0&&lon<=g.lon1&&lat>=g.lat0&&lat<=g.lat1);this.altitude[i]=sample(nat||m,lon,lat)}this.elevationSource=E.source;this.elevationDetail=natives.length?'mixed':m.native?'native':'decimated';this.elevationSpacing=m.spacingArcMin||null}
+ loadElevation(){const region=Game.isRegion(this.map),regional=Game.isRegional(this.map);const E=region?root.ELEVATION_WORLD:root.ELEVATION,m=regional?(root.ELEVATION_REGIONS?.maps?.[this.map]||root.ELEVATION?.maps?.[THEATRES[this.map].nation]):E?.maps?.[region?'World':this.map];this.elevationSource=null;this.elevationDetail='none';if(!m)return;const cells=this.W*this.H;const sample=(g,lon,lat)=>{const dlat=(g.lat1-g.lat0)/(g.rows-1),dlon=(g.lon1-g.lon0)/(g.cols-1);const at=(r,c)=>g.heights[Math.max(0,Math.min(g.rows-1,r))*g.cols+Math.max(0,Math.min(g.cols-1,c))];const fr=(lat-g.lat0)/dlat,fc=(lon-g.lon0)/dlon,r0=Math.floor(fr),c0=Math.floor(fc),u=fr-r0,v=fc-c0;return Math.max(0,(at(r0,c0)*(1-v)+at(r0,c0+1)*v)*(1-u)+(at(r0+1,c0)*(1-v)+at(r0+1,c0+1)*v)*u)};
+  if(m.lat0!=null&&m.rows&&m.cols&&m.heights?.length===m.rows*m.cols){const natives=(region||regional)&&this.map!=='World'?Object.values(root.ELEVATION?.maps||{}).filter(g=>g!==m).filter(g=>g.lat0!=null&&g.rows&&g.cols&&g.heights?.length===g.rows*g.cols):[];/* 區域地圖：有一弧分原生高程的國家（台灣、日本…）用自己的細網格，其餘用世界網格 */for(let y=0;y<this.H;y++)for(let x=0;x<this.W;x++){const i=y*this.W+x;if(!this.land[i])continue;const {lon,lat}=this.lonLat(x,y);const nat=natives.find(g=>lon>=g.lon0&&lon<=g.lon1&&lat>=g.lat0&&lat<=g.lat1);this.altitude[i]=sample(nat||m,lon,lat)}this.elevationSource=(regional&&root.ELEVATION_REGIONS?.maps?.[this.map]?root.ELEVATION_REGIONS.source:E?.source)||null;this.elevationDetail=natives.length?'mixed':m.native?'native':'decimated';this.elevationSpacing=m.spacingArcMin||null}
   else if(m.heights?.length===m.n*m.n){const g1=m.geo,n=m.n;if(this.W===n&&this.H===n&&Math.abs(g1.scale-this.geo.scale)<1e-9){for(let i=0;i<cells;i++)this.altitude[i]=this.land[i]?Math.max(0,m.heights[i]):0;this.elevationDetail='legacy112'}else{const at=(r,c)=>m.heights[Math.max(0,Math.min(n-1,r))*n+Math.max(0,Math.min(n-1,c))];for(let y=0;y<this.H;y++)for(let x=0;x<this.W;x++){const i=y*this.W+x;if(!this.land[i])continue;const {lon,lat}=this.lonLat(x,y);const fx=(lon-g1.minX)*g1.scale*g1.cos+g1.ox-.5,fy=(g1.maxY-lat)*g1.scale+g1.oy-.5,c0=Math.floor(fx),r0=Math.floor(fy),v=fx-c0,u=fy-r0;this.altitude[i]=Math.max(0,(at(r0,c0)*(1-v)+at(r0,c0+1)*v)*(1-u)+(at(r0+1,c0)*(1-v)+at(r0+1,c0+1)*v)*u)}this.elevationDetail='resampled_from_112'}this.elevationSource=E.source}
   else return;
   for(let i=0;i<cells;i++)this.relief[i]=this.land[i]?this.altitude[i]*RELIEF_PER_METER:0;
@@ -604,5 +615,5 @@ class Game{
   this.statusTimer+=dt;if(this.statusTimer>.5){this.checkStatus();this.statusTimer=0}
   this.cleanTimer+=dt;if(this.cleanTimer>5){this.units=this.units.filter(u=>u.hp>0);this.buildings=this.buildings.filter(b=>b.hp>0);this.cleanTimer=0}}
 }
-const api={Game,MAPS,MAP_CHOICES,MODES,BUILDINGS,UNIT,TECHS,COUNTER,counterMultiplier,distance,RELIEF_PER_METER,RELIEF_SLOPE_LIMIT,TECH_NAMES,HAZARDS,SEISMIC,GOODS,SAVE_VERSION,FARM_YIELD,FARM_RESEED,CROPS,NATIONS:NAT,nationZh,BIOMES,CLIMATE:CLIM,PLACES:PLC};if(typeof module!=='undefined')module.exports=api;root.RTS=api;
+const api={Game,MAPS,MAP_CHOICES,THEATRES,REGION_CHOICES,MODES,BUILDINGS,UNIT,TECHS,COUNTER,counterMultiplier,distance,RELIEF_PER_METER,RELIEF_SLOPE_LIMIT,TECH_NAMES,HAZARDS,SEISMIC,GOODS,SAVE_VERSION,FARM_YIELD,FARM_RESEED,CROPS,NATIONS:NAT,nationZh,BIOMES,CLIMATE:CLIM,PLACES:PLC};if(typeof module!=='undefined')module.exports=api;root.RTS=api;
 })(typeof window!=='undefined'?window:globalThis);
