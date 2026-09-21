@@ -181,3 +181,38 @@ dialog #reportTable th,dialog #reportTable td{border-color:#aa875c}
  #setup .player-rows-head,#setup .player-row{grid-template-columns:36px minmax(0,1fr) 58px 62px;gap:4px}
  #setup .player-row select{padding:7px 3px;font-size:12px}
 }
+
+/* 君主對話（2026-09-21）：畫面左側立繪＋對話框；不擋操作，點一下或幾秒後收起 */
+#rulerTalk{position:fixed;left:12px;bottom:calc(var(--panel-h,190px) + 60px);/* 讓出左下角的縮放／回城鎮按鈕列 */z-index:40;display:flex;align-items:flex-end;gap:10px;max-width:min(560px,70vw);pointer-events:auto;cursor:pointer;animation:rt-in .35s ease-out}
+#rulerTalk[hidden]{display:none}
+@keyframes rt-in{from{transform:translateX(-24px);opacity:0}to{transform:none;opacity:1}}
+#rulerTalk .rt-portrait{position:relative;width:150px;height:190px;flex:none;border:2px solid #ad9458;border-radius:6px;background:radial-gradient(ellipse at 50% 30%,#3b4a3a,#151c17 70%);box-shadow:0 10px 24px #0009,inset 0 0 0 1px #0006;overflow:hidden}
+#rulerTalk .rt-portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none}
+#rulerTalk .rt-portrait.has-img img{display:block}
+#rulerTalk .rt-portrait.has-img .rt-fallback{display:none}
+#rulerTalk .rt-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:bold 64px "Noto Serif TC",Georgia,serif;color:#efddac;text-shadow:0 2px 10px #000}
+#rulerTalk .rt-fallback:before{content:"";position:absolute;left:50%;top:38%;width:70px;height:70px;transform:translateX(-50%);border-radius:50%;background:#6b7d63;opacity:.35}
+#rulerTalk .rt-fallback:after{content:"";position:absolute;left:50%;bottom:-20px;width:150px;height:110px;transform:translateX(-50%);border-radius:75px 75px 0 0;background:#55684f;opacity:.35}
+#rulerTalk .rt-bubble{position:relative;background:linear-gradient(#2b3427f2,#161e18f2);border:1px solid #ad945880;border-radius:8px;padding:10px 14px 8px;color:#f1e6c6;min-width:220px;box-shadow:0 10px 24px #0009}
+#rulerTalk .rt-bubble:before{content:"";position:absolute;left:-9px;bottom:26px;border:9px solid transparent;border-right-color:#ad945880;border-left:0}
+#rulerTalk .rt-name{color:#efddac;font-weight:bold;font-size:14px;letter-spacing:1px;margin-bottom:4px}
+#rulerTalk .rt-name small{color:#b8b39f;font-weight:normal;margin-left:6px}
+#rulerTalk .rt-text{font-size:15px;line-height:1.6}
+#rulerTalk .rt-hint{display:block;color:#8f8a76;font-size:11px;margin-top:6px;text-align:right}
+@media(max-width:820px){#rulerTalk{left:8px;bottom:calc(var(--panel-h,150px) + 52px);max-width:82vw;gap:6px}#rulerTalk .rt-portrait{width:96px;height:122px}#rulerTalk .rt-fallback{font-size:40px}#rulerTalk .rt-text{font-size:13.5px}#rulerTalk .rt-bubble{min-width:160px;padding:8px 10px 6px}}
+
+/* 死海古卷質感（2026-09-21 Helen：「我想要有這種感覺」）：撕裂焦邊的羊皮框（程序生成 ui/parchment-frame.png）、墨色文字、縫線分欄；文字區保持乾淨以利投影閱讀 */
+dialog{box-sizing:border-box;max-width:calc(100vw - 24px);border:44px solid transparent;border-image:url("ui/parchment-frame.png") 140 fill / 44px / 26px round;border-radius:0;background:none;box-shadow:none;filter:drop-shadow(0 22px 40px #000000c8) drop-shadow(0 0 2px #2a170a80);color:#3a2513;--ink:#3a2513;--faded-ink:#5b3d22}
+dialog::backdrop{background:radial-gradient(ellipse at 45% 35%,#2f2114e6,#0b0805f5);backdrop-filter:blur(6px)}
+dialog h2,dialog h3,dialog h4{color:#2f1c0e;font-family:"Noto Serif TC","PMingLiU",Georgia,serif;letter-spacing:3px;text-shadow:0 1px 0 #f3dfb0}
+dialog p,dialog label,dialog label.check,dialog .brief,dialog .meta{color:#4b3119}
+#setup .setup-intro{border-right:2px dashed #6f4a27;box-shadow:inset -6px 0 14px #7a4f2412;background-image:linear-gradient(90deg,transparent 49.5%,#8c60351c 50%,#fff0ca40 50.5%,transparent 51%),linear-gradient(0deg,transparent 49.5%,#8c603521 50%,#fff0ca40 50.5%,transparent 51%)}
+#setup .setup-intro:after{opacity:.55}
+#briefText .objectives{background:#f7e8c266;border:1px solid #8a5d33aa;border-left:3px solid #8a5d33}
+#briefText p,#briefText{color:#3a2513}
+.campaign-card{background:#f6e6bf55;border:1px solid #8a5d3388}
+.campaign-card p{color:#4b3119}.campaign-card .meta{color:#6b4a2a}.campaign-card .curr{color:#4d5f2a}
+dialog select,dialog .gift-row input{background:#fbecc8cc;color:#2f1c0e;border:1px solid #8a5d33}
+dialog button,dialog .file-button{background:linear-gradient(#f3dfb2,#d6b27a);color:#3a2513;border:1px solid #7f5630}
+dialog .primary{background:linear-gradient(#9c4b2a,#6e3218);color:#fbe9c4;border-color:#4d2210}
+@media(max-width:820px){dialog{border-width:26px;border-image-width:26px;border-image-outset:14px}}
