@@ -64,7 +64,24 @@ dialog{border:1px solid #b49a61;border-radius:2px;background:repeating-linear-gr
  .command-deck{padding:8px}.orders-heading{font-size:11px}
 }
 .info-card{position:fixed;left:50%;top:80px;transform:translateX(-50%);z-index:60;max-width:520px;background:#16221bf2;border:1px solid #c4a768;border-radius:6px;padding:14px 18px;color:#e9e2c8;font-size:13px;line-height:1.7;box-shadow:0 8px 30px #000a}.info-card h3{margin:0 0 6px;color:#f3e2a6;font-size:16px}.info-card p{margin:2px 0}.info-card small{color:#b8b39f}.info-card button{margin-top:8px;padding:4px 12px;background:#2b3320;color:#f6e9ba;border:1px solid #6b7a4a;border-radius:3px;cursor:pointer}.standing .namebtn{pointer-events:auto;background:none;border:none;color:inherit;font:inherit;padding:0;cursor:pointer;text-decoration:underline dotted #8a8a6a}.timeline-box{margin-top:10px;font-size:12px;line-height:1.6;color:#d5d9c6;max-height:180px;overflow:auto}.timeline-box h3{margin:6px 0;color:#f3e2a6;font-size:14px}
-#campaignDialog{width:min(860px,96vw)}#campaignList{display:grid;gap:14px;max-height:60dvh;overflow:auto;padding-right:4px}.campaign-group h3{margin:8px 0 4px;color:#f3e2a6;font-size:15px;border-bottom:1px solid #6b6a4a;padding-bottom:4px}.campaign-card{padding:10px 12px;border:1px solid #776442;background:linear-gradient(145deg,#30372a,#162018);display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;margin-bottom:8px}.campaign-card h4{margin:0;font-size:15px;color:#f6e9ba}.campaign-card p{margin:0;font-size:12px;color:#d5d9c6;grid-column:1}.campaign-card .meta{color:#b8b39f}.campaign-card .curr{color:#9fd3a4}.campaign-card button{grid-column:2;grid-row:1/5}#briefDialog{width:min(640px,94vw)}.side-lock{margin:6px 0 10px;color:#b8b39f;font-size:12.5px}.side-pick{margin:6px 0 10px;padding:8px 10px;border:1px solid #6b6a4a;background:#141d16}.side-pick b{display:block;color:#f3e2a6;font-size:13px}.side-pick .hint{display:block;color:#b8b39f;font-size:12px;margin-bottom:6px}.side-pick button{margin:3px 6px 3px 0;padding:6px 10px;font-size:13px;border:1px solid #776442;background:#243027;color:#e6e1cf;border-radius:4px;cursor:pointer}.side-pick button.on{background:linear-gradient(#5a5f43,#3a4332);color:#f6e9ba;border-color:#ad9458;box-shadow:inset 0 0 0 1px #ad945880}#briefText p{font-size:13.5px;line-height:1.7}#briefText .objectives{padding:8px 10px;border:1px solid #6b6a4a;background:#0f1712}.standing.objectives{display:block;line-height:1.6}
+#campaignDialog{width:min(860px,96vw)}#campaignDialog[open]{display:grid;grid-template-rows:auto auto auto auto minmax(0,1fr) auto;gap:4px;align-content:start}/* 2026-09-21：對話框用格線排版，清單佔剩下的高度自己捲，整個對話框不用再捲 */
+#campaignList{display:grid;gap:14px;min-height:0;max-height:60dvh;overflow:auto;padding-right:4px;align-content:start}.campaign-group h3{margin:8px 0 4px;color:#f3e2a6;font-size:15px;border-bottom:1px solid #6b6a4a;padding-bottom:4px}.campaign-card{padding:10px 12px;border:1px solid #776442;background:linear-gradient(145deg,#30372a,#162018);display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;margin-bottom:8px}.campaign-card h4{margin:0;font-size:15px;color:#f6e9ba}.campaign-card p{margin:0;font-size:12px;color:#d5d9c6;grid-column:1}.campaign-card .meta{color:#b8b39f}.campaign-card .curr{color:#9fd3a4}.campaign-card button{grid-column:2;grid-row:1/5}
+/* 劇情戰役清單改版（2026-09-21 Helen：故事太多→分類按鍵＋一行一局＋依時期分段） */
+.campaign-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 6px}
+.campaign-tab{flex:1 1 auto;min-height:44px;padding:8px 14px;font-size:15px;font-weight:bold;letter-spacing:1px;border:1px solid #776442;background:#1c261d;color:#d9d4b8}
+.campaign-tab small{font-weight:normal;opacity:.75;margin-left:4px;font-size:12px}
+.campaign-tab.active{background:linear-gradient(#e7c582,#c9a45d);color:#20291c;border-color:#eedca2}
+.campaign-subtitle{margin:0 0 2px;font-size:12px;color:#b8b39f}
+.campaign-rows{display:grid;gap:0}
+.campaign-period{margin:12px 0 2px;font-size:14px;color:#f3e2a6;border-bottom:1px solid #6b6a4a;padding-bottom:3px}
+.campaign-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:7px 6px;border-bottom:1px solid #4a4a36;cursor:pointer}
+.campaign-row:hover{background:#ffffff0d}
+.campaign-row .year{font-size:13px;color:#b8b39f;white-space:nowrap;min-width:3.5em}
+.campaign-row .what{display:grid;gap:1px;min-width:0}
+.campaign-row .what b{font-size:15px;color:#f6e9ba;font-weight:normal}
+.campaign-row .what small{font-size:12px;color:#9fd3a4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.campaign-row button{min-height:38px;padding:6px 14px;width:auto;font-size:14px;letter-spacing:1px;white-space:nowrap}
+@media(max-width:560px){.campaign-row{grid-template-columns:minmax(0,1fr) auto}.campaign-row .year{grid-column:1;font-size:12px}.campaign-row .what{grid-column:1}.campaign-row button{grid-column:2;grid-row:1/3}.campaign-tab{font-size:14px;padding:8px 10px}}#briefDialog{width:min(640px,94vw)}.side-lock{margin:6px 0 10px;color:#b8b39f;font-size:12.5px}.side-pick{margin:6px 0 10px;padding:8px 10px;border:1px solid #6b6a4a;background:#141d16}.side-pick b{display:block;color:#f3e2a6;font-size:13px}.side-pick .hint{display:block;color:#b8b39f;font-size:12px;margin-bottom:6px}.side-pick button{margin:3px 6px 3px 0;padding:6px 10px;font-size:13px;border:1px solid #776442;background:#243027;color:#e6e1cf;border-radius:4px;cursor:pointer}.side-pick button.on{background:linear-gradient(#5a5f43,#3a4332);color:#f6e9ba;border-color:#ad9458;box-shadow:inset 0 0 0 1px #ad945880}#briefText p{font-size:13.5px;line-height:1.7}#briefText .objectives{padding:8px 10px;border:1px solid #6b6a4a;background:#0f1712}.standing.objectives{display:block;line-height:1.6}
 .chart-box{margin:8px 0}.chart-box canvas{display:block;margin:6px 0;border:1px solid #4b5240;border-radius:4px;max-width:100%}.chart-tabs button{margin:0 6px 4px 0;padding:3px 10px;background:#2b3320;color:#e9e2c8;border:1px solid #6b7a4a;border-radius:3px;cursor:pointer;font-size:12px}.chart-tabs button.on{background:#c4a768;color:#1c281e;font-weight:bold}.chart-legend{font-size:12px;color:#d5d9c6;display:flex;flex-wrap:wrap;gap:4px 12px}.chart-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
 #toast{white-space:pre-line}#queue button.qcancel{margin:2px 4px 2px 0;padding:2px 8px;background:#3a2f22;color:#f6e9ba;border:1px solid #8a6f43;border-radius:3px;cursor:pointer;font-size:12px}#queue button.qcancel:hover{background:#5a3f2a}#eventLog div.jump{cursor:pointer;pointer-events:auto;text-decoration:underline dotted #b8b39f}#eventLog div.jump:hover{color:#fff3c4}
 .pause-banner{position:absolute;top:14px;left:50%;transform:translateX(-50%);padding:10px 22px;background:#15251deb;border:1px solid #c4a768;color:#f6e9ba;font-size:18px;letter-spacing:2px;border-radius:4px;pointer-events:none;z-index:5}.pause-banner small{font-size:12px;letter-spacing:0;color:#d5d9c6}.tutorial-box{position:absolute;left:24px;bottom:60px;max-width:min(420px,70%);padding:10px 14px;background:#172119d9;border:1px solid #777b4f;border-radius:4px;font-size:13px;line-height:1.6;color:#e9e2c8;z-index:4}.tutorial-box button{margin-left:10px;padding:2px 8px;background:#2b3320;color:#f6e9ba;border:1px solid #6b7a4a;border-radius:3px;cursor:pointer;font-size:12px}@media(max-width:700px){.tutorial-box{left:8px;bottom:8px;max-width:90%;font-size:12px}}
@@ -158,6 +175,14 @@ dialog .primary:hover:not(:disabled){color:#fff6df;background:linear-gradient(#b
 }
 dialog .save-row span,dialog .gift-row,dialog .timeline-box,dialog .chart-legend{color:#60432b}
 dialog .campaign-group h3{color:#623b21;border-color:#aa875c}
+dialog .campaign-tab{background:#f6e6c033;color:#5a3a20;border-color:#aa875c}
+dialog .campaign-tab.active{background:linear-gradient(#9c4b2a,#6e3218);color:#fbe9c4;border-color:#4d2210}
+dialog .campaign-subtitle,dialog .campaign-row .year{color:#7a5a3a}
+dialog .campaign-period{color:#623b21;border-color:#aa875c}
+dialog .campaign-row{border-color:#c9a878}
+dialog .campaign-row:hover{background:#7a4a2a14}
+dialog .campaign-row .what b{color:#3a2513}
+dialog .campaign-row .what small{color:#4e6b3a}
 dialog .campaign-card,dialog .tech-card,dialog .side-pick,dialog #briefText .objectives{background:#fae9c244;border-color:#aa875c}
 dialog .campaign-card h4,dialog .tech-card h3,dialog .side-pick b,dialog .timeline-box h3{color:#59351f}
 dialog .campaign-card p,dialog .campaign-card .meta,dialog .side-lock,dialog .side-pick .hint,dialog .tech-card strong{color:#715237}
@@ -215,7 +240,7 @@ dialog p,dialog label,dialog label.check,dialog .brief,dialog .meta{color:#4b311
 dialog select,dialog .gift-row input{background:#fbecc8cc;color:#2f1c0e;border:1px solid #8a5d33}
 dialog button,dialog .file-button{background:linear-gradient(#f3dfb2,#d6b27a);color:#3a2513;border:1px solid #7f5630}
 dialog .primary{background:linear-gradient(#9c4b2a,#6e3218);color:#fbe9c4;border-color:#4d2210}
-@media(max-width:820px){dialog{padding:30px 26px}}
+@media(max-width:820px){dialog{padding:30px max(26px,5vw)}}/* 2026-09-21：平板寬度羊皮撕邊約占 4～5% 寬，內距跟著寬度走，文字才不會被撕邊蓋住 */
 #setup{padding:22px 30px 26px}#setup .setup-intro{padding-left:14px}@media(max-width:820px){#setup{padding:20px 14px}}
 
 /* 王與王的主動溝通（2026-09-21）：傳訊視窗、地圖上的使者、回覆對話框依通訊方式換皮 */

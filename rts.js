@@ -344,7 +344,28 @@ autosaveAt=0;tutorialStep=0;if(check.config.rules.tutorial)setTimeout(()=>toast(
 $('start').onclick=()=>{sound?.unlock();sound?.stopVoice();try{launchConfig(buildMatchConfig())}catch(err){toast(err.message)}};
 // 劇情戰役選單（v2.4）：campaigns.js 提供資料，這裡只負責列表、簡報與開局。
 let campaignPick=null,campaignSide=null;
-function renderCampaigns(){const C=window.CAMPAIGNS;const box=$('campaignList');if(!C||!box)return;box.replaceChildren(...C.GROUPS.map(gr=>{const sec=document.createElement('section');sec.className='campaign-group';sec.innerHTML='<h3>'+gr.name+'</h3>';for(const it of gr.items){const card=document.createElement('article');card.className='campaign-card';const reading=it.kind==='reading';card.innerHTML='<h4>'+it.title+'</h4><p class="meta">'+it.year+' · '+it.place+' · '+(reading?'閱讀卡（沒有戰鬥）':MODES[it.mode].name+'／'+MODES[it.mode].ages[it.startAge].name)+'</p><p class="curr">'+it.curriculum.join('｜')+'</p><p>'+it.brief[0]+'</p>';const b=document.createElement('button');b.className='primary';b.textContent=reading?'閱讀':'看簡報';b.onclick=()=>showBrief(it);card.append(b);sec.append(card)}return sec}))}
+// 劇情戰役清單（Helen 2026-09-21：「這邊故事太多了，可以先做個大標的按鍵嗎？」→ 拍板：分類按鍵＋一行一局＋依時期分段）：
+// 上方四個分類按鍵（記在 localStorage rl.campaignTab）、一次只顯示一類；每局一行（年份｜標題｜地點・時代），課綱與故事簡介只在「看簡報」裡；
+// 台灣史／閱讀卡依年份分「荷西／明鄭／清治／日治／戰後」，其他分類依遊戲時代名分段；段內依年份排序（後來加的局不再堆在最後）。
+const campaignMain=it=>String(it.year||'').split('（')[0].trim();/* 括號前是主要年份，括號內只是補充 */
+const campaignYears=it=>{/* 主要年份字串裡的每個年份（「前 260」為負數；「16 世紀」算該世紀中葉） */const out=[];const re=/(前\s*)?(\d{3,4})(?!\s*[月日])|(\d{1,2})\s*世紀/g;let m;const src=campaignMain(it);while((m=re.exec(src)))out.push(m[3]?(parseInt(m[3])-1)*100+50:(m[1]?-1:1)*parseInt(m[2]));return out};
+const campaignYear=it=>{const ys=campaignYears(it);return ys.length?Math.min(...ys):9999};
+const campaignYearLabel=it=>{const main=campaignMain(it);const ys=campaignYears(it);if(!ys.length||main.length<=14)return main||String(it.year||'');const f=y=>y<0?'前 '+(-y):String(y);const a=Math.min(...ys),b=Math.max(...ys);return a===b?f(a):f(a)+'–'+f(b)};
+const TAIWAN_PERIODS=[[1662,'荷西時期（1624–1662）'],[1683,'明鄭時期（1662–1683）'],[1895,'清治時期（1683–1895）'],[1945,'日治時期（1895–1945）'],[Infinity,'戰後（1945 年起）']];
+function campaignPeriod(gr,it){const y=campaignYear(it);if(gr.id==='taiwan'||gr.id==='reading'||it.map==='Taiwan'){for(const [end,name] of TAIWAN_PERIODS)if(y<end)return name;return TAIWAN_PERIODS.at(-1)[1]}const m=MODES[it.mode];if(!m||!m.ages[it.startAge])return '其他';return (it.mode==='china'||it.mode==='europe'?'':m.name+'／')+m.ages[it.startAge].name}
+let campaignTab=null;
+function renderCampaigns(){const C=window.CAMPAIGNS;const box=$('campaignList');if(!C||!box)return;const groups=C.GROUPS;if(!groups.length)return;
+ let saved=null;try{saved=localStorage.getItem('rl.campaignTab')}catch{}if(!campaignTab)campaignTab=groups.some(g=>g.id===saved)?saved:groups[0].id;if(!groups.some(g=>g.id===campaignTab))campaignTab=groups[0].id;
+ const tabs=document.createElement('div');tabs.className='campaign-tabs';tabs.setAttribute('role','tablist');
+ for(const gr of groups){const b=document.createElement('button');b.type='button';b.className='campaign-tab'+(gr.id===campaignTab?' active':'');b.dataset.tab=gr.id;b.setAttribute('role','tab');b.setAttribute('aria-selected',gr.id===campaignTab?'true':'false');const short=gr.name.replace(/（.*$/,'');b.innerHTML=short+' <small>'+gr.items.length+'</small>';b.onclick=()=>{campaignTab=gr.id;try{localStorage.setItem('rl.campaignTab',gr.id)}catch{}renderCampaigns()};tabs.append(b)}
+ const gr=groups.find(g=>g.id===campaignTab);const sub=document.createElement('p');sub.className='campaign-subtitle';sub.textContent=gr.name;
+ const list=document.createElement('div');list.className='campaign-rows';list.setAttribute('role','tabpanel');
+ const items=[...gr.items].sort((a,b)=>campaignYear(a)-campaignYear(b));let lastPeriod=null;
+ for(const it of items){const period=campaignPeriod(gr,it);if(period!==lastPeriod){const h=document.createElement('h3');h.className='campaign-period';h.textContent=period;list.append(h);lastPeriod=period}
+  const row=document.createElement('article');row.className='campaign-row';row.dataset.id=it.id;const reading=it.kind==='reading';const era=reading?'閱讀卡（沒有戰鬥）':(MODES[it.mode]?.ages[it.startAge]?.name||'');
+  row.innerHTML='<span class="year">'+campaignYearLabel(it)+'</span><span class="what"><b>'+it.title.replace(/^(前\s*)?\d[\d–—\-～~年月日（）() ]*\s*/,'')+'</b><small>'+it.place+(era?' · '+era:'')+'</small></span>';
+  const b=document.createElement('button');b.type='button';b.className='primary';b.textContent=reading?'閱讀':'看簡報';b.onclick=()=>showBrief(it);row.append(b);row.onclick=e=>{if(e.target!==b)showBrief(it)};list.append(row)}
+ const head=$('campaignTabs');/* 分類按鍵放在捲動區外面，往下捲時仍看得到 */if(head){head.replaceChildren(tabs,sub);box.replaceChildren(list);box.scrollTop=0}else box.replaceChildren(tabs,sub,list)}
 function showBrief(it){campaignPick=it;campaignSide=null;const d=$('briefDialog');if(!d)return;$('briefTitle').textContent=it.title;$('briefMeta').textContent=it.year+' · '+it.place+' · '+it.curriculum.join('｜');const reading=it.kind==='reading';$('briefStart').hidden=reading;renderBrief();$('campaignDialog').close();d.showModal()}
 // 簡報內文：選邊後目標與勢力列跟著翻到所選視角（CAMPAIGNS.mirror／castPlayers），簡報三段史實不變。
 function renderBrief(){const it=campaignPick,C=window.CAMPAIGNS;if(!it)return;const reading=it.kind==='reading';const sides=reading?[]:C.sides(it);const h=Math.max(0,reading?0:it.players.findIndex(p=>p.controller==='human'));const picked=campaignSide!=null&&campaignSide!==h;
