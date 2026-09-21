@@ -78,3 +78,106 @@ dialog{border:1px solid #b49a61;border-radius:2px;background:repeating-linear-gr
 @media(max-height:520px) and (orientation:landscape){header{overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;white-space:nowrap}.top-actions{flex-wrap:nowrap;margin-left:auto}.top-actions button{padding:3px 5px;font-size:10px;white-space:nowrap}#clock{font-size:11px}.res{padding:1px 5px}.res b{font-size:14px}.touch-bar{left:auto;right:8px;bottom:50px;transform:none;max-width:60%;justify-content:flex-end}.tutorial-box{bottom:44px;left:6px;max-width:45%;font-size:10px;padding:4px 6px}.goals.show{max-width:46%;font-size:11px}}
 .teacher-link{display:inline-block;margin:6px 0 0 8px;color:#9fd8dc;font-size:13px;text-decoration:underline dotted}
 .license-line{margin:10px 0 0;font-size:11px;color:#9a9a86;letter-spacing:.5px}.license-line a{color:#b8b39f}
+
+/* Campaign menus: aged hide, engraved ink and a folded expedition chart. */
+dialog{
+ --ink:#432b19;--faded-ink:#705033;--paper:#432b19;
+ color-scheme:light;color:var(--ink);border:1px solid #916037;border-radius:5px 9px 4px 7px;
+ background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.68' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Cpath fill='%23714725' opacity='.13' filter='url(%23grain)' d='M0 0h180v180H0z'/%3E%3C/svg%3E"),
+  radial-gradient(ellipse at 2% 10%,#92552345,transparent 40%),
+  radial-gradient(ellipse at 98% 92%,#80502750,transparent 45%),
+  linear-gradient(100deg,#c99b60,#efdab0 16%,#e7c994 50%,#f0ddb5 78%,#c99b60);
+ box-shadow:0 28px 90px #140b06c9,inset 0 0 0 4px #70421a26,inset 0 0 38px #80481755;
+ scrollbar-color:#986d3e #ddbe88;
+}
+dialog::backdrop{background:radial-gradient(ellipse at 45% 35%,#45321ce0,#120d08f2);backdrop-filter:blur(8px)}
+dialog h2,dialog h3,dialog h4{color:var(--ink);text-shadow:0 1px #fff2cd80}
+dialog p,dialog label,dialog label.check,dialog .brief,dialog .meta{color:var(--faded-ink)}
+dialog .eyebrow,dialog .panel-kicker{color:#7b4a25}
+dialog label.check small{color:#73573b}
+dialog label.check input,dialog input[type=range]{accent-color:#854027}
+dialog select,dialog .gift-row input{
+ color:#3e291b;background:#f6e5bd99;border:1px solid #a47c4f;
+ box-shadow:inset 0 2px 5px #6d43191a,0 1px #fff0ce80;
+}
+dialog select option,dialog select optgroup{color:#3e291b;background:#f1dfb7}
+dialog select:disabled{opacity:.65}
+dialog button,dialog .file-button{
+ color:#56351e;border:1px solid #a27949;background:linear-gradient(#f4dfb4bb,#d7b27dbb);
+ box-shadow:inset 0 1px #fff3d6aa,0 2px 3px #6b451b20;
+}
+dialog button:hover:not(:disabled),dialog .file-button:hover{
+ color:#382014;border-color:#784620;background:linear-gradient(#fbe9c4,#e4c28c);
+ box-shadow:inset 0 1px #fff7de,0 2px 8px #764c2426;
+}
+dialog button:focus-visible,dialog select:focus-visible,dialog input:focus-visible,dialog a:focus-visible{
+ outline:2px solid #7e3423;outline-offset:3px;
+}
+dialog .primary{color:#fff1cc;border:1px solid #703722;background:linear-gradient(#a35a36,#7d3c27);text-shadow:0 1px #4b211a;box-shadow:inset 0 1px #e4ad7280,0 3px 8px #62351240}
+dialog .primary:hover:not(:disabled){color:#fff6df;background:linear-gradient(#b5683e,#91452c);border-color:#673019}
+#setup{width:min(1080px,95vw)}
+#setup[open]{grid-template-columns:.95fr 1.1fr}
+#setup .setup-intro{
+ padding:44px 28px 32px;border-right:1px solid #99704180;
+ background:
+  linear-gradient(90deg,transparent 49.5%,#8c60351c 50%,#fff0ca40 50.5%,transparent 51%),
+  linear-gradient(0deg,transparent 49.5%,#8c603521 50%,#fff0ca40 50.5%,transparent 51%),
+  radial-gradient(ellipse at center,#f9e7bd45,transparent 65%);
+ box-shadow:inset -10px 0 22px #855b2420;
+}
+#setup .setup-intro:before{inset:16px;border:1px solid #865d3866;box-shadow:0 0 0 5px #f6dba533,inset 0 0 0 4px #8b603515}
+#setup .setup-intro:after{
+ content:"";position:absolute;inset:25px;z-index:-1;pointer-events:none;opacity:.25;
+ background:center / 100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='800' viewBox='0 0 420 800' fill='none' stroke='%23704c2b'%3E%3Cg stroke-width='1.2'%3E%3Cpath d='M-20 160Q60 80 90 170T165 245L153 304 191 340 170 390 104 419 89 476 30 491-20 460M-20 176Q56 102 77 177T150 254L136 304 174 345 154 378 94 407 77 462 27 476-20 446M440 403L370 370 326 405 337 463 289 496 300 552 268 593 297 651 351 673 370 743 430 766M440 419L373 387 342 410 351 469 306 500 315 554 284 592 309 639 366 663 383 731 430 751'/%3E%3Cpath stroke-dasharray='5 8' d='M59 650C220 650 112 530 231 470S360 272 285 216'/%3E%3Cpath d='m274 205 22 22m0-22-22 22' stroke-width='3'/%3E%3C/g%3E%3Cg opacity='.5'%3E%3Cpath d='M0 100H420M0 300H420M0 500H420M0 700H420M70 0V800M210 0V800M350 0V800'/%3E%3C/g%3E%3C/svg%3E");
+}
+#setup .setup-intro .eyebrow{color:#795333;letter-spacing:2.5px}
+#setup .setup-intro h2{color:#53311c;font-family:"DFKai-SB","BiauKai","KaiTi","PMingLiU",serif;font-size:58px;letter-spacing:8px;text-shadow:0 2px #ffedbd80}
+#setup .title-rule{color:#8f492a}
+#setup .title-rule:before,#setup .title-rule:after{background:linear-gradient(90deg,transparent,#96673d)}
+#setup .setup-tagline{color:#65472c;font-size:14px;line-height:2.2}
+#setup .setup-art{margin:24px 0;max-width:360px}
+#setup .setup-art canvas{filter:sepia(.7) saturate(.65) contrast(.92) drop-shadow(0 12px 9px #66451c40);mix-blend-mode:multiply}
+#setup .compass-ring{inset:3% 9%;transform:rotate(-18deg);border-color:#895c3b55;box-shadow:0 0 0 8px #d2ae5a0a,0 0 0 9px #895c3b44}
+#setup .compass-ring:before{inset:12%;border-color:#895c3b40}
+#setup .compass-ring:after{content:"N";inset:-24px 0 auto;border:0;transform:rotate(18deg);font:16px Georgia,serif;color:#805532}
+#setup .campaign-caption,#setup .campaign-caption span{color:#725030}
+#setup .setup-options{padding:32px 36px;background:#fff0cf24;min-width:0}
+#setup .setup-options h3{color:#53311c;letter-spacing:4px}
+#setup .setup-description{color:#795638}
+#setup .brief{border-top:1px solid #99704466;color:#735438}
+#setup .player-rows-head{color:#715336}
+#setup .setup-secondary{flex-wrap:wrap;gap:8px}
+#setup .setup-secondary button{flex:1 1 29%;margin-top:0!important;color:#58371f}
+#setup .teacher-link{color:#704328;margin:8px 0 0;font-size:12px}
+#setup .license-line{flex-basis:100%;font-size:10px;line-height:1.8;margin:0;color:#795b3e}
+#setup .license-line a{color:#674329}
+@media(min-width:701px){
+ #setup .setup-intro{position:sticky;top:0;align-self:start;height:calc(94dvh - 2px);min-height:480px}
+ #setup .setup-art{width:min(100%,38dvh);margin:16px 0}
+}
+dialog .save-row span,dialog .gift-row,dialog .timeline-box,dialog .chart-legend{color:#60432b}
+dialog .campaign-group h3{color:#623b21;border-color:#aa875c}
+dialog .campaign-card,dialog .tech-card,dialog .side-pick,dialog #briefText .objectives{background:#fae9c244;border-color:#aa875c}
+dialog .campaign-card h4,dialog .tech-card h3,dialog .side-pick b,dialog .timeline-box h3{color:#59351f}
+dialog .campaign-card p,dialog .campaign-card .meta,dialog .side-lock,dialog .side-pick .hint,dialog .tech-card strong{color:#715237}
+dialog .campaign-card .curr,dialog .tech-card.done strong{color:#445a30}
+dialog .tech-card.researching strong{color:#8a3d23}
+dialog .side-pick button.on,dialog .chart-tabs button.on{background:#855037;color:#fff0ce;border-color:#643922}
+dialog #reportTable th,dialog #reportTable td{border-color:#aa875c}
+@media(max-width:800px) and (min-width:701px){
+ #setup[open]{grid-template-columns:.8fr 1.2fr}
+ #setup .setup-intro{padding:30px 18px}#setup .setup-intro h2{font-size:38px;letter-spacing:4px}
+ #setup .setup-intro .eyebrow{font-size:8px;letter-spacing:1px}#setup .setup-options{padding:25px}
+}
+@media(max-width:700px){
+ #setup[open]{grid-template-columns:minmax(0,1fr);width:min(460px,95vw)}
+ #setup .setup-intro{display:flex;padding:25px 20px 22px;border-right:0;border-bottom:1px solid #99704180}
+ #setup .setup-intro:before{inset:9px}#setup .setup-intro h2{font-size:36px;letter-spacing:6px;margin:8px 0}
+ #setup .setup-intro .eyebrow{font-size:8px;letter-spacing:1.5px}
+ #setup .setup-tagline{font-size:11px;line-height:1.8;margin:10px 0 0}
+ #setup .setup-art,#setup .campaign-caption{display:none}
+ #setup .setup-options{padding:22px 18px}#setup .form-row{gap:10px}
+ #setup .player-rows-head,#setup .player-row{grid-template-columns:36px minmax(0,1fr) 58px 62px;gap:4px}
+ #setup .player-row select{padding:7px 3px;font-size:12px}
+}
