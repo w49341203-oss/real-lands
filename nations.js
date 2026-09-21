@@ -10,7 +10,7 @@ const NATIONS=[
  // 東亞
  N('Taiwan','台灣','Taiwan','東亞',['台灣漢人（早期移民）','台灣漢人（早期移民）','台灣漢人（明鄭）','台灣漢人（清治）'],['台灣漢人（早期移民）','台灣漢人（早期移民）','台灣漢人（明鄭）','台灣漢人（清治）'],{wonder:{historical:'赤崁樓',modern:'台北 101'},spawn:{lon:120.20,lat:23.00}}),
  // 台灣原住民族（2026-09-14 Helen 拍板：史實背景把台灣島拆成「台灣原住民族」與「台灣漢人」兩個勢力）：國界與台灣共用（polygon），出生在中部大肚溪一帶；現代只在第一代（日治）可選，架空／科幻不可選；美術暫借台灣圖集、語音暫用台灣華語（見美術素材待辦）。族名只在劇情裡用（西拉雅、道卡斯、排灣、賽德克），勢力名用中性的「原住民族」。
- N('Taiwan Indigenous','台灣原住民族','Taiwan','東亞',['台灣原住民族（各社）','台灣原住民族（各社）','原住民族（大肚王國・各社）','原住民族（清治・日治）'],['台灣原住民族（各社）','台灣原住民族（各社）','原住民族（大肚王國・各社）','原住民族（清治・日治）'],{eras2:{modern:['台灣原住民族（日治）',null,null,null],fantasy:[null,null,null,null],scifi:[null,null,null,null]},polygon:'Taiwan',spawn:{lon:120.55,lat:24.15},wonder:{historical:'西拉雅公廨',modern:'原住民族文化園區'},unsure:true}),
+ N('Taiwan Indigenous','台灣原住民族','Taiwan','東亞',['台灣原住民族（各社）','台灣原住民族（各社）','原住民族（大肚王國・各社）','原住民族（清治・日治）'],['台灣原住民族（各社）','台灣原住民族（各社）','原住民族（大肚王國・各社）','原住民族（清治・日治）'],{eras2:{modern:['台灣原住民族（日治）',null,null,null],fantasy:[null,null,null,null],scifi:[null,null,null,null]},polygon:'Taiwan',art:'ti',/* 2026-09-21 Codex 交付專屬圖集（expansion ti-historical(-core)、defense、兩座奇觀）；其他背景與語音仍借 tw */spawn:{lon:120.55,lat:24.15},wonder:{historical:'西拉雅公廨',modern:'原住民族文化園區'},unsure:true}),
  N('China','中國大陸','China','東亞',['秦漢','隋唐宋','明','清'],['秦漢','唐宋','元明','清'],{wonder:{historical:'天壇',modern:'東方明珠塔'}}),
  N('Japan','日本','Japan','東亞',['倭（彌生・古墳）','平安・鎌倉・室町','戰國・江戶幕府','大日本帝國'],['倭（彌生）','奈良・平安','室町・戰國','江戶幕府與明治'],{wonder:{historical:'東大寺',modern:'東京晴空塔'}}),
  N('South Korea','韓國','South Korea','東亞',['三韓・三國','統一新羅・高麗','朝鮮王朝','朝鮮王朝與大韓帝國'],['三韓・高句麗','統一新羅・高麗','高麗・朝鮮','朝鮮王朝'],{wonder:{historical:'佛國寺',modern:'樂天世界塔'}}),

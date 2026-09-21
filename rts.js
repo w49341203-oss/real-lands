@@ -40,10 +40,10 @@ const nationalAtlases=new Map();
 function expansionSprite(kind,type,owner){
  const wanted=kind==='building'?type:['villager','infantry','ranged','cavalry','siege','transport','warship','fighter','bomber','airlift'][type];
  if(!wanted)return null;
- const code=g.artCode(owner),family=['modern','fantasy','scifi'].includes(g.mode)?g.mode:'historical';
+ const codes=g.artCodes?g.artCodes(owner):[g.artCode(owner)],family=['modern','fantasy','scifi'].includes(g.mode)?g.mode:'historical';
  const entries=globalThis.EXPANSION_ART?.atlases;if(!entries)return null;
  const age=g.ages[owner];let def,columns,column,r;
- const atlasKey=[code+'-'+family+'-special',code+'-'+family+'-core',code+'-'+family].find(k=>{
+ const atlasKey=codes.flatMap(code=>[code+'-'+family+'-special',code+'-'+family+'-core',code+'-'+family]).find(k=>{/* 專屬代碼（ti）先、家族代碼後 */
   const candidate=entries[k];if(!candidate)return false;const candidateColumns=candidate.columns||globalThis.EXPANSION_ART.columns,candidateColumn=candidateColumns.indexOf(wanted);if(candidateColumn<0)return false;
   const candidateRect=candidate.rects[age*candidateColumns.length+candidateColumn];if(!candidateRect)return false;
   def=candidate;columns=candidateColumns;column=candidateColumn;r=candidateRect;return true;
@@ -55,7 +55,7 @@ function expansionSprite(kind,type,owner){
 }
 const FLAG_BUST={'tw-modern.png':'20260918','cn-modern.png':'20260918','tw-defense.png':'20260918','kr-modern.png':'20260918','jp-modern.png':'20260918','jp-historical.png':'20260918','de-defense.png':'20260918'};// 旗幟修正過的圖集：改圖就換日期讓舊快取失效
 function nationalSprite(kind,type,owner=0){
- if(kind==='building'&&type==='wonder'){const family=['modern','fantasy','scifi'].includes(g.mode)?g.mode:'historical';for(const category of ['modernEastWonders','modernSouthWonders','modernEuropeWonders','modernWestWonders','modernAfricaWonders','modernOceanWonders','europeWonders','americaWonders','africaWonders','southWonders']){const asset=natureSprite(category,g.nations[owner]+'-'+family);if(asset)return asset}}
+ if(kind==='building'&&type==='wonder'){const family=['modern','fantasy','scifi'].includes(g.mode)?g.mode:'historical';for(const category of ['modernEastWonders','modernSouthWonders','modernEuropeWonders','modernWestWonders','modernAfricaWonders','modernOceanWonders','europeWonders','americaWonders','africaWonders','southWonders','indigenousWonders','indigenousModernWonders']){const asset=natureSprite(category,g.nations[owner]+'-'+family);if(asset)return asset}}
  if(kind==='building'&&type==='wonder'){const family=['modern','fantasy','scifi'].includes(g.mode)?g.mode:'historical',asset=natureSprite('asiaWonders',g.nations[owner]+'-'+family);if(asset)return asset}
  if(kind==='building'&&type==='wonder'){const family=['modern','fantasy','scifi'].includes(g.mode)?g.mode:'historical',asset=natureSprite('regionalWonders',g.nations[owner]+'-'+family);if(asset)return asset}
  if(g.ages[owner]===3){const family=['modern','fantasy','scifi'].includes(g.mode)?g.mode:'historical',wanted=kind==='building'?type:kind==='unit'&&type===9?'airlift':null,asset=wanted?natureSprite('repairs',g.artCode(owner)+'-'+family+'-'+wanted):null;if(asset){asset.pack.expansion=true;return asset}}
@@ -64,7 +64,7 @@ function nationalSprite(kind,type,owner=0){
  if(kind==='unit'&&type>=4)return MODES[g.mode].sprites[type];// 國籍圖集只有 4 種兵；攻城單位暫用共用投石車圖
  const defense=kind==='building'&&BUILDINGS[type].procedural;
  const fallback=kind==='building'?(defense?type:BUILDINGS[type].sprite):MODES[g.mode].sprites[type];
- const code=g.artCode(owner),family=g.mode==='scifi'?'modern':['modern','fantasy'].includes(g.mode)?g.mode:'historical',key=defense?'defense-'+code:code+'-'+family,def=(defense?globalThis.DEFENSE_ART:globalThis.NATIONAL_ART)?.atlases[code+'-'+family];
+ const family=g.mode==='scifi'?'modern':['modern','fantasy'].includes(g.mode)?g.mode:'historical',table=(defense?globalThis.DEFENSE_ART:globalThis.NATIONAL_ART)?.atlases,code=(g.artCodes?g.artCodes(owner):[g.artCode(owner)]).find(c=>table?.[c+'-'+family])||g.artCode(owner),key=defense?'defense-'+code:code+'-'+family,def=table?.[code+'-'+family];
  if(!def)return fallback;
  let pack=nationalAtlases.get(key);if(!pack){pack={image:new Image(),ready:false,alpha:null,def};nationalAtlases.set(key,pack);pack.image.onload=()=>{pack.ready=true;try{const c=document.createElement('canvas');c.width=pack.image.width;c.height=pack.image.height;const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(pack.image,0,0);pack.alpha=cx.getImageData(0,0,c.width,c.height).data}catch{}paintUI(true)};pack.image.onerror=()=>toast('國籍圖像載入失敗，請重新整理。');pack.image.src=(defense?'defense/':'art/')+def.file+(FLAG_BUST[def.file]?'?flag='+FLAG_BUST[def.file]:'');}
  if(!pack.ready)return fallback;
@@ -322,10 +322,11 @@ function showPlaceCard(l){const P=RTS.PLACES;const place=P&&P.list.find(p=>p.nat
 function showNationCard(owner){const N=RTS.NATIONS;const id=g.nations[owner];const info=N?.info(id);if(!info){showCard(g.playerName(owner),['沒有資料']);return}const west=info.eras.europe.map((v,i)=>MODES.europe.ages[i].name+'：'+(v||'—')).join('　');const east=info.eras.china.map((v,i)=>MODES.china.ages[i].name+'：'+(v||'—')).join('　');showCard(g.playerName(owner)+'（'+info.zh+'）',['<b>西方史實</b> '+west,'<b>東方史實</b> '+east,'<b>奇觀</b> 史實：'+(info.wonder?.historical||'—')+'　現代：'+(info.wonder?.modern||'—'),'<b>美術</b> '+(info.family===id?'專屬圖集':'暫借'+RTS.nationZh(info.family)+'圖集'),info.unsure?'<small>政權名稱為候選，未經史學核對。</small>':'<small>政權名稱依通行史實整理。</small>'])}
 $('pause').onclick=pause;$('speed').onclick=()=>{speed=speed===1?1.5:speed===1.5?2:1;$('speed').textContent=speed+'×'};$('home').onclick=home;$('idle').onclick=idle;$('zoomIn').onclick=()=>cam.z=Math.min(2,cam.z*1.2);$('zoomOut').onclick=()=>cam.z=Math.max(.35,cam.z/1.2);$('menu').onclick=()=>{$('setup').showModal();keys.clear()};$('resume').onclick=()=>$('setup').close();$('help').onclick=()=>$('helpDialog').showModal();$('closeHelp').onclick=()=>$('helpDialog').close();// 進場前先把人類玩家這一局會用到的核心美術載完（國籍建築圖集、城牆、專屬建築／載具、起始時代四種人物動畫），
 // 不然開局會先畫共用的舊圖、等圖集到了才「慢慢變成」所選時代的房子（Helen 2026-09-18 回報）。其他勢力的圖在背景載；最多等 20 秒就先進場。
-function coreArtUrls(game,owner){const code=game.artCode(owner);if(!code)return [];const family=game.mode==='scifi'?'modern':['modern','fantasy'].includes(game.mode)?game.mode:'historical',xfamily=['modern','fantasy','scifi'].includes(game.mode)?game.mode:'historical',age=game.ages[owner]||0;const urls=[];
+function coreArtUrls(game,owner){const code=game.artCode(owner);if(!code)return [];const own=game.artCodes?game.artCodes(owner)[0]:code;const family=game.mode==='scifi'?'modern':['modern','fantasy'].includes(game.mode)?game.mode:'historical',xfamily=['modern','fantasy','scifi'].includes(game.mode)?game.mode:'historical',age=game.ages[owner]||0;const urls=[];
  const nat=globalThis.NATIONAL_ART?.atlases[code+'-'+family];if(nat)urls.push('art/'+nat.file+(FLAG_BUST[nat.file]?'?flag='+FLAG_BUST[nat.file]:''));
  const def=globalThis.DEFENSE_ART?.atlases[code+'-'+family];if(def)urls.push('defense/'+def.file+(FLAG_BUST[def.file]?'?flag='+FLAG_BUST[def.file]:''));
- for(const k of [code+'-'+xfamily,code+'-'+xfamily+'-special',code+'-'+xfamily+'-core']){const e=globalThis.EXPANSION_ART?.atlases[k];if(e)urls.push('expansion/'+e.file)}
+ for(const c of new Set([own,code]))for(const k of [c+'-'+xfamily,c+'-'+xfamily+'-special',c+'-'+xfamily+'-core']){const e=globalThis.EXPANSION_ART?.atlases[k];if(e)urls.push('expansion/'+e.file)}
+ if(own!==code){const d=globalThis.DEFENSE_ART?.atlases[own+'-'+family];if(d)urls.push('defense/'+d.file)}
  for(const u of ['villager','infantry','ranged','cavalry'])urls.push('art/anim/'+code+'-'+xfamily+'-age'+age+'-'+u+'.png');
  return [...new Set(urls)]}
 function preloadArt(urls,onProgress,timeoutMs=20000){let done=0;const tick=()=>{done++;onProgress?.(done,urls.length)};const all=Promise.all(urls.map(u=>new Promise(res=>{const im=new Image();im.onload=()=>{tick();res(true)};im.onerror=()=>{tick();res(false)};im.src=u})));return Promise.race([all,new Promise(res=>setTimeout(()=>res('timeout'),timeoutMs))])}

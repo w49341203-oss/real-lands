@@ -231,6 +231,8 @@ class Game{
  nationLabel(o){const p=this.players[o];return p?nationZh(p.nation):''}
  // 美術圖集代碼：借用國用 family（同區域十二國）的圖集。
  artCode(o){const p=this.players[o];if(!p)return null;const fam=NAT?.family(p.nation)||p.nation;return cultures()?.[fam]?.code||null}
+ // 美術代碼優先序（2026-09-21）：nations.js 的 art（專屬圖集，如台灣原住民族 ti）排前面、借用的家族代碼在後；沒有專屬圖的類別自動落回家族圖。
+ artCodes(o){const p=this.players[o];if(!p)return [];const own=NAT?.info?.(p.nation)?.art,base=this.artCode(o);return own?(base&&base!==own?[own,base]:[own]):(base?[base]:[])}
  buildingName(type,owner){if(type==='wonder'&&owner!=null&&NAT?.wonder){const w=NAT.wonder(this.players[owner]?.nation,this.mode);if(w)return w}/* 奇觀＝該國真實地標（史實／現代），架空與科幻用背景預設 */return MODES[this.mode].buildings[type]||BUILDINGS[type].name}
  ageName(owner=0){return MODES[this.mode].ages[this.ages[owner]].name}
  unitName(type,owner=0){return MODES[this.mode].ages[this.ages[owner]].unit[type]}

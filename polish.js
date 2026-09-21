@@ -90,7 +90,7 @@ function noteUnit(e,drawn,flip){if(!drawn)return;if(!S.lastDraw)S.lastDraw=new M
 const ANIM={sheets:new Map(),manifest:null,manifestTried:false};
 const ANIM_ROWS={idle:0,walk:1,work:2,attack:3,death:4,carry:5};const ANIM_FRAMES={idle:4,walk:8,work:6,attack:6,death:5,carry:4};
 const UNIT_KEYS=['villager','infantry','ranged','cavalry'];
-function animKey(e){const g=G();if(!g||e.type>3)return null;const code=g.artCode(e.owner);if(!code)return null;const family=['modern','fantasy','scifi'].includes(g.mode)?g.mode:'historical';return code+'-'+family+'-age'+(g.ages[e.owner]||0)+'-'+UNIT_KEYS[e.type]}
+function animKey(e){const g=G();if(!g||e.type>3)return null;const code=(g.artCodes?g.artCodes(e.owner)[0]:null)||g.artCode(e.owner);/* 專屬圖集（ti）沒有動畫表就維持靜態，不套家族動畫 */if(!code)return null;const family=['modern','fantasy','scifi'].includes(g.mode)?g.mode:'historical';return code+'-'+family+'-age'+(g.ages[e.owner]||0)+'-'+UNIT_KEYS[e.type]}
 function animSheet(e){const key=animKey(e);if(!key)return null;let s=ANIM.sheets.get(key);if(s===undefined){if(!ANIM.manifestTried){ANIM.manifestTried=true;try{fetch('art/anim/manifest.json').then(r=>r.ok?r.json():null).then(j=>{ANIM.manifest=j||{}}).catch(()=>{ANIM.manifest={}})}catch{ANIM.manifest={}}}
   s={image:new Image(),ready:false,missing:false,cell:e.type===3?160:128,key};s.image.onload=()=>{s.bodyPixels=measureAnimBody(s);s.ready=true};s.image.onerror=()=>{s.missing=true};s.image.src='art/anim/'+key+'.png';ANIM.sheets.set(key,s)}
  return s&&s.ready&&!s.missing?s:null}
