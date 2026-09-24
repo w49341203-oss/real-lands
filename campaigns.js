@@ -51,7 +51,7 @@ const GROUPS=[
   mode:'china',map:'Taiwan',size:'standard',startAge:3,truce:30,
   players:[{controller:'human',nation:'Taiwan',name:'台灣總督府鐵道部',teamId:1,spawn:{lon:121.52,lat:25.05}},{controller:'ai',nation:'China',name:'對岸（休戰中）',teamId:2,difficulty:'easy',spawn:{lon:120.28,lat:22.62}}],
   objectives:[{kind:'tech',id:'roads',text:'研究鐵路（道路科技）'},{kind:'build',type:'farm',count:6,text:'建立 6 塊田（茶園或稻田）'},{kind:'build',type:'market',count:1,text:'建造市場'},{kind:'resource',index:2,amount:800,text:'存到 800 黃金'}],uncertain:["2026-09-15 網路查核：更正 3 處；來源：https://www.naer.edu.tw/upload/1/16/doc/819/十二年國民基本教育課程綱要國民中小學暨普通型高級中等學校-社會領域.pdf、https://zh.wikipedia.org/zh-tw/縱貫線_(鐵路)、https://www.gjtaiwan.com/new/?p=28737"]}),
- T('1966-miracle',{title:'1966–2004 經濟奇蹟：從加工出口區到台北 101',year:'1966–2004',place:'高雄・新竹・台北',curriculum:['國中 歷Fb-Ⅳ-1 經濟發展與社會轉型（主題 F 當代臺灣・b 經濟社會的變遷）','高中 歷Ca-Ⅴ-1 臺灣歷史上的商貿活動（主題 C 經濟與文化的多樣性・a 經濟活動）'],
+ T('1966-miracle',{maxAge:2,/* 目標之一是「進入資訊時代」，這局放行到第三時代 */title:'1966–2004 經濟奇蹟：從加工出口區到台北 101',year:'1966–2004',place:'高雄・新竹・台北',curriculum:['國中 歷Fb-Ⅳ-1 經濟發展與社會轉型（主題 F 當代臺灣・b 經濟社會的變遷）','高中 歷Ca-Ⅴ-1 臺灣歷史上的商貿活動（主題 C 經濟與文化的多樣性・a 經濟活動）'],
   brief:['1960 年代台灣設立高雄加工出口區，以勞力密集的出口工業起飛；1970 年代十大建設、1980 年新竹科學園區，之後半導體成為關鍵產業，與韓國、香港、新加坡並稱「亞洲四小龍」。','2004 年完工的台北 101 是這段經濟成長的地標。','這是一局經濟戰役（現代背景）：蓋出市場與港口、進入資訊時代，最後完成台北 101。對岸休戰 30 分鐘，之後要自己防守。'],
   after:'台灣人均所得從 1960 年代初不到 200 美元成長到 2000 年代超過 1 萬美元；經濟起飛也伴隨民主化。',
   mode:'modern',map:'Taiwan',size:'standard',startAge:1,truce:30,
@@ -210,7 +210,7 @@ function castPlayers(item,side){const h=humanIndex(item);const ps=item.players.m
 // 產生引擎用的開局設定：人類永遠第 0 號，spawn 隨 players 一起傳給 match.normalize；side（原 players 索引）可改扮演對戰方。
 function config(item,seed,side){const h=humanIndex(item);const picked=side!=null&&side!==h;const ps=castPlayers(item,side);const goals=picked?mirror(item,side):{objectives:item.objectives,lose:item.lose||[]};
  return {schemaVersion:1,seed:seed??(Math.random()*4294967296)>>>0,mode:item.mode,map:{id:item.map,size:item.size||'standard',spawnPolicy:'balanced',projection:['World','EastAsia'].includes(item.map)?'mercator':'plate'},
- rules:{startAge:item.startAge,maxAge:item.maxAge??3,victory:'scenario',truce:item.truce??0,popCap:item.popCap??150,tutorial:false,lockTeams:item.lockTeams!==false,spawnSpacing:item.spacing||24,timeLimit:item.timeLimit??60,events:item.events!==false},
+ rules:{startAge:item.startAge,maxAge:item.maxAge??item.startAge,/* Helen 2026-09-24：「我選了火燒連環船的劇情，但是卻可以升級到唐宋，應該鎖定在三國時代才是」→ 劇情戰役預設鎖在該局的時代（maxAge=startAge 會讓 match.js 自動把 lockAge 設為 true，升級鈕消失、AI 也不會升級）；需要升級的局自己寫 maxAge */victory:'scenario',truce:item.truce??0,popCap:item.popCap??150,tutorial:false,lockTeams:item.lockTeams!==false,spawnSpacing:item.spacing||24,timeLimit:item.timeLimit??60,events:item.events!==false},
  players:ps.map(p=>({controller:p.controller,nation:p.nation,teamId:p.teamId,difficulty:p.difficulty||'normal',name:p.name||null,spawn:p.spawn||null,passive:p.passive===true})),
  scenario:{id:item.id,title:item.title+(picked?'・扮演'+item.players[side].name:''),year:item.year||null,objectives:goals.objectives.map(o=>({...o})),lose:goals.lose.map(o=>({...o}))}}}
 root.CAMPAIGNS={GROUPS,find,config,sides,mirror,castPlayers,count:GROUPS.reduce((n,g)=>n+g.items.filter(i=>i.kind!=='reading').length,0),readingCount:GROUPS.reduce((n,g)=>n+g.items.filter(i=>i.kind==='reading').length,0)};
