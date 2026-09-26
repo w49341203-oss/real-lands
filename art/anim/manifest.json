@@ -8,12 +8,12 @@
     "death": 5
   },
   "infantry": {
-    "carry": 0,
-    "walk": 8,
     "idle": 4,
-    "attack": 6,
+    "walk": 8,
     "work": 0,
-    "death": 5
+    "attack": 6,
+    "death": 5,
+    "carry": 0
   },
   "ranged": {
     "idle": 4,
@@ -24,11 +24,11 @@
     "carry": 0
   },
   "cavalry": {
-    "carry": 0,
-    "walk": 8,
     "idle": 4,
-    "attack": 6,
+    "walk": 8,
     "work": 0,
-    "death": 5
+    "attack": 6,
+    "death": 5,
+    "carry": 0
   }
 }

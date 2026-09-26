@@ -262,8 +262,32 @@ class Game{
   for(const u of ships){this.cutChain(u.id,true)}
   for(let i=0;i<ships.length;i++){const u=ships[i];
    u.chainPrev=i>0?ships[i-1].id:null;u.chainNext=i<ships.length-1?ships[i+1].id:null;this.refreshChained(u);u.task={kind:"idle"};u.path=[]}
-  this.log("鐵鍊繫好了："+ships.length+"艘船連成一列，可以出發了",ships[0]);this.cue("built",owner);
+  this.lineUpChain(ships);/* 直接擺成一列：只把位置連起來的話，鍊好還是擠成一團 */
+  this.log("鐵鍊繫好了："+ships.length+"艘船首尾相接連成一列，可以出發了",ships[0]);this.cue("built",owner);
   return {ok:true,n:ships.length}}
+ // 把一條鍊擺成真正的一列：以船團中心為準，找一個「整列都落在水上」的方向逐艘排開。
+ // 正史《三國志‧周瑜傳》黃蓋說曹軍「船艦首尾相接」，所以是縱列（船頭接船尾），不是並排。
+ lineUpChain(chain,gap=2){if(!chain||chain.length<2)return false;
+  const cx=chain.reduce((s,u)=>s+u.x,0)/chain.length,cy=chain.reduce((s,u)=>s+u.y,0)/chain.length;
+  const L=(chain.length-1)*gap;let best=null;
+  for(let k=0;k<24;k++){const a=k*Math.PI/24,dx=Math.cos(a),dy=Math.sin(a);
+   const sx=cx-dx*L/2,sy=cy-dy*L/2;let n=0;
+   for(let i=0;i<chain.length;i++)if(this.water(sx+dx*gap*i,sy+dy*gap*i))n++;
+   if(!best||n>best.n)best={n,sx,sy,dx,dy}}
+  if(!best||best.n<chain.length)return false;/* 找不到整列都在水上的方向就不硬排，免得把船塞上岸 */
+  for(let i=0;i<chain.length;i++){const u=chain[i];u.x=best.sx+best.dx*gap*i;u.y=best.sy+best.dy*gap*i;u.path=[]}
+  return true}
+ // 每次更新把鍊拉直：相鄰兩艘維持間距，中間那艘往前後兩艘的中點靠（拉普拉斯平滑）。
+ // 沒有這段的話，船各走各的，開一開又擠成一團（Helen 2026-09-26 連兩次回報「船都擠在一起」）。
+ relaxChains(dt){const GAP=2,k=Math.min(.6,dt*1.5);
+  const put=(u,x,y)=>{if(this.water(x,y)){u.x=x;u.y=y}};
+  for(const u of this.units){if(u.hp<=0||u.domain!=="sea"||u.chainNext==null)continue;
+   const v=this.byId.get(u.chainNext);if(!v||v.hp<=0)continue;
+   let dx=v.x-u.x,dy=v.y-u.y,d=Math.hypot(dx,dy);if(d<1e-3){dx=1;dy=0;d=1}
+   const f=(d-GAP)/d*.5*k;put(u,u.x+dx*f,u.y+dy*f);put(v,v.x-dx*f,v.y-dy*f)}
+  for(const u of this.units){if(u.hp<=0||u.domain!=="sea"||u.chainPrev==null||u.chainNext==null)continue;
+   const p=this.byId.get(u.chainPrev),n=this.byId.get(u.chainNext);if(!p||!n||p.hp<=0||n.hp<=0)continue;
+   const s=.3*k;put(u,u.x+((p.x+n.x)/2-u.x)*s,u.y+((p.y+n.y)/2-u.y)*s)}}
  // 斬斷一艘船的鍊：前後兩段各自成鍊，火就燒不過去了。
  cutChain(id,quiet){const u=this.byId.get(id);if(!u)return {ok:false,error:"找不到這艘船"};
   if(u.chainPrev==null&&u.chainNext==null)return {ok:false,error:"這艘船沒有接上鐵鍊"};
@@ -279,7 +303,11 @@ class Game{
  // 暈船：需要連環的一方，沒鍊上的船幾乎動不了也打不準——這是曹操非鍊不可的理由。
  seasick(u){return !!(this.scenario?.seasick?.includes(u.owner))&&u.domain==="sea"&&!u.chained}
  ignite(u,by,seconds=14){if(!u||u.kind!=="unit"||u.hp<=0||u.burn>0)return false;
-  u.burn=seconds;u.burnBy=by;u.burnAt=this.time;this.fireStarted=(this.fireStarted||0)+1;return true}
+  u.burn=seconds;u.burnBy=by;u.burnAt=this.time;this.fireStarted=(this.fireStarted||0)+1;
+  /* 自己的船著火要立刻吵醒玩家：火四秒後就沿著鐵鍊傳給左右兩艘，沒警報根本來不及斬鍊 */
+  if(u.owner===this.human&&this.time-(this.burnWarnAt??-99)>5){this.burnWarnAt=this.time;
+   this.log("我方戰船著火了！選起它按「斬斷鐵鍊」，否則火會沿著鐵鍊燒過來",u);this.cue("error",u.owner)}
+  return true}
  // 沿著鐵鍊往下風處蔓延：只有「連環的船」會互相延燒，而且只往風吹去的方向。
  // 這是赤壁的關鍵——風向不對，點著一艘也燒不到整支艦隊。
  // 沿著鐵鍊往下風處蔓延：一艘只傳給「最近的下一艘」，而且不保證傳得過去。
@@ -296,6 +324,21 @@ class Game{
   const from=(this.time>=(w.turnAt||0)&&w.turnTo)?w.turnTo:w.from;const V=Game.WIND_VECTORS[from];
   return V?{from,dx:V[0],dy:V[1],turned:from!==w.from}:null}
  windName(){const d=this.windDir();return d?(Game.WIND_NAMES[d.from]||d.from):""}
+ // 劇情戰役鎖定時代之後，兵種不該再被「時代」擋住。赤壁是 208 年，弓兵、騎兵、樓船本來就都有
+ // （漢武帝設「樓船將軍」），但引擎把它們綁在第二時代 → 玩家的「訓練樓船」永遠是灰的，
+ // AI 的造船邏輯卻沒檢查時代，自己照造，變成不對稱（Helen 2026-09-26 截圖回報）。
+ // 鎖代的劇情一律開放該背景有的兵種；scenario.unlock 可以再指定白名單。
+ // 建築同理：射箭場、馬廄、市場、防塔都綁在第二時代，鎖代的劇情就永遠蓋不出來。
+ // 奇觀維持鎖住（那是勝利建築，劇情戰役用的是劇情勝利條件）。
+ buildingUnlocked(type,owner=this.human){const d=BUILDINGS[type];if(!d)return false;
+  if((d.age||0)<=this.ages[owner])return true;
+  if(this.scenario?.unlockBuildings)return this.scenario.unlockBuildings.includes(type);
+  return !!this.lockAge&&!d.wonder&&(!d.modes||d.modes.includes(this.mode))&&
+   (!["airfield","aa","silo"].includes(type)||!!MODES[this.mode].air)}
+ unitUnlocked(type,owner=this.human){const d=UNIT[type];if(!d)return false;
+  if((d.age||0)<=this.ages[owner])return true;
+  if(this.scenario?.unlock)return this.scenario.unlock.includes(type);
+  return !!this.lockAge&&(d.domain!=="air"||!!MODES[this.mode].air)}
  ageName(owner=0){if(this.scenario?.era&&this.lockAge)return this.scenario.era;/* 劇情戰役自訂時代名稱（Helen：赤壁標成「秦漢」跟秦始皇同時代很怪）；只在鎖定時代的局生效，能升級的局照常顯示通用時代 */return MODES[this.mode].ages[this.ages[owner]].name}
  unitName(type,owner=0){return MODES[this.mode].ages[this.ages[owner]].unit[type]}
  // 戰場範圍：只取主要陸塊所在的地理區；海外領地不在戰術地圖內。
@@ -431,9 +474,9 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
  pay(owner,cost){if(!this.afford(owner,cost))return false;cost.forEach((n,i)=>this.res[owner][i]-=n);return true}
  population(owner){let n=0;for(const u of this.units)if(u.hp>0&&u.owner===owner)n++;return n}
  capacity(owner){return Math.min(this.popCap,this.buildings.filter(b=>b.hp>0&&b.owner===owner&&b.progress>=1).reduce((s,b)=>s+BUILDINGS[b.type].pop,0))}
- place(type,x,y,workers){if(this.over)return {ok:false,error:'戰役已結束'};const d=BUILDINGS[type];const valid=this.units.filter(u=>workers.includes(u.id)&&u.type===0&&u.owner===this.human&&u.hp>0);if(!valid.length)return {ok:false,error:'請先選取村民'};if((d.age||0)>this.ages[this.human])return {ok:false,error:'需先升級時代'};const why=this.placeError(type,x,y,this.human);if(why)return {ok:false,error:why};if(!this.pay(this.human,d.cost))return {ok:false,error:'資源不足'};const b=this.addBuilding(type,x,y,this.human);this.order(valid.map(u=>u.id),{kind:'build',target:b.id});return {ok:true,id:b.id}}
+ place(type,x,y,workers){if(this.over)return {ok:false,error:'戰役已結束'};const d=BUILDINGS[type];const valid=this.units.filter(u=>workers.includes(u.id)&&u.type===0&&u.owner===this.human&&u.hp>0);if(!valid.length)return {ok:false,error:'請先選取村民'};if(!this.buildingUnlocked(type,this.human))return {ok:false,error:/* 按鈕與後端必須用同一條規則，否則會變成「拖得動、放不下」 */'需先升級時代'};const why=this.placeError(type,x,y,this.human);if(why)return {ok:false,error:why};if(!this.pay(this.human,d.cost))return {ok:false,error:'資源不足'};const b=this.addBuilding(type,x,y,this.human);this.order(valid.map(u=>u.id),{kind:'build',target:b.id});return {ok:true,id:b.id}}
  cancelRecruit(id,index,owner=this.human){const b=this.get(id);if(this.over||!b||b.kind!=='building'||b.owner!==owner)return {ok:false,error:'請選取我方建築'};const q=b.queue[index];if(!q)return {ok:false,error:'佇列裡沒有這一項'};b.queue.splice(index,1);const cost=UNIT[q.type].cost;for(let i=0;i<4;i++)this.res[owner][i]+=cost[i];/* 取消訓練全額退款（世紀帝國規則） */return {ok:true,type:q.type}}
- recruit(id,type){const b=this.get(id);if(this.over||!b||b.kind!=='building'||b.owner!==this.human||b.progress<1||b.hp<=0)return {ok:false,error:'請選取已完工的我方建築'};if(UNIT[type]?.from!==b.type)return {ok:false,error:'此建築不能生產該兵種'};if(UNIT[type].domain==='air'&&!MODES[this.mode].air)return {ok:false,error:'此背景沒有空軍'};if((UNIT[type].age||0)>this.ages[this.human])return {ok:false,error:'需升級時代'};if(b.techResearch)return {ok:false,error:'此建築正在研究科技'};if(b.queue.length>=8)return {ok:false,error:'生產佇列已滿'};if(!this.pay(this.human,UNIT[type].cost))return {ok:false,error:'資源不足'};b.queue.push({type,left:UNIT[type].time});return {ok:true}}
+ recruit(id,type){const b=this.get(id);if(this.over||!b||b.kind!=='building'||b.owner!==this.human||b.progress<1||b.hp<=0)return {ok:false,error:'請選取已完工的我方建築'};if(UNIT[type]?.from!==b.type)return {ok:false,error:'此建築不能生產該兵種'};if(UNIT[type].domain==='air'&&!MODES[this.mode].air)return {ok:false,error:'此背景沒有空軍'};if(!this.unitUnlocked(type,this.human))return {ok:false,error:'需升級時代'};if(b.techResearch)return {ok:false,error:'此建築正在研究科技'};if(b.queue.length>=8)return {ok:false,error:'生產佇列已滿'};if(!this.pay(this.human,UNIT[type].cost))return {ok:false,error:'資源不足'};b.queue.push({type,left:UNIT[type].time});return {ok:true}}
  upgrade(){const o=this.human;if(this.over||this.research[o]>0)return {ok:false,error:'無法升級'};if(this.lockAge)return {ok:false,error:'本局已鎖定時代'};if(this.ages[o]>=this.maxAge)return {ok:false,error:'已是最後的時代'};if(this.buildings.some(b=>b.owner===o&&b.type==='tc'&&b.hp>0&&b.techResearch))return {ok:false,error:'主城正在研究科技'};const a=this.ages[o]+1;if(!this.pay(o,[300*a,150*a,100*a,0]))return {ok:false,error:'資源不足'};this.research[o]=35;return {ok:true}}
  techName(id,owner){const d=TECHS[id];if(!d)return id;if(owner==null||!['europe','china'].includes(this.mode))return d.name;const region=NAT?.info(this.players[owner]?.nation)?.region;const side=['東亞','東南亞','南亞'].includes(region)?'east':'west';const list=TECH_NAMES[id]?.[side];const age=Math.max(0,Math.min(3,this.ages[owner]||0));return list?list[age]+'（'+d.name+'）':d.name}
  techStatus(owner,id,buildingId){const d=TECHS[id],p=this.players[owner];if(!Object.hasOwn(TECHS,id)||!p)return {ok:false,error:'未知的科技或勢力'};
@@ -505,7 +548,7 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
   if(attacker!=null&&this.players[attacker]&&t.owner===this.human&&this.isHostile(t.owner,attacker)&&(t.kind==='building'||t.type===0)&&this.time-(this.attackAlertAt??-99)>20){this.attackAlertAt=this.time;const c=this.center(t);this.attackAlert={x:c.x,y:c.y,t:this.time};this.log('基地遭到攻擊！（'+(t.kind==='building'?this.buildingName(t.type):this.unitName(0))+'）')}}
  updateUnit(u,dt){if(u.hp<=0||u.inside)return;
   if(u.burn>0){u.burn-=dt;this.damage(u,u.maxHp*.09*dt,u.burnBy,"fire");/* 約 11 秒燒完一艘滿血船 */
-   if(u.hp<=0)return;if(this.time-(u.burnAt||0)>=2.5){this.spreadFire(u)}/* 每 2.5 秒才燒到下一艘，防守方來得及斬鍊 */}if(u.task.kind==='idle'&&u.next?.length){const nt=u.next.shift();if(!u.next.length)u.next=null;this.order([u.id],{...nt,auto:true});u.post=null}if(u.shieldMax>0&&u.shield<u.shieldMax&&this.time-u.lastHit>5)u.shield=Math.min(u.shieldMax,u.shield+u.shieldMax*.2*dt);if(u.stun>0){u.stun-=dt;u.cd=Math.max(u.cd,.2);return}u.cd=Math.max(0,u.cd-dt);const task=u.task;
+   if(u.hp<=0)return;if(this.time-(u.burnAt||0)>=4){this.spreadFire(u)}/* 每 4 秒才燒到下一艘：要比防守方的反應時間（挑戰 3 秒）慢，斬鍊才有意義 */}if(u.task.kind==='idle'&&u.next?.length){const nt=u.next.shift();if(!u.next.length)u.next=null;this.order([u.id],{...nt,auto:true});u.post=null}if(u.shieldMax>0&&u.shield<u.shieldMax&&this.time-u.lastHit>5)u.shield=Math.min(u.shieldMax,u.shield+u.shieldMax*.2*dt);if(u.stun>0){u.stun-=dt;u.cd=Math.max(u.cd,.2);return}u.cd=Math.max(0,u.cd-dt);const task=u.task;
   if(u.domain==='air'){u.fuel-=dt;if(task.kind==='rtb'){const b=this.get(task.target);if(!b||b.hp<=0||b.progress<1||!this.isAllied(u.owner,b.owner)){const alt=this.nearestAirfield(u);if(alt){task.target=alt.id;return}u.task={kind:'idle'};return}if(this.travel(u,this.center(b),dt)){if(b.hangar.length<BUILDINGS[b.type].hangar){b.hangar.push(u.id);u.inside=b.id;u.landedAt=this.time;u.task={kind:'idle'};u.path=[]}}return}if(u.fuel<=0){u.hp=0;this.log((u.owner===this.human?'我方':this.playerName(u.owner)+'的')+this.unitName(u.type,u.owner)+'燃料耗盡墜毀');if(u.cargo?.length){for(const id of u.cargo){const c=this.byId.get(id);if(c)c.hp=0}u.cargo=[]}return}const home=this.nearestAirfield(u);if(home){const need=distance(u,this.center(home))/UNIT[u.type].speed+6;if(u.fuel<=need&&task.kind!=='rtb'){u.resumeTask=task.kind==='idle'?null:task;u.task={kind:'rtb',target:home.id};u.path=[];return}}}if(u.cargo)for(const id of u.cargo){const c=this.byId.get(id);if(c){c.x=u.x;c.y=u.y}}if(task.kind==='fireattack'){const t=this.get(task.target);if(!t||t.hp<=0||t.kind!=='unit'){u.task={kind:'idle'};return}if(distance(u,t)>2.2){/* 接觸距離要比 approach() 給運輸船的停靠點（最多 2 格）寬，否則船開到 2.0 格就停住、一直原地等，最後被打沉也撞不上去 */const ap=this.approach(u,t)||{x:t.x,y:t.y};if(!this.travel(u,ap,dt)&&u.stuck>=3)u.task={kind:'idle'};return}const w=this.windDir();if(w){const dx=t.x-u.x,dy=t.y-u.y,len=Math.hypot(dx,dy)||1;if((dx/len)*w.dx+(dy/len)*w.dy<.2){/* 逆風：火燒不過去，退開等風向轉 */if(u.owner===this.human&&this.time-(this.upwindAt??-99)>10){this.upwindAt=this.time;this.log('逆風！火船燒不到對面，等風向轉了再放火',u);this.cue('error',u.owner)}u.task={kind:'idle'};return}}/* 目標已經在燒就改撞旁邊還沒燒的那艘——不然玩家一次派三艘全撞同一艘，後兩艘白白浪費 */if(t.burn>0){const alt=this.units.filter(v=>v.chained&&v.hp>0&&!(v.burn>0)&&this.isHostile(u.owner,v.owner)).sort((p,q)=>distance(u,p)-distance(u,q))[0];if(alt){task.target=alt.id;return}}/* 撞上了：點燃目標，火船自己燒掉 */this.ignite(t,u.owner);this.fireShipsUsed=(this.fireShipsUsed||0)+1;if(u.owner===this.human)this.log('火船撞上敵艦，火起了！',t);this.cue('blast',u.owner,u.x,u.y);this.damage(u,u.maxHp*99,u.owner,'fire');return}
   if(task.kind==='move'){if(this.travel(u,task,dt))u.task={kind:'idle'};else if(u.stuck>=3&&!u.path.length){u.task={kind:'idle'};if(u.owner===this.human&&!task.auto&&this.time-(this.blockedAt??-99)>8){this.blockedAt=this.time;this.log('單位到不了目的地（被牆、海或山擋住）',u);this.cue('error',u.owner)}}return}
   if(task.kind==='board'){const t=this.get(task.target);if(!t||t.kind!=='unit'||!t.cargo||!this.isAllied(u.owner,t.owner)||u.domain!=='land'){u.task={kind:'idle'};return}if(t.cargo.length>=UNIT[t.type].capacity){u.task={kind:'idle'};return}const spot=this.shoreSpotFor(t,u);if(!spot){u.task={kind:'idle'};if(u.owner===this.human)this.log(this.unitName(5)+'不在岸邊，無法登船');return}if(distance(u,t)>2.6){if(!this.travel(u,spot,dt)&&u.stuck>=3){u.task={kind:'idle'}}return}u.inside=t.id;t.cargo.push(u.id);t.loadedAt=this.time;u.task={kind:'idle'};u.path=[];return}
@@ -540,7 +583,8 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
   if(this.scenario?.seasick?.includes(owner)){
    const ships=this.units.filter(u=>u.owner===owner&&u.domain==="sea"&&u.hp>0&&!u.inside);
    /* 1. 著火的船立刻斬斷鐵鍊，保住後面的（這正是玩家扮曹操時要做的事） */
-   for(const u of ships)if(u.burn>0&&u.chained)this.cutChain(u.id,true);
+   /* 反應時間：AI 原本一偵測到著火就瞬間斬鍊，等於零反應時間，火永遠蔓延不開，      玩家放火船只能一艘換一艘，看不到「火燒連環船」（Helen 2026-09-26 實測回報）。      給它跟人一樣的反應延遲，難度越高反應越快。 */
+   /* AI 的曹操照史實走：不會臨機斬斷鐵鍊（史書上他也沒來得及）。斷鍊是玩家扮演曹操時才有的選擇。 */
    /* 2. 造船：港口閒著就排一艘樓船 */
    const dk=mine.find(b=>b.type==="dock");
    if(dk&&ships.length<12&&!dk.queue.length&&!dk.techResearch&&this.afford(owner,UNIT[6].cost)&&this.pay(owner,UNIT[6].cost))
@@ -568,9 +612,14 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
   // 海運：同一陸塊沒有敵人時，對最近的海外敵國蓋港口、造運輸船（依閒置陸軍數量最多 3 艘）、每艘各自載兵登陸。休戰期也先備港口。
   const here={x:base.x+.5,y:base.y+.5};const foes=this.players.filter(q=>q.status==='active'&&q.id!==owner&&q.team!==P.team);const foeBase=q=>({x:this.bases[q.id].x+.5,y:this.bases[q.id].y+.5});const byNear=foes.slice().sort((a,b)=>distance(here,foeBase(a))-distance(here,foeBase(b)));/* 最近的敵人若在對岸，就算岸上還有別的敵人也要備水軍（赤壁：曹操隔著長江，岸上卻還有劉璋、士燮可打，舊規則會讓他永遠不渡江） */const enemyBase=byNear.length&&!this.sameIsland(here,foeBase(byNear[0]))?byNear[0]:(foes.some(q=>this.sameIsland(here,foeBase(q)))?null:byNear[0]);const overseas=!!enemyBase;
   let savingForSea=false;if(overseas){const dock=mine.find(b=>b.type==='dock');if(!dock){savingForSea=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type>0&&u.domain==='land').length>=8;/* 兵夠多卻沒港口：先存錢蓋港口，別把木材全拿去練兵 */if(this.afford(owner,BUILDINGS.dock.cost)&&!this.buildings.some(b=>b.owner===owner&&b.type==='dock'&&b.hp>0)){const site=this.shoreSiteNear(base.x,base.y,owner);if(site){this.pay(owner,BUILDINGS.dock.cost);const d=this.addBuilding('dock',site.x,site.y,owner);const w=this.units.filter(u=>u.owner===owner&&u.type===0&&u.hp>0&&!u.inside).slice(0,2);if(w.length)this.order(w.map(u=>u.id),{kind:'build',target:d.id})}}}
-   else{const ships=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type===5);const warships=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type===6);if(this.ages[owner]>=(UNIT[6].age||0)&&ships.length&&warships.length<Math.min(2,ships.length)&&!dock.queue.length&&!dock.techResearch&&this.res[owner][1]>UNIT[6].cost[1]+200&&this.pay(owner,UNIT[6].cost))dock.queue.push({type:6,left:UNIT[6].time*({easy:1.8,normal:1.2,hard:.8}[diff])});/* 護航：有運輸船就配 1～2 艘戰船 */for(const w of warships){if(w.task.kind!=='idle')continue;const convoy=ships.find(s=>s.cargo.length&&s.task.kind!=='idle');if(convoy&&distance(w,convoy)>3)this.order([w.id],{kind:'attackmove',x:convoy.x,y:convoy.y,auto:true})}const idleArmy=()=>this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type>0&&u.domain==='land'&&!u.inside&&u.task.kind==='idle');const want=Math.min(3,Math.max(1,Math.ceil(idleArmy().length/UNIT[5].capacity)));if(ships.length<want&&!dock.queue.length&&!dock.techResearch&&this.pay(owner,UNIT[5].cost))dock.queue.push({type:5,left:UNIT[5].time*({easy:1.8,normal:1.2,hard:.8}[diff])});
+   else{const ships=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type===5);const warships=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type===6);if(this.unitUnlocked(6,owner)&&ships.length&&warships.length<Math.min(2,ships.length)&&!dock.queue.length&&!dock.techResearch&&this.res[owner][1]>UNIT[6].cost[1]+200&&this.pay(owner,UNIT[6].cost))dock.queue.push({type:6,left:UNIT[6].time*({easy:1.8,normal:1.2,hard:.8}[diff])});/* 護航：有運輸船就配 1～2 艘戰船 */for(const w of warships){if(w.task.kind!=='idle')continue;const convoy=ships.find(s=>s.cargo.length&&s.task.kind!=='idle');if(convoy&&distance(w,convoy)>3)this.order([w.id],{kind:'attackmove',x:convoy.x,y:convoy.y,auto:true})}const idleArmy=()=>this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type>0&&u.domain==='land'&&!u.inside&&u.task.kind==='idle');const want=Math.min(3,Math.max(1,Math.ceil(idleArmy().length/UNIT[5].capacity)));if(ships.length<want&&!dock.queue.length&&!dock.techResearch&&this.pay(owner,UNIT[5].cost))dock.queue.push({type:5,left:UNIT[5].time*({easy:1.8,normal:1.2,hard:.8}[diff])});
     for(const ship of ships){if(ship.task.kind!=='idle')continue;const landArmy=idleArmy();if(ship.cargo.length>=Math.min(6,UNIT[5].capacity)||(ship.cargo.length>=2&&(!landArmy.length||this.time-(ship.loadedAt||0)>30))){const tgt=this.bases[enemyBase.id];const spot=this.nearFree({x:tgt.x+2,y:tgt.y+2},'land',owner);if(spot)this.unloadOrder(ship.id,spot.x,spot.y,owner)}else if(landArmy.length&&this.time>({easy:200,normal:150,hard:90}[diff]||150)){const shore=this.shoreSpotFor(ship,landArmy[0]);if(!shore){const dest=this.landingSpot({x:landArmy[0].x,y:landArmy[0].y},ship);/* 港口邊被占滿時把船開到部隊所在的海岸，而不是繞回港口打轉 */if(dest&&distance(ship,dest.sea)>1)this.order([ship.id],{kind:'move',x:dest.sea.x,y:dest.sea.y});else if(dest){this.order(landArmy.slice(0,UNIT[5].capacity).map(u=>u.id),{kind:'move',x:dest.land.x,y:dest.land.y})}else{const near=this.nearFree({x:dock.x+1,y:dock.y+1},'sea',owner);if(near)this.order([ship.id],{kind:'move',x:near.x,y:near.y})}}else this.boardOrder(landArmy.slice(0,UNIT[5].capacity).map(u=>u.id),ship.id,owner)}}}}
-  const vilCap=({easy:10,normal:10+4*this.ages[owner],hard:12+6*this.ages[owner]})[diff]||14;/* v2.7 續三 A9：村民上限依難度與時代成長（原本永遠 9 人，野味採完就餓死、AI 對 AI 三十分鐘打不完） */for(const b of mine){if(b.techResearch||b.queue.length>1)continue;let type=b.type==='tc'?0:b.type==='barracks'?(this.ages[owner]>=1&&army.length>=6&&siegeCount<Math.max(1,Math.floor(army.length/6))&&diff!=='easy'?4:1):b.type==='range'?2:b.type==='stable'?3:-1;if(type<0||type===0&&workers>=vilCap)continue;if(type>0&&savingForSea)continue;if((UNIT[type].age||0)>this.ages[owner])continue;if(this.pay(owner,UNIT[type].cost))b.queue.push({type,left:UNIT[type].time*({easy:1.8,normal:1.2,hard:.8}[diff])})}
+  const vilCap=({easy:10+3*this.ages[owner],normal:10+4*this.ages[owner],hard:12+6*this.ages[owner]})[diff]||14;/* 探索原本固定 10 人（三種難度裡最低），AI 省下的資源全灌去造兵，反而比標準難 *//* v2.7 續三 A9：村民上限依難度與時代成長（原本永遠 9 人，野味採完就餓死、AI 對 AI 三十分鐘打不完） */
+  // AI 的軍隊上限：原本沒有上限。實測 1652 郭懷一休戰結束時，探索難度的 AI 有 53 個兵、標準只有 31 個，
+  // 真人在同樣時間內大概只練得出十來個（Helen 2026-09-26：「還來不及訓練一大堆兵就開打了」「玩郭懷一還是被秒死」）。
+  // 改成依難度隨時間成長：八分鐘時探索約 14、標準約 26、挑戰約 42。
+  const armyCap=this.players[owner]?.controller==="human"?Infinity:{easy:4+this.time/120,normal:8+this.time/60,hard:14+this.time/35}[diff]??(8+this.time/60);/* 只限制 AI：真人是走 recruit() 手動生產，本來就沒有上限 */
+  for(const b of mine){if(b.techResearch||b.queue.length>1)continue;let type=b.type==='tc'?0:b.type==='barracks'?(this.ages[owner]>=1&&army.length>=6&&siegeCount<Math.max(1,Math.floor(army.length/6))&&diff!=='easy'?4:1):b.type==='range'?2:b.type==='stable'?3:-1;if(type<0||type===0&&workers>=vilCap)continue;if(type>0&&(savingForSea||army.length>=armyCap))continue;if(!this.unitUnlocked(type,owner))continue;if(this.pay(owner,UNIT[type].cost))b.queue.push({type,left:UNIT[type].time*({easy:1.8,normal:1.2,hard:.8}[diff])})}
   // 警報：敵軍接近基地時村民躲進主城／防塔，退去後出來。
   const threats=this.hostilesNear(owner,base.x+2,base.y+2,16).filter(e=>e.kind==='unit'&&e.type>0),threat=threats.length;if(threat>=2&&!P.alarm){this.alarm(owner);P.alarmAt=this.time;/* A2：弓兵進駐附近有空位的防塔（解除警報時 allClear 會全部放出來） */for(const tw of mine.filter(b=>b.type==='tower'&&this.garrisonCapacity(b)>b.garrison.length)){const free=this.garrisonCapacity(tw)-tw.garrison.length,c=this.center(tw);const archers=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type===2&&!u.inside&&u.domain==='land'&&distance(u,c)<14).slice(0,free);if(archers.length)this.garrisonOrder(archers.map(u=>u.id),tw.id,owner)}}else if(P.alarm&&(threat===0||(this.time-(P.alarmAt||0)>60&&threat<=2)))this.allClear(owner);/* 只剩一兩個敵兵在附近晃超過 60 秒就出來工作，別讓經濟躲到死（P10 長局發現） */
   if(P.alarm&&threats.length){const guards=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type>0&&!u.inside&&u.domain==='land'&&u.task.kind==='idle'&&distance(u,base)<20);if(guards.length)this.order(guards.map(u=>u.id),{kind:'attack',target:threats[0].id})}
@@ -588,13 +637,13 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
   if(this.population(owner)>=this.capacity(owner)-2&&this.afford(owner,BUILDINGS.house.cost)){const house=this.placeNearby('house',base.x+6,base.y+6,owner);if(house)this.pay(owner,BUILDINGS.house.cost)}
   if(!mine.some(b=>b.type==='barracks')&&this.afford(owner,BUILDINGS.barracks.cost)){const b=this.placeNearby('barracks',base.x,base.y+6,owner);if(b)this.pay(owner,BUILDINGS.barracks.cost)}
   if(this.ages[owner]>=1&&!mine.some(b=>b.type==='tower')&&this.res[owner][3]>=BUILDINGS.tower.cost[3]+60&&this.afford(owner,BUILDINGS.tower.cost)){const t=this.placeNearby('tower',base.x+7,base.y-3,owner);if(t)this.pay(owner,BUILDINGS.tower.cost)}
-  if(this.ages[owner]>=1){for(const type of ['range','stable'])if(!mine.some(b=>b.type===type)&&this.afford(owner,BUILDINGS[type].cost)&&this.res[owner][1]>BUILDINGS[type].cost[1]+120){const b=this.placeNearby(type,base.x-6,base.y+(type==='range'?-6:6),owner);if(b)this.pay(owner,BUILDINGS[type].cost)}}
+  {for(const type of ['range','stable'])if(this.buildingUnlocked(type,owner)&&!mine.some(b=>b.type===type)&&this.afford(owner,BUILDINGS[type].cost)&&this.res[owner][1]>BUILDINGS[type].cost[1]+120){const b=this.placeNearby(type,base.x-6,base.y+(type==='range'?-6:6),owner);if(b)this.pay(owner,BUILDINGS[type].cost)}}
   // 空軍：現代／架空第二時代起蓋機場與防空，訓練戰鬥機與轟炸機；轟炸機隨陸軍攻擊已探索目標。
   if(MODES[this.mode].air&&this.ages[owner]>=1){if(!mine.some(b=>b.type==='airfield')&&this.afford(owner,BUILDINGS.airfield.cost)&&this.res[owner][1]>BUILDINGS.airfield.cost[1]+120){const a=this.placeNearby('airfield',base.x-8,base.y+2,owner);if(a)this.pay(owner,BUILDINGS.airfield.cost)}
    if(!mine.some(b=>b.type==='aa')&&this.afford(owner,BUILDINGS.aa.cost)&&this.res[owner][3]>BUILDINGS.aa.cost[3]+40){const a=this.placeNearby('aa',base.x+3,base.y-5,owner);if(a)this.pay(owner,BUILDINGS.aa.cost)}
    const af=mine.find(b=>b.type==='airfield');if(af&&!af.queue.length&&!af.techResearch){const planes=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.domain==='air');const want=planes.filter(u=>u.type===7).length<2?7:this.ages[owner]>=2&&planes.filter(u=>u.type===8).length<2?8:-1;if(want>0&&diff!=='easy'&&this.pay(owner,UNIT[want].cost))af.queue.push({type:want,left:UNIT[want].time*({easy:1.8,normal:1.2,hard:.8}[diff])})}}
   // AI 空運（P5 待補）：敵人在海外、有機場且到第三時代時，造一架運輸機；閒置運輸機飛回基地旁載 4–6 個閒置陸軍，再飛到最近海外敵國基地旁卸載。
-  if(MODES[this.mode].air&&typeof overseas!=='undefined'&&overseas&&enemyBase&&diff!=='easy'&&this.ages[owner]>=(UNIT[9].age||0)){const af2=mine.find(b=>b.type==='airfield');const lifts=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type===9);if(af2&&!lifts.length&&af2.queue.length<2&&!af2.queue.some(q=>q.type===9)&&!af2.techResearch&&this.pay(owner,UNIT[9].cost))af2.queue.push({type:9,left:UNIT[9].time*({easy:1.8,normal:1.2,hard:.8}[diff])});
+  if(MODES[this.mode].air&&typeof overseas!=='undefined'&&overseas&&enemyBase&&diff!=='easy'&&this.unitUnlocked(9,owner)){const af2=mine.find(b=>b.type==='airfield');const lifts=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type===9);if(af2&&!lifts.length&&af2.queue.length<2&&!af2.queue.some(q=>q.type===9)&&!af2.techResearch&&this.pay(owner,UNIT[9].cost))af2.queue.push({type:9,left:UNIT[9].time*({easy:1.8,normal:1.2,hard:.8}[diff])});
    for(const lift of lifts){if(lift.inside||lift.task.kind!=='idle'||lift.fuel<UNIT[9].fuel*.5)continue;const army=this.units.filter(u=>u.owner===owner&&u.hp>0&&u.type>0&&u.domain==='land'&&!u.inside&&u.task.kind==='idle'&&distance(u,base)<25);if(lift.cargo.length>=Math.min(4,UNIT[9].capacity)||(lift.cargo.length>=2&&!army.length)){const tgt=this.bases[enemyBase.id];const spot=this.nearFree({x:tgt.x+3,y:tgt.y+3},'land',owner);if(spot)this.unloadOrder(lift.id,spot.x,spot.y,owner)}else if(army.length){if(distance(lift,base)>6){const q=this.nearFree({x:base.x+3,y:base.y+5},'land',owner);if(q)this.order([lift.id],{kind:'move',x:q.x,y:q.y})}else this.boardOrder(army.slice(0,UNIT[9].capacity-lift.cargo.length).map(u=>u.id),lift.id,owner)}}}
   // 飛彈（P5／P8 補）：現代／科幻第三時代蓋飛彈基地；裝填完成後對已探索範圍內最密集的敵軍群發射；科幻背景若群裡有 3 個以上陸海戰鬥單位就改發 EMP。
   if(BUILDINGS.silo.modes.includes(this.mode)&&this.ages[owner]>=BUILDINGS.silo.age&&diff!=='easy'){if(!mine.some(b=>b.type==='silo')&&this.afford(owner,BUILDINGS.silo.cost)&&this.res[owner][2]>BUILDINGS.silo.cost[2]+150){const sl=this.placeNearby('silo',base.x+8,base.y-3,owner);if(sl)this.pay(owner,BUILDINGS.silo.cost)}
@@ -801,6 +850,7 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
   for(const u of this.units)this.updateUnit(u,dt);
   // 推擠分離：只在可行走格上輕推，避免部隊疊成一點。
   for(const list of this.buckets.values())for(let i=0;i<list.length;i++){const a=list[i];if(a.hp<=0)continue;const sea=a.domain==='sea';const near=this.unitsNear(a.x,a.y,sea?1.2:.4,b=>b!==a&&b.id>a.id&&(b.domain==='sea')===sea);for(const b of near){const d=distance(a,b);if(d<=0)continue;const k=sea?.3:.12;const dx=(a.x-b.x)/d*k*dt,dy=(a.y-b.y)/d*k*dt;/* 船隻彼此保持一格多的距離，不再疊成一點 */if(this.walkable(a.x+dx,a.y+dy,a.owner,a.domain)){a.x+=dx;a.y+=dy}if(this.walkable(b.x-dx,b.y-dy,b.owner,b.domain)){b.x-=dx;b.y-=dy}}}
+  this.relaxChains(dt);/* 連環船維持一列隊形，要在推擠分離之後跑，否則會被推散 */
   for(const p of this.projectiles){p.life-=dt;if(p.life<=0){const t=this.get(p.target);if(t&&!t.inside&&this.isHostile(p.owner,t.owner))this.damage(t,p.damage,p.owner,p.src!=null?this.get(p.src):null)}}this.projectiles=this.projectiles.filter(p=>p.life>0);this.effects.forEach(e=>e.life-=dt);this.effects=this.effects.filter(e=>e.life>0);
   this.fogTimer+=dt;if(this.fogTimer>.25){this.refreshFog();this.fogTimer=0}this.aiTimer+=dt;{const ais=this.players.filter(p=>p.controller==='ai');const interval=3/Math.max(1,ais.length);/* AI 輪流思考（每國仍是每 3 秒一次），12 國時不會擠在同一個 tick */while(this.aiTimer>=interval){this.aiTimer-=interval;this.aiCursor=((this.aiCursor||0)+1)%Math.max(1,ais.length);const p=ais[this.aiCursor];if(p)this.updateAI(p.id);if(this.aiCursor===0)this.defendHome(this.human)}}
   this.updateLandmarks(dt);this.updateAnimals(dt);if(this.wonderCountdown){const b=this.get(this.wonderCountdown.id);if(!b||b.hp<=0)this.wonderCountdown=null;else this.wonderCountdown.left-=dt}if(this.time-this.timelineAt>=60){this.timelineAt=this.time;this.timeline.push({t:Math.round(this.time),scores:this.players.map(p=>this.score(p.id)),pops:this.players.map(p=>this.population(p.id)),army:this.players.map(p=>this.armyPower(p.id))});if(this.timeline.length>240)this.timeline.shift()}
