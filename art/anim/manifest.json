@@ -1,19 +1,19 @@
 {
   "villager": {
-    "idle": 4,
+    "carry": 4,
     "walk": 8,
-    "work": 6,
+    "idle": 4,
     "attack": 6,
-    "death": 5,
-    "carry": 4
+    "work": 6,
+    "death": 5
   },
   "infantry": {
-    "idle": 4,
+    "carry": 0,
     "walk": 8,
-    "work": 0,
+    "idle": 4,
     "attack": 6,
-    "death": 5,
-    "carry": 0
+    "work": 0,
+    "death": 5
   },
   "ranged": {
     "idle": 4,
@@ -24,11 +24,11 @@
     "carry": 0
   },
   "cavalry": {
-    "idle": 4,
+    "carry": 0,
     "walk": 8,
-    "work": 0,
+    "idle": 4,
     "attack": 6,
-    "death": 5,
-    "carry": 0
+    "work": 0,
+    "death": 5
   }
 }
