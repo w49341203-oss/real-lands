@@ -769,11 +769,19 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
  score(owner){const p=this.players[owner];if(p.status!=='active')return 0;let s=this.res[owner].reduce((a,b)=>a+b,0);for(const u of this.units)if(u.hp>0&&u.owner===owner)s+=UNIT[u.type].cost.reduce((a,b)=>a+b,0)*1.5;for(const b of this.buildings)if(b.hp>0&&b.owner===owner&&b.progress>=1)s+=BUILDINGS[b.type].cost.reduce((a,b)=>a+b,0);s+=this.techs[owner].length*150;return Math.round(s)}
  teamScore(team){return this.players.filter(p=>p.team===team).reduce((a,p)=>a+this.score(p.id),0)}
  // 劇情目標：全部達成即勝；lose 條件任一成立即敗。狀態不存檔（都能從當下局面算出來）。
+ // 劇情目標指向哪裡：優先該勢力的主城，其次任何建築，再其次開局基地。
+ // 253×256 格的地圖上要玩家自己找一座城是不合理的（Helen 2026-09-27：「找不到要去哪裡滅掉曹操」）。
+ objectiveSite(owner){
+  const tc=this.buildings.find(b=>b.owner===owner&&b.type==='tc'&&b.hp>0);
+  const any=tc||this.buildings.find(b=>b.owner===owner&&b.hp>0);
+  if(any)return this.center(any);
+  const base=this.bases?.[owner];
+  return base?{x:base.x+.5,y:base.y+.5}:null}
  objectiveStatus(){const sc=this.scenario;if(!sc)return [];const o=this.human;const count=type=>this.buildings.filter(b=>b.owner===o&&b.type===type&&b.hp>0&&b.progress>=1).length;const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
   return sc.objectives.map(ob=>{switch(ob.kind){
    case 'survive':{const need=ob.minutes*60;return {text:ob.text||'撐過 '+ob.minutes+' 分鐘',done:this.time>=need,progress:fmt(Math.min(this.time,need))+' / '+fmt(need)}}
    case 'burn':{const total=this.chainedTotal?.[ob.player]||0;const alive=this.units.filter(u=>u.owner===ob.player&&u.chained&&u.hp>0).length;const gone=Math.max(0,total-alive),need=ob.count||1;return {text:ob.text||'燒毀'+this.playerName(ob.player)+'的連環船 '+need+' 艘',done:gone>=need,progress:Math.min(gone,need)+' / '+need}}
-   case 'destroy':{const p=this.players[ob.player];return {text:ob.text||'消滅'+this.playerName(ob.player),done:!p||p.status!=='active',progress:p&&p.status==='active'?'尚存':'已消滅'}}
+   case 'destroy':{const p=this.players[ob.player];return {text:ob.text||'消滅'+this.playerName(ob.player),done:!p||p.status!=='active',progress:p&&p.status==='active'?'尚存':'已消滅',at:this.objectiveSite(ob.player)}}
    case 'build':{const n=count(ob.type),need=ob.count||1;return {text:ob.text||'建造 '+need+' 座'+this.buildingName(ob.type,o),done:n>=need,progress:Math.min(n,need)+' / '+need}}
    case 'age':return {text:ob.text||'進入'+(MODES[this.mode].ages[ob.age]?.name||''),done:this.ages[o]>=ob.age,progress:this.ageName(o)};
    case 'resource':{const v=Math.floor(this.res[o][ob.index]||0);return {text:ob.text||'存到 '+ob.amount+' '+MODES[this.mode].resources[ob.index],done:v>=ob.amount,progress:Math.min(v,ob.amount)+' / '+ob.amount}}
