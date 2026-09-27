@@ -1,11 +1,11 @@
 {
   "villager": {
-    "carry": 4,
-    "walk": 8,
     "idle": 4,
-    "attack": 6,
+    "walk": 8,
     "work": 6,
-    "death": 5
+    "attack": 6,
+    "death": 5,
+    "carry": 4
   },
   "infantry": {
     "idle": 4,

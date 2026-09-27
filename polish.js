@@ -125,7 +125,11 @@ function drawAnimFrame(context,sheet,row,frame,cx,bottom,h,flip){const n=animFra
 function animUnit(context,e,x,y,w,h,flip){if(!S.on)return false;const sheet=animSheet(e);if(!sheet)return false;const st=animState(e);const n=animFrames(sheet,st.row);if(n<=0&&st.row!=='idle')return animUnitRow(context,sheet,e,'idle',x,y,w,h,flip);const frame=st.once?Math.floor(st.t*st.fps):Math.floor(st.t*st.fps)%Math.max(1,n);return drawAnimFrame(context,sheet,st.row,frame,x+w/2,y+h,h,flip)}
 function animUnitRow(context,sheet,e,row,x,y,w,h,flip){const n=animFrames(sheet,row);if(n<=0)return false;return drawAnimFrame(context,sheet,row,Math.floor(S.t*4)%n,x+w/2,y+h,h,flip)}
 // 走路：下半身左右交錯剪切、上半身微前傾；其他狀態照常畫。
-function drawUnitSprite(context,index,x,y,w,h,e,walking){/* 走路不可以改變鏡像方向：外層已經依 e.facing 把畫布鏡像好，動畫表也是面向右，再翻一次就變成倒退走（2026-09-26 修）。留成常數 false 是為了讓下面的呼叫維持同樣形狀。 */const reverseWalk=false;if(S.on&&animUnit(context,e,x,y,w,h,reverseWalk))return null;if(!S.on||!walking||typeof index==='string')return sprite(context,index,x,y,w,h);const custom=typeof index==='object';if(!custom&&!atlasReady)return null;const r=custom?index.r:rects[index],image=custom?index.pack.image:atlas,ratio=r[2]/r[3];let ww=w,hh=w/ratio;if(hh>h){hh=h;ww=h*ratio}const dx=x+(w-ww)/2,dy=y+h-hh;const ph=S.t*11+e.id*1.7;const legK=Math.sin(ph)*.22;const split=.56;const sh=r[3]*split;
+function drawUnitSprite(context,index,x,y,w,h,e,walking){/* 步兵行走列的來源朝向與靜態表相反，只在步兵移動時交由 animUnit 修正；其他人物沿用外層 facing。 */const reverseWalk=walking&&e.type===1;if(S.on&&animUnit(context,e,x,y,w,h,reverseWalk))return null;/* 沒有動畫表時，原本會把人物上下半身切開做「斜切」假走路（下面那段 transform）——那正是把圖弄歪。
+   一律改成原圖照畫（Helen 2026-09-27：「任何圖都不要扭來扭去」）。下面的剪切程式保留但不再走到。 */
+ return sprite(context,index,x,y,w,h);
+ // eslint-disable-next-line no-unreachable
+ if(!S.on||!walking||typeof index==='string')return sprite(context,index,x,y,w,h);const custom=typeof index==='object';if(!custom&&!atlasReady)return null;const r=custom?index.r:rects[index],image=custom?index.pack.image:atlas,ratio=r[2]/r[3];let ww=w,hh=w/ratio;if(hh>h){hh=h;ww=h*ratio}const dx=x+(w-ww)/2,dy=y+h-hh;const ph=S.t*11+e.id*1.7;const legK=Math.sin(ph)*.22;const split=.56;const sh=r[3]*split;
  // 下半身以腳底為軸剪切；上半身平移到剪切後的腰線位置再反向微剪切，腰線兩段才會接得上（Helen 回報「走動時人會切一半」的修正）。
  const legH=hh*(1-split),waistShift=-legK*legH;
  context.save();context.translate(dx+ww/2,dy+hh);context.transform(1,0,legK,1,0,0);context.drawImage(image,r[0],r[1]+sh,r[2],r[3]-sh,-ww/2,-legH,ww,legH+.6);context.restore();
@@ -134,7 +138,7 @@ function drawUnitSprite(context,index,x,y,w,h,e,walking){/* 走路不可以改�
 // 被擊中閃白（再疊一次自己的圖，加亮）。
 function hitFlash(e,drawn){if(!S.on||!drawn||!drawn.r||e.lastHit==null)return;const g=G();if(g.time-e.lastHit>.12)return;const img=drawn.pack?drawn.pack.image:atlas;ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.55;try{ctx.drawImage(img,...drawn.r,drawn.x,drawn.y,drawn.w,drawn.h)}catch{}ctx.restore()}
 // 樹木隨風：以樹根為軸微幅左右擺，風向與相位依位置錯開。
-function treeSway(e){if(!S.on)return 0;return Math.sin(S.t*1.4+e.x*.9+e.y*.6)*(.028+.02*Math.abs(S.wind))+S.wind*.018}
+function treeSway(e){return 0}/* 樹木不再整棵旋轉搖擺（Helen 2026-09-27：「任何圖都不要扭來扭去」） */
 // 農田麥浪：三道半透明亮帶隨時間掃過。
 function farmWave(e,drawn,z){if(!S.on||!drawn||e.progress<1||e.amount<=0)return;ctx.save();ctx.beginPath();ctx.ellipse(drawn.x+drawn.w/2,drawn.y+drawn.h*.62,drawn.w*.44,drawn.h*.3,0,0,Math.PI*2);ctx.clip();ctx.globalAlpha=.14;ctx.fillStyle='#fff6c4';for(let k=0;k<3;k++){const ph=((S.t*.35+k/3+e.id*.1)%1);const x=drawn.x+drawn.w*ph;ctx.beginPath();ctx.moveTo(x-drawn.w*.08,drawn.y);ctx.lineTo(x+drawn.w*.05,drawn.y);ctx.lineTo(x-drawn.w*.05,drawn.y+drawn.h);ctx.lineTo(x-drawn.w*.18,drawn.y+drawn.h);ctx.fill()}ctx.restore()}
 // 施工：建築從地面「長」出來，外面圍鷹架。
