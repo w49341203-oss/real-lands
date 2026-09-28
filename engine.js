@@ -395,15 +395,17 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
   this.mainland=new Set(component);this.landCells=this.land.reduce((s,v)=>s+v,0);this.mainlandCells=component.length;
   const clear=(x,y,r)=>{for(let yy=y-r;yy<=y+r;yy++)for(let xx=x-r;xx<=x+r;xx++)if(!this.terrain(xx,yy)||!this.mainland.has(this.at(xx,yy))||this.relief[this.at(xx,yy)]-this.relief[this.at(x,y)]>30||!this.buildableCell(xx,yy,'house'))return false;return true};
   const cand=r=>component.map(i=>({x:i%this.W+.5,y:Math.floor(i/this.W)+.5})).filter(p=>clear(Math.floor(p.x),Math.floor(p.y),r));let candidates=cand(4);if(candidates.length<this.P)candidates=cand(2);if(candidates.length<this.P)throw new Error('此地圖沒有足夠的可建設區域');this.buildableCandidates=candidates.length;this.tightCandidates=this.scenario?cand(2):null;/* 河邊海邊的城市（襄陽在漢水邊、淡水在河口、基隆三面環山）湊不出 9x9 平地，   劇情出生點找不到大空地時改用這份較寬鬆的名單，免得被推到幾十公里外 */
-  /* 出生間距改用「行軍時間」而不是公里：實測步兵每分鐘約 3.5 格，取 8 分鐘＝28 格。
-     原本換算成 20 公里，台灣圖只有 13 格（走 3.7 分鐘），比敵人「打到家門口」的判定半徑 14 格還短，
-     等於兩座城開局就疊在一起 —— 全 47 場有 16 場的敵人在 5 分鐘內就到門口（2026-09-28 稽核）。
-     上限受地圖短邊四分之一限制，小地圖不會排不下；各局寫死 spacing 的不套用這裡。 */
+  /* 出生間距（2026-09-28 更正）：原本換算成 20 公里，台灣圖只有 13 格，比敵人「打到家門口」的判定半徑 14 格還短，
+     兩座城開局就重疊，休戰期一結束雙方的開局部隊就地開打——全 47 場有 16 場在 5 分鐘內被摸到門口。
+     改成直接取 28 格（受地圖短邊 1/4 限制），讓兩座城與開局部隊不重疊。
+     ⚠ 更正：先前註解寫「步兵每分鐘 3.5 格、28 格＝8 分鐘行軍」是量錯了（量到一個卡住的兵），
+     實測步兵約每秒 1.9 格，28 格只要十幾秒。保證玩家有備戰時間的是休戰期、AI 出擊門檻（標準第 10 分）
+     與 defend（只防守），距離只負責「開局不重疊」。 */
   if(this.spawnSpacing===24&&this.scenario){
    const cap=Math.max(12,Math.floor(Math.min(this.W,this.H)/4));
    this.spawnSpacing=Math.max(14,Math.min(28,cap));
   }
-  /* 下限 14 格：這是「敵人打到家門口」的判定半徑，也約等於四分鐘的行軍。
+  /* 下限 14 格：這是「敵人打到家門口」的判定半徑（更正：不是「四分鐘行軍」，實際只要約 7 秒）。
      有六場寫死 4~8 格（攻城與搶灘，史實上兩軍確實貼著：牡丹社 4、文永之役 6、馬拉松 8、
      耶路撒冷 4、特諾奇提特蘭 5、諾曼第 6），但那等於休戰期一結束就地肉搏，玩家連列陣都來不及。
      想更遠的局仍可自己寫更大的值（例如 1652 郭懷一的 48）。 */
@@ -413,7 +415,9 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
      兩城只隔 14 格的圖，玩家的兵開局 16 秒就陣亡（2026-09-28 攻守兩邊稽核）。 */
   if(this.scenario){const me=this.players[this.human];
    const aggressor=this.players.some(p=>p.id!==this.human&&p.controller==='ai'&&!p.passive&&!p.defend&&p.team!==me.team);
-   if(!aggressor){const cap=Math.max(12,Math.floor(Math.min(this.W,this.H)/4));this.spawnSpacing=Math.max(this.spawnSpacing,Math.min(24,cap))}}this.bases=this.pickBases(candidates);/* 依攻守方決定休戰期：敵對的 AI 全都只防守（defend）或旁觀時，沒人會主動來打玩家，
+   /* 下限 24 → 28（2026-09-28）：守軍防區是兩城距離的 1/4＋2 格，24 格時防區邊緣離玩家只剩 13～15 格，
+      1274 扮元軍時日本弓兵在防區邊緣來回，一次最多 7 個出現在玩家主城 14 格內。28 格與一般劇情的預設一致。 */
+   if(!aggressor){const cap=Math.max(12,Math.floor(Math.min(this.W,this.H)/4));this.spawnSpacing=Math.max(this.spawnSpacing,Math.min(28,cap))}}this.bases=this.pickBases(candidates);/* 依攻守方決定休戰期：敵對的 AI 全都只防守（defend）或旁觀時，沒人會主動來打玩家，
      休戰期只會擋住玩家自己出兵，直接歸零——戰爭由玩家開始。只要有一方會主動進攻就保留休戰期，
      保證玩家有時間備戰。defend 掛在被攻打的一方身上，所以換邊時會自動切換
      （Helen 2026-09-28：「玩家使用的是被打方還是主動攻擊方，都要有不同的設定」）。 */
@@ -680,8 +684,11 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
   for(const u of idleWorkers){const n=this.nearestNode(u,(u.id%3===0)?2:u.id%2)||this.nearestNode(u);/* 指定種類採完就改採任何還有的資源，別讓村民閒到底 */if(n)this.order([u.id],{kind:'gather',target:n.id})}
   if(this.res[owner][0]<80){/* A9：糧食見底就把最多 2 名採木／礦的村民改去採糧（有空的農田或最近的糧食點） */let moved=0;for(const u of this.units){if(moved>=2)break;if(u.owner!==owner||u.hp<=0||u.type!==0||u.inside||u.task.kind!=='gather')continue;const n=this.get(u.task.target);if(!n||n.kind==='building'||n.resource===0)continue;const food=mine.find(b=>b.type==='farm'&&b.amount>0&&!this.units.some(v=>v.owner===owner&&v.task.kind==='gather'&&v.task.target===b.id))||this.nearestNode(u,0);if(food){this.order([u.id],{kind:'gather',target:food.id,auto:true});moved++}}}
   for(const u of idleWorkers){if(u.task.kind!=='idle')continue;const farm=mine.find(b=>b.type==='farm'&&b.amount>0&&!this.units.some(v=>v.owner===owner&&v.task.kind==='gather'&&v.task.target===b.id));if(farm)this.order([u.id],{kind:'gather',target:farm.id})}
-  const air=idleMil.filter(u=>u.domain==='air');if(air.length&&this.time>({easy:240,normal:180,hard:120}[diff]||180)){let best=null,bd=Infinity;for(const b of this.buildings){if(b.hp<=0||!this.isHostile(owner,b.owner))continue;const c=this.center(b);if(!exp[this.at(c.x,c.y)])continue;const d=distance(c,base);if(d<bd){bd=d;best=b}}if(best){const bombers=air.filter(u=>u.type===8),fighters=air.filter(u=>u.type===7);if(bombers.length)this.order(bombers.map(u=>u.id),{kind:'attack',target:best.id});if(fighters.length)this.order(fighters.map(u=>u.id),{kind:'attackmove',...this.center(best)})}else{const fighters=air.filter(u=>u.type===7&&u.fuel>UNIT[7].fuel*.8);if(fighters.length){const p=this.airScoutPoint(owner);if(p)this.order(fighters.map(u=>u.id),{kind:'attackmove',...p})}}}
-  const landed=idleMil.filter(u=>u.domain==='land'&&!this.sameIsland(u,{x:base.x+.5,y:base.y+.5}));if(landed.length){const target=this.aiTarget(owner,landed[0]);if(target)this.order(landed.map(u=>u.id),{kind:'attack',target:target.id});else{const p=this.aiScoutPoint(owner,landed[0]);if(p)this.order(landed.map(u=>u.id),{kind:'attackmove',...p})}}
+  const air=idleMil.filter(u=>u.domain==='air');if(air.length&&!this.players[owner].defend&&/* 只防守的一方不派飛機出擊 */this.time>({easy:240,normal:180,hard:120}[diff]||180)){let best=null,bd=Infinity;for(const b of this.buildings){if(b.hp<=0||!this.isHostile(owner,b.owner))continue;const c=this.center(b);if(!exp[this.at(c.x,c.y)])continue;const d=distance(c,base);if(d<bd){bd=d;best=b}}if(best){const bombers=air.filter(u=>u.type===8),fighters=air.filter(u=>u.type===7);if(bombers.length)this.order(bombers.map(u=>u.id),{kind:'attack',target:best.id});if(fighters.length)this.order(fighters.map(u=>u.id),{kind:'attackmove',...this.center(best)})}else{const fighters=air.filter(u=>u.type===7&&u.fuel>UNIT[7].fuel*.8);if(fighters.length){const p=this.airScoutPoint(owner);if(p)this.order(fighters.map(u=>u.id),{kind:'attackmove',...p})}}}
+  /* 只防守（defend）的一方：跑到別塊陸地的部隊也不派出去打，交給下面的牽繩叫回家。
+     博多灣的海岸線把陸地切成好幾塊，1274 扮元軍時日本守軍一走到別塊就被這段派去攻擊、
+     再被牽繩拉回，來回擺盪到玩家主城附近（2026-09-28 全陣營稽核）。 */
+  const landed=this.players[owner].defend?[]:idleMil.filter(u=>u.domain==='land'&&!this.sameIsland(u,{x:base.x+.5,y:base.y+.5}));if(landed.length){const target=this.aiTarget(owner,landed[0]);if(target)this.order(landed.map(u=>u.id),{kind:'attack',target:target.id});else{const p=this.aiScoutPoint(owner,landed[0]);if(p)this.order(landed.map(u=>u.id),{kind:'attackmove',...p})}}
   /* defend：只防守的一方永遠不主動派兵出擊（守城型劇情的守方）。建設、生產、防守、反擊都照常，
      差別只在不會自己打過來 —— 開戰的時機交給玩家決定（Helen 2026-09-27）。 */
   if(this.players[owner].defend){
@@ -692,11 +699,16 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
       連「自動追擊中」的兵也一起叫回，不然追一追就追到對方城下。 */
    /* 牽繩依出生間距縮放（最多 10、最少 4 格）：1099 耶路撒冷兩城只隔 14 格，固定 10 格的牽繩
       讓守軍能站到離玩家只剩 4 格，玩家的兵開局 16 秒就陣亡（2026-09-28 稽核）。 */
-   const leash=Math.max(4,Math.min(10,Math.floor((this.spawnSpacing||28)*0.35)));
+   const leash=Math.max(4,Math.min(10,Math.floor((this.spawnSpacing||28)*0.25)));
    for(const u of this.units){
     if(u.owner!==owner||u.hp<=0||u.type<=0||u.inside||u.domain!=='land')continue;
-    if(u.task.kind!=='idle'&&!(u.task.kind==='attackmove'&&u.task.auto))continue;
-    if(distance(u,base)>leash)this.order([u.id],{kind:'move',x:base.x+.5,y:base.y+.5})}
+    /* 追擊中（attack）也要管：守軍可以打上門來的敵人，但目標跑出牽繩外就不追了。
+       1661 鄭成功攻台（挑戰難度）荷蘭步兵追著玩家的村民一路追到玩家主城 11 格內（2026-09-28 稽核）。 */
+    /* 看守軍「自己」離家多遠，而不是追擊目標離家多遠：目標一邊逃、守軍一邊追，每次檢查之間就會追出好幾格，
+       1521 扮西班牙、1721 扮府城守軍時守軍一路追著村民追到玩家主城附近（2026-09-28 全陣營稽核）。
+       家門口 leash 格以內照常防守與反擊；超過 leash+2 格一律叫回，不管正在做什麼。 */
+    if(u.task.kind==='move'&&Math.hypot(u.task.x-(base.x+.5),u.task.y-(base.y+.5))<2)continue;/* 已經在回家的路上 */
+    if(distance(u,base)>leash+2){this.order([u.id],{kind:'move',x:base.x+.5,y:base.y+.5});u.post={x:base.x+.5,y:base.y+.5}}}
    return}
   const home=idleMil.filter(u=>!landed.includes(u)&&u.domain!=='air');const waveMin={easy:6,normal:4,hard:3}[diff]||4;if(home.length&&this.time>Math.max(({easy:900,normal:600,hard:360}[diff]||600),this.truce+120)){/* 出擊門檻：簡單 15／普通 10／困難 6 分 *//* 休戰結束後再等 2 分鐘才出擊；有目標時要湊夠一小隊（不再零星送兵），基地附近有敵人時例外；沒目標照常偵察 */let target=this.aiTarget(owner);const cleanup=target&&!this.buildings.some(t=>t.owner===target.owner&&t.type==='tc'&&t.hp>0);/* 收尾（對手沒主城）不必湊小隊 */if(target&&!cleanup&&home.filter(u=>u.domain==='land').length<waveMin&&!this.hostilesNear(owner,base.x+2,base.y+2,20).length)target=undefined;const siege=home.filter(u=>u.type===4),rest=home.filter(u=>u.type!==4&&u.domain==='land');const ships=home.filter(u=>u.type===6);if(ships.length){const st=this.buildings.find(b=>b.hp>0&&this.isHostile(owner,b.owner)&&exp[this.at(this.center(b).x,this.center(b).y)]&&this.approach(ships[0],b));if(st)this.order(ships.map(u=>u.id),{kind:'attack',target:st.id})}if(target){if(rest.length&&target.owner===this.human&&rest.length>=waveMin&&this.time>=(this.players[owner].ai.attackSpokeAt||0)+240){this.players[owner].ai.attackSpokeAt=this.time;this.speak('attacking',owner)}if(rest.length)this.order(rest.map(u=>u.id),{kind:'attack',target:target.id});if(siege.length)this.order(siege.map(u=>u.id),{kind:'attack',target:target.id})}else if(target===null){const p=this.aiScoutPoint(owner);if(p&&rest.length)this.order(rest.map(u=>u.id),{kind:'attackmove',...p})}}}
  shoreSiteNear(x,y,owner){for(let r=2;r<24;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.abs(dx)!==r&&Math.abs(dy)!==r)continue;const xx=x+dx,yy=y+dy;if(this.canPlace('dock',xx,yy,false,owner))return {x:xx,y:yy}}return null}
@@ -915,6 +927,17 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
   for(const b of this.buildings){if(b.hp<=0||!b.hangar?.length)continue;for(const id of b.hangar.slice()){const u=this.byId.get(id);if(!u||u.hp<=0){b.hangar=b.hangar.filter(x=>x!==id);continue}u.fuel=Math.min(UNIT[u.type].fuel,u.fuel+UNIT[u.type].fuel*dt/10);if(u.fuel>=UNIT[u.type].fuel-.01&&this.time-(u.landedAt||0)>=2){b.hangar=b.hangar.filter(x=>x!==id);u.inside=null;u.takeoffAt=this.time;const c=this.center(b);u.x=c.x;u.y=c.y;this.bucketAdd(u);u.task=u.resumeTask||{kind:'idle'};u.resumeTask=null}}}
   for(const m of this.missiles)this.updateMissile(m,dt);this.missiles=this.missiles.filter(m=>!m.done);
   for(const u of this.units)this.updateUnit(u,dt);
+  /* defend（只防守）的牽繩每一幀都檢查，不只在 AI 每 3 秒思考時。步兵每秒約 1.9 格，
+     3 秒就能追出 6 格，被反擊又會掉頭再追——1721 扮府城守軍時起事軍一路追到玩家主城 3～6 格內
+     （2026-09-28 全陣營稽核）。超出牽繩就改成回家；家門口以內照常防守與反擊。 */
+  for(const u of this.units){
+   if(u.hp<=0||u.type<=0||u.inside||u.domain!=='land')continue;
+   const P=this.players[u.owner];if(!P||!P.defend||P.controller!=='ai')continue;
+   const hb=this.bases[u.owner];if(!hb)continue;const hx=hb.x+.5,hy=hb.y+.5;
+   const L=Math.max(4,Math.min(10,Math.floor((this.spawnSpacing||28)*0.25)))+2;
+   if(Math.hypot(u.x-hx,u.y-hy)<=L)continue;
+   if(u.task.kind==='move'&&Math.hypot(u.task.x-hx,u.task.y-hy)<2)continue;
+   u.task={kind:'move',x:hx,y:hy};u.path=[];u.post={x:hx,y:hy}}
   // 推擠分離：只在可行走格上輕推，避免部隊疊成一點。
   for(const list of this.buckets.values())for(let i=0;i<list.length;i++){const a=list[i];if(a.hp<=0)continue;const sea=a.domain==='sea';const near=this.unitsNear(a.x,a.y,sea?1.2:.4,b=>b!==a&&b.id>a.id&&(b.domain==='sea')===sea);for(const b of near){const d=distance(a,b);if(d<=0)continue;const k=sea?.3:.12;const dx=(a.x-b.x)/d*k*dt,dy=(a.y-b.y)/d*k*dt;/* 船隻彼此保持一格多的距離，不再疊成一點 */if(this.walkable(a.x+dx,a.y+dy,a.owner,a.domain)){a.x+=dx;a.y+=dy}if(this.walkable(b.x-dx,b.y-dy,b.owner,b.domain)){b.x-=dx;b.y-=dy}}}
   this.relaxChains(dt);/* 連環船維持一列隊形，要在推擠分離之後跑，否則會被推散 */
