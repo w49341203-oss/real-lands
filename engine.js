@@ -395,7 +395,32 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
   this.mainland=new Set(component);this.landCells=this.land.reduce((s,v)=>s+v,0);this.mainlandCells=component.length;
   const clear=(x,y,r)=>{for(let yy=y-r;yy<=y+r;yy++)for(let xx=x-r;xx<=x+r;xx++)if(!this.terrain(xx,yy)||!this.mainland.has(this.at(xx,yy))||this.relief[this.at(xx,yy)]-this.relief[this.at(x,y)]>30||!this.buildableCell(xx,yy,'house'))return false;return true};
   const cand=r=>component.map(i=>({x:i%this.W+.5,y:Math.floor(i/this.W)+.5})).filter(p=>clear(Math.floor(p.x),Math.floor(p.y),r));let candidates=cand(4);if(candidates.length<this.P)candidates=cand(2);if(candidates.length<this.P)throw new Error('此地圖沒有足夠的可建設區域');this.buildableCandidates=candidates.length;this.tightCandidates=this.scenario?cand(2):null;/* 河邊海邊的城市（襄陽在漢水邊、淡水在河口、基隆三面環山）湊不出 9x9 平地，   劇情出生點找不到大空地時改用這份較寬鬆的名單，免得被推到幾十公里外 */
-  if(this.spawnSpacing===24&&this.scenario){const km=this.kmPerCell();if(km&&km>0)this.spawnSpacing=Math.max(5,Math.min(24,Math.round(20/km)))}this.bases=this.pickBases(candidates);
+  /* 出生間距改用「行軍時間」而不是公里：實測步兵每分鐘約 3.5 格，取 8 分鐘＝28 格。
+     原本換算成 20 公里，台灣圖只有 13 格（走 3.7 分鐘），比敵人「打到家門口」的判定半徑 14 格還短，
+     等於兩座城開局就疊在一起 —— 全 47 場有 16 場的敵人在 5 分鐘內就到門口（2026-09-28 稽核）。
+     上限受地圖短邊四分之一限制，小地圖不會排不下；各局寫死 spacing 的不套用這裡。 */
+  if(this.spawnSpacing===24&&this.scenario){
+   const cap=Math.max(12,Math.floor(Math.min(this.W,this.H)/4));
+   this.spawnSpacing=Math.max(14,Math.min(28,cap));
+  }
+  /* 下限 14 格：這是「敵人打到家門口」的判定半徑，也約等於四分鐘的行軍。
+     有六場寫死 4~8 格（攻城與搶灘，史實上兩軍確實貼著：牡丹社 4、文永之役 6、馬拉松 8、
+     耶路撒冷 4、特諾奇提特蘭 5、諾曼第 6），但那等於休戰期一結束就地肉搏，玩家連列陣都來不及。
+     想更遠的局仍可自己寫更大的值（例如 1652 郭懷一的 48）。 */
+  if(this.scenario)this.spawnSpacing=Math.max(14,this.spawnSpacing);
+  /* 玩家是攻方（敵對 AI 全都只防守／旁觀）時，下面會把休戰期歸零——開局第一秒雙方就處於交戰狀態，
+     沒有休戰期保護，所以出生距離要更大，至少 24 格（受地圖尺寸限制）。否則 1099 耶路撒冷這種
+     兩城只隔 14 格的圖，玩家的兵開局 16 秒就陣亡（2026-09-28 攻守兩邊稽核）。 */
+  if(this.scenario){const me=this.players[this.human];
+   const aggressor=this.players.some(p=>p.id!==this.human&&p.controller==='ai'&&!p.passive&&!p.defend&&p.team!==me.team);
+   if(!aggressor){const cap=Math.max(12,Math.floor(Math.min(this.W,this.H)/4));this.spawnSpacing=Math.max(this.spawnSpacing,Math.min(24,cap))}}this.bases=this.pickBases(candidates);/* 依攻守方決定休戰期：敵對的 AI 全都只防守（defend）或旁觀時，沒人會主動來打玩家，
+     休戰期只會擋住玩家自己出兵，直接歸零——戰爭由玩家開始。只要有一方會主動進攻就保留休戰期，
+     保證玩家有時間備戰。defend 掛在被攻打的一方身上，所以換邊時會自動切換
+     （Helen 2026-09-28：「玩家使用的是被打方還是主動攻擊方，都要有不同的設定」）。 */
+  if(this.scenario&&this.truce>0){
+   const me=this.players[this.human];
+   const aggressor=this.players.some(p=>p.id!==this.human&&p.controller==='ai'&&!p.passive&&!p.defend&&p.team!==me.team);
+   if(!aggressor)this.truce=0}
   for(let owner=0;owner<this.P;owner++){const p=this.bases[owner];const tc=this.addBuilding('tc',p.x,p.y,owner,true);this.placeNearby('house',p.x+5,p.y,owner);/* 2026-09-27 Helen：「應該大家一開始只有主城和一個民宿才公平吧？」 —— 原本每個 AI 都白送一座兵營，開局就能直接排兵，玩家卻要先花木材與時間蓋。雙方開局改成完全一致。 */for(let i=0;i<6;i++)this.spawn(0,owner,tc);this.spawn(1,owner,tc);}
   this.deployFleets();
   // 保留基地之間的走廊，避免資源把出口堵死：每個基地連到最近的兩個基地。
@@ -665,10 +690,13 @@ static nationCenter(world,id){const n=NAT.info?.(id);const name=n?.polygon||id;c
       休戰一結束就地開打，看起來就像對方打過來了。守方的兵就該待在自己城附近。 */
    /* 牽繩 10 格：兩城只隔 30 格，放到 16 格他們就會晃到玩家家門口（實測最近 19 格）。
       連「自動追擊中」的兵也一起叫回，不然追一追就追到對方城下。 */
+   /* 牽繩依出生間距縮放（最多 10、最少 4 格）：1099 耶路撒冷兩城只隔 14 格，固定 10 格的牽繩
+      讓守軍能站到離玩家只剩 4 格，玩家的兵開局 16 秒就陣亡（2026-09-28 稽核）。 */
+   const leash=Math.max(4,Math.min(10,Math.floor((this.spawnSpacing||28)*0.35)));
    for(const u of this.units){
     if(u.owner!==owner||u.hp<=0||u.type<=0||u.inside||u.domain!=='land')continue;
     if(u.task.kind!=='idle'&&!(u.task.kind==='attackmove'&&u.task.auto))continue;
-    if(distance(u,base)>10)this.order([u.id],{kind:'move',x:base.x+.5,y:base.y+.5})}
+    if(distance(u,base)>leash)this.order([u.id],{kind:'move',x:base.x+.5,y:base.y+.5})}
    return}
   const home=idleMil.filter(u=>!landed.includes(u)&&u.domain!=='air');const waveMin={easy:6,normal:4,hard:3}[diff]||4;if(home.length&&this.time>Math.max(({easy:900,normal:600,hard:360}[diff]||600),this.truce+120)){/* 出擊門檻：簡單 15／普通 10／困難 6 分 *//* 休戰結束後再等 2 分鐘才出擊；有目標時要湊夠一小隊（不再零星送兵），基地附近有敵人時例外；沒目標照常偵察 */let target=this.aiTarget(owner);const cleanup=target&&!this.buildings.some(t=>t.owner===target.owner&&t.type==='tc'&&t.hp>0);/* 收尾（對手沒主城）不必湊小隊 */if(target&&!cleanup&&home.filter(u=>u.domain==='land').length<waveMin&&!this.hostilesNear(owner,base.x+2,base.y+2,20).length)target=undefined;const siege=home.filter(u=>u.type===4),rest=home.filter(u=>u.type!==4&&u.domain==='land');const ships=home.filter(u=>u.type===6);if(ships.length){const st=this.buildings.find(b=>b.hp>0&&this.isHostile(owner,b.owner)&&exp[this.at(this.center(b).x,this.center(b).y)]&&this.approach(ships[0],b));if(st)this.order(ships.map(u=>u.id),{kind:'attack',target:st.id})}if(target){if(rest.length&&target.owner===this.human&&rest.length>=waveMin&&this.time>=(this.players[owner].ai.attackSpokeAt||0)+240){this.players[owner].ai.attackSpokeAt=this.time;this.speak('attacking',owner)}if(rest.length)this.order(rest.map(u=>u.id),{kind:'attack',target:target.id});if(siege.length)this.order(siege.map(u=>u.id),{kind:'attack',target:target.id})}else if(target===null){const p=this.aiScoutPoint(owner);if(p&&rest.length)this.order(rest.map(u=>u.id),{kind:'attackmove',...p})}}}
  shoreSiteNear(x,y,owner){for(let r=2;r<24;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.abs(dx)!==r&&Math.abs(dy)!==r)continue;const xx=x+dx,yy=y+dy;if(this.canPlace('dock',xx,yy,false,owner))return {x:xx,y:yy}}return null}
